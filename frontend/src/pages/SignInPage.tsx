@@ -11,6 +11,7 @@ import {
   withInvitationContext,
 } from '../services/auth'
 import { AuthLayout } from '../components/auth/AuthLayout'
+import { withNewSignUpIntent } from '../services/signupState'
 import {
   EmailField,
   GoogleButton,
@@ -212,7 +213,13 @@ export function SignInPage() {
 
         <div className="auth-switch">
           New to Radory?{' '}
-          <Link to={withInvitationContext('/sign-up', invited)}>
+          <Link
+            to={
+              invited
+                ? withInvitationContext('/sign-up', true)
+                : withNewSignUpIntent('/sign-up')
+            }
+          >
             Create an account
           </Link>
         </div>

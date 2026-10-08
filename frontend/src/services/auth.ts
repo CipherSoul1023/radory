@@ -3,6 +3,16 @@ import { useNavigate } from 'react-router-dom'
 
 type ClerkResult = { error: unknown }
 
+function clerkErrorCode(error: unknown): string {
+  if (!error || typeof error !== 'object') return 'unknown_error'
+  if ('code' in error && typeof error.code === 'string') return error.code
+  if ('errors' in error && Array.isArray(error.errors)) {
+    const code = error.errors[0]?.code
+    if (typeof code === 'string') return code
+  }
+  return 'unknown_error'
+}
+
 export function hasInvitationContext(
   search: string | URLSearchParams,
 ): boolean {
@@ -26,6 +36,20 @@ export function withInvitationContext(path: string, invited: boolean): string {
 export async function checkClerk(result: Promise<ClerkResult>) {
   const { error } = await result
   if (error) throw error
+}
+
+export async function sendClerkEmailVerificationCode(
+  result: Promise<ClerkResult>,
+) {
+  try {
+    await checkClerk(result)
+  } catch (cause) {
+    // Log only Clerk's error code. Never log the response, token or user data.
+    console.error('Clerk email verification code request failed.', {
+      code: clerkErrorCode(cause),
+    })
+    throw cause
+  }
 }
 
 export function authError(error: unknown): string {

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { withNewSignUpIntent } from '../../services/signupState'
 import { dashboardLeads, expandingCompanies, radoryLogo } from './landingAssets'
 
 function ArrowIcon() {
@@ -126,7 +127,10 @@ export function Hero() {
           <Link className="linkbtn" to="/sign-in">
             Sign in
           </Link>
-          <Link className="btn btn-primary" to="/sign-up">
+          <Link
+            className="btn btn-primary"
+            to={withNewSignUpIntent('/sign-up')}
+          >
             Get Started
             <ArrowIcon />
           </Link>
@@ -145,7 +149,10 @@ export function Hero() {
           </p>
 
           <div className="hero-actions">
-            <Link className="btn btn-primary" to="/sign-up">
+            <Link
+              className="btn btn-primary"
+              to={withNewSignUpIntent('/sign-up')}
+            >
               Start finding opportunities
               <ArrowIcon />
             </Link>

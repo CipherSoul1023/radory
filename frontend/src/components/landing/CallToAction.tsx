@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { withNewSignUpIntent } from '../../services/signupState'
 
 export function CallToAction() {
   return (
@@ -10,7 +11,10 @@ export function CallToAction() {
             Build your brokerage radar and start monitoring the companies,
             markets and commercial real estate events that matter to you.
           </p>
-          <Link className="btn btn-primary" to="/sign-up">
+          <Link
+            className="btn btn-primary"
+            to={withNewSignUpIntent('/sign-up')}
+          >
             Build your radar
             <svg
               className="landing-icon"

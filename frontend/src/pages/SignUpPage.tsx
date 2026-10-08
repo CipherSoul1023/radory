@@ -1,15 +1,34 @@
 import { useAuth, useSignUp } from '@clerk/react'
-import { useState, type FormEvent } from 'react'
-import { Link, Navigate, useSearchParams } from 'react-router-dom'
-import { AuthMessage, CodeField } from '../components/auth/AuthStatus'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom'
+import {
+  AuthMessage,
+  AuthStatus,
+  CodeField,
+} from '../components/auth/AuthStatus'
+import {
+  authError,
   checkClerk,
   field,
   hasInvitationContext,
+  sendClerkEmailVerificationCode,
   useAuthAction,
   useAuthDestination,
   withInvitationContext,
 } from '../services/auth'
+import {
+  hasActiveSignUpAttempt,
+  hasNewSignUpIntent,
+  signUpEntryAction,
+  withActiveSignUpAttempt,
+  withoutSignUpAttemptMarkers,
+} from '../services/signupState'
 import { AuthLayout } from '../components/auth/AuthLayout'
 import {
   EmailField,
@@ -30,23 +49,94 @@ export function SignUpPage() {
   const { isSignedIn } = useAuth({ treatPendingAsSignedOut: false })
   const { signUp, fetchStatus } = useSignUp()
   const [params] = useSearchParams()
+  const location = useLocation()
+  const navigate = useNavigate()
   const ticket = params.get('__clerk_ticket')
   const invited = hasInvitationContext(params)
+  const activeAttempt = hasActiveSignUpAttempt(params)
+  const newSignup = hasNewSignUpIntent(params)
+  const entryAction = signUpEntryAction({
+    activeAttempt,
+    invited,
+    newSignup,
+    status: signUp.status,
+    needsEmailVerification: signUp.unverifiedFields.includes('email_address'),
+  })
+  const resetInFlight = useRef(false)
   const { busy, error, setError, run } = useAuthAction()
   const [message, setMessage] = useState('')
+  const [resetError, setResetError] = useState('')
+  const [resetRetry, setResetRetry] = useState(0)
   const [verify, setVerify] = useState(
-    signUp.unverifiedFields.includes('email_address'),
+    entryAction === 'show-verification',
+  )
+  const [entryReady, setEntryReady] = useState(
+    entryAction !== 'reset-to-form',
   )
   const destination = useAuthDestination(invited)
   const disabled = busy || fetchStatus === 'fetching'
+  const resetRequired =
+    newSignup || (!entryReady && entryAction === 'reset-to-form')
+
+  useEffect(() => {
+    if (!resetRequired || resetInFlight.current) return
+    resetInFlight.current = true
+    void checkClerk(signUp.reset())
+      .then(() => {
+        setResetError('')
+        setVerify(false)
+        setMessage('')
+        setError('')
+        setEntryReady(true)
+        navigate(
+          withoutSignUpAttemptMarkers(
+            `${location.pathname}${location.search}`,
+          ),
+          { replace: true },
+        )
+      })
+      .catch((cause) => setResetError(authError(cause)))
+      .finally(() => {
+        resetInFlight.current = false
+      })
+  }, [location.pathname, location.search, navigate, resetRequired, resetRetry, setError, signUp])
+
+  async function sendVerificationCode(successMessage: string) {
+    setMessage('')
+    await sendClerkEmailVerificationCode(
+      signUp.verifications.sendEmailCode(),
+    )
+    setVerify(true)
+    setMessage(successMessage)
+    navigate(
+      withActiveSignUpAttempt(
+        `/sign-up${params.size ? `?${params.toString()}` : ''}`,
+      ),
+      { replace: true },
+    )
+  }
+
+  async function startOver() {
+    await checkClerk(signUp.reset())
+    setVerify(false)
+    setMessage('')
+    setError('')
+    setEntryReady(true)
+    navigate(
+      withoutSignUpAttemptMarkers(
+        `/sign-up${params.size ? `?${params.toString()}` : ''}`,
+      ),
+      { replace: true },
+    )
+  }
 
   async function finishOrVerify() {
     if (signUp.status === 'complete') {
       await checkClerk(signUp.finalize({ navigate: destination }))
     } else if (signUp.unverifiedFields.includes('email_address')) {
-      setVerify(true)
-      await checkClerk(signUp.verifications.sendEmailCode())
-      setMessage('Check your inbox for your verification code.')
+      await sendVerificationCode(
+        'Check your inbox for your verification code.',
+      )
     } else {
       setError(
         'Your account needs additional information required by Clerk. Please contact your administrator to review the sign-up requirements.',
@@ -104,6 +194,28 @@ export function SignUpPage() {
       />
     )
 
+  if (resetRequired || !entryReady)
+    return (
+      <AuthStatus
+        title={resetError ? 'Unable to start a new signup' : 'Preparing sign up…'}
+      >
+        {resetError && (
+          <>
+            <AuthMessage error={resetError} />
+            <button
+              className="auth-primary"
+              onClick={() => {
+                setResetError('')
+                setResetRetry((attempt) => attempt + 1)
+              }}
+            >
+              Try again
+            </button>
+          </>
+        )}
+      </AuthStatus>
+    )
+
   if (verify)
     return (
       <AuthLayout visual={signUpVisual}>
@@ -128,12 +240,20 @@ export function SignUpPage() {
             disabled={disabled}
             onClick={() =>
               void run(async () => {
-                await checkClerk(signUp.verifications.sendEmailCode())
-                setMessage('A new verification code has been sent.')
+                await sendVerificationCode(
+                  'A new verification code has been sent.',
+                )
               })
             }
           >
             Resend verification code
+          </button>
+          <button
+            className="auth-text-button"
+            disabled={disabled}
+            onClick={() => void run(startOver)}
+          >
+            Use a different email
           </button>
           <div id="clerk-captcha" />
         </div>

@@ -19,6 +19,7 @@ import {
   workspaceDecision,
   type Membership,
 } from '../../services/workspacePolicy'
+import { withActiveSignUpAttempt } from '../../services/signupState'
 import { AuthMessage, AuthStatus } from './AuthStatus'
 
 export function AuthReady({ children }: { children: ReactNode }) {
@@ -70,9 +71,12 @@ export function SsoCallbackPage() {
           })
         }
         navigateToSignUp={() =>
-          navigate(withInvitationContext('/sign-up', invited), {
-            replace: true,
-          })
+          navigate(
+            withActiveSignUpAttempt(
+              withInvitationContext('/sign-up', invited),
+            ),
+            { replace: true },
+          )
         }
       />
     </AuthStatus>
