@@ -1,17 +1,24 @@
-import { Suspense, lazy, type ReactNode } from 'react'
-
-const ClerkProvider = lazy(async () => {
-  const { ClerkProvider } = await import('@clerk/react')
-  return { default: ClerkProvider }
-})
+import { ClerkProvider } from '@clerk/react'
+import type { ReactNode } from 'react'
 
 export function OptionalClerkProvider({ children }: { children: ReactNode }) {
   const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
   if (!clerkKey) return children
 
   return (
-    <Suspense fallback={null}>
-      <ClerkProvider publishableKey={clerkKey}>{children}</ClerkProvider>
-    </Suspense>
+    <ClerkProvider
+      publishableKey={clerkKey}
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      signInFallbackRedirectUrl="/auth/continue"
+      signUpFallbackRedirectUrl="/auth/continue"
+      taskUrls={{
+        'choose-organization': '/auth/continue',
+        'reset-password': '/auth/continue',
+        'setup-mfa': '/auth/continue',
+      }}
+    >
+      {children}
+    </ClerkProvider>
   )
 }
