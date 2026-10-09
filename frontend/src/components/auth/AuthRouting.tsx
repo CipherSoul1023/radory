@@ -21,6 +21,7 @@ import {
 } from '../../services/workspacePolicy'
 import { withActiveSignUpAttempt } from '../../services/signupState'
 import { AuthMessage, AuthStatus } from './AuthStatus'
+import { SetupWorkspacePage } from '../../pages/SetupWorkspacePage'
 
 export function AuthReady({ children }: { children: ReactNode }) {
   if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY)
@@ -221,15 +222,7 @@ export function WorkspaceGate() {
   if (decision.kind === 'setup') {
     if (location.pathname !== '/setup-workspace')
       return <Navigate to="/setup-workspace" replace />
-    return (
-      <AuthStatus title="Let’s set up your brokerage">
-        <p className="auth-subtitle">
-          Your account is ready. Next, you’ll set up a brokerage workspace for
-          yourself and your team.
-        </p>
-        <SignOutButton />
-      </AuthStatus>
-    )
+    return <SetupWorkspacePage />
   }
   // Membership alone is insufficient: activation and all Clerk session tasks must finish.
   if (session?.status !== 'active')
