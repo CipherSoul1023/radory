@@ -6,8 +6,14 @@ import {
 } from '../src/services/auth.ts'
 import { workspaceDecision } from '../src/services/workspacePolicy.ts'
 
-const first = { organization: { id: 'org_one', name: 'First brokerage' } }
-const second = { organization: { id: 'org_two', name: 'Second brokerage' } }
+const first = {
+  organization: { id: 'org_one', name: 'First brokerage' },
+  role: 'org:admin',
+}
+const second = {
+  organization: { id: 'org_two', name: 'Second brokerage' },
+  role: 'org:member',
+}
 
 function assertInvitedMemberReachesApp(path) {
   assert.equal(hasInvitationContext(path.split('?')[1] ?? ''), true)
@@ -39,10 +45,7 @@ test('Clerk invitation signup preserves context through membership and app', () 
 })
 test('invitation password reset and return preserve context through membership and app', () => {
   const forgotPassword = withInvitationContext('/forgot-password', true)
-  assert.equal(
-    hasInvitationContext(forgotPassword.split('?')[1] ?? ''),
-    true,
-  )
+  assert.equal(hasInvitationContext(forgotPassword.split('?')[1] ?? ''), true)
   const returnToSignIn = withInvitationContext('/sign-in', true)
   assertInvitedMemberReachesApp(returnToSignIn)
 })

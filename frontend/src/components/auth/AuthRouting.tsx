@@ -8,7 +8,6 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom'
-import { useAuthenticatedApi } from '../../services/api'
 import {
   hasInvitationContext,
   useAuthAction,
@@ -21,6 +20,7 @@ import {
 } from '../../services/workspacePolicy'
 import { withActiveSignUpAttempt } from '../../services/signupState'
 import { AuthMessage, AuthStatus } from './AuthStatus'
+import { AppLayout } from '../app/AppLayout'
 import { SetupWorkspacePage } from '../../pages/SetupWorkspacePage'
 
 export function AuthReady({ children }: { children: ReactNode }) {
@@ -49,10 +49,7 @@ export function AuthEntry({ children }: { children: ReactNode }) {
   if (!isLoaded) return <AuthStatus title="Loading your session…" />
   if (isSignedIn)
     return (
-      <Navigate
-        to={withInvitationContext('/auth/continue', invited)}
-        replace
-      />
+      <Navigate to={withInvitationContext('/auth/continue', invited)} replace />
     )
   return children
 }
@@ -73,9 +70,7 @@ export function SsoCallbackPage() {
         }
         navigateToSignUp={() =>
           navigate(
-            withActiveSignUpAttempt(
-              withInvitationContext('/sign-up', invited),
-            ),
+            withActiveSignUpAttempt(withInvitationContext('/sign-up', invited)),
             { replace: true },
           )
         }
@@ -136,9 +131,7 @@ export function WorkspaceGate() {
   })
   if (!isLoaded) return <AuthStatus title="Loading your session…" />
   if (!isSignedIn)
-    return (
-      <Navigate to={withInvitationContext('/sign-in', invited)} replace />
-    )
+    return <Navigate to={withInvitationContext('/sign-in', invited)} replace />
   if (memberships.isPending || memberships.isFetching)
     return <AuthStatus title="Loading your brokerage…" />
   if (memberships.isError)
@@ -243,14 +236,16 @@ export function WorkspaceGate() {
         <SignOutButton />
       </AuthStatus>
     )
-  if (location.pathname !== '/app') return <Navigate to="/app" replace />
+  if (!location.pathname.startsWith('/app'))
+    return <Navigate to="/app" replace />
+  const activeMembership = memberships.data.find(
+    ({ organization }) => organization.id === decision.organizationId,
+  )!
   return (
-    <AppPlaceholder
-      name={
-        memberships.data.find(
-          ({ organization }) => organization.id === decision.organizationId,
-        )!.organization.name
-      }
+    <AppLayout
+      organizationId={decision.organizationId}
+      workspaceName={activeMembership.organization.name}
+      role={activeMembership.role}
     />
   )
 }
@@ -281,45 +276,6 @@ function ActivateWorkspace({ organizationId }: { organizationId: string }) {
           Try again
         </button>
       )}
-      <SignOutButton />
-    </AuthStatus>
-  )
-}
-
-function AppPlaceholder({ name }: { name: string }) {
-  const requestIdentity = useAuthenticatedApi()
-  const [message, setMessage] = useState('')
-  const [busy, setBusy] = useState(false)
-  return (
-    <AuthStatus title={name}>
-      <p className="auth-subtitle">
-        You’re signed in to your brokerage workspace.
-      </p>
-      <button
-        className="auth-primary"
-        disabled={busy}
-        onClick={async () => {
-          setBusy(true)
-          setMessage('')
-          try {
-            await requestIdentity()
-            setMessage('Your session was verified by Radory’s API.')
-          } catch (error) {
-            setMessage(
-              error instanceof Error
-                ? error.message
-                : 'Unable to reach the API.',
-            )
-          } finally {
-            setBusy(false)
-          }
-        }}
-      >
-        {busy ? 'Checking session…' : 'Verify API connection'}
-      </button>
-      <p className="auth-note" role="status">
-        {message}
-      </p>
       <SignOutButton />
     </AuthStatus>
   )

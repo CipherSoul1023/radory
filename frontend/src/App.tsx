@@ -8,8 +8,14 @@ import {
 import { AcceptInvitationPage } from './pages/AcceptInvitationPage'
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
 import { LandingPage } from './pages/LandingPage'
+import { CompaniesPage } from './pages/CompaniesPage'
+import { MarketActivityPage } from './pages/MarketActivityPage'
+import { OpportunitiesPage } from './pages/OpportunitiesPage'
+import { SettingsPage } from './pages/SettingsPage'
 import { SignInPage } from './pages/SignInPage'
 import { SignUpPage } from './pages/SignUpPage'
+import { WatchlistPage } from './pages/WatchlistPage'
+import { WorkspaceDashboardPage } from './pages/WorkspaceDashboardPage'
 
 export default function App() {
   const location = useLocation()
@@ -77,7 +83,7 @@ export default function App() {
           </AuthReady>
         }
       />
-      {['/auth/continue', '/setup-workspace', '/app'].map((path) => (
+      {['/auth/continue', '/setup-workspace'].map((path) => (
         <Route
           key={path}
           path={path}
@@ -88,6 +94,22 @@ export default function App() {
           }
         />
       ))}
+      <Route
+        path="/app"
+        element={
+          <AuthReady>
+            <WorkspaceGate />
+          </AuthReady>
+        }
+      >
+        <Route index element={<WorkspaceDashboardPage />} />
+        <Route path="opportunities" element={<OpportunitiesPage />} />
+        <Route path="companies" element={<CompaniesPage />} />
+        <Route path="market-activity" element={<MarketActivityPage />} />
+        <Route path="watchlist" element={<WatchlistPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="*" element={<Navigate to="/app" replace />} />
+      </Route>
     </Routes>
   )
 }

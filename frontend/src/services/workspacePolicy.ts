@@ -1,4 +1,7 @@
-export type Membership = { organization: { id: string; name: string } }
+export type Membership = {
+  organization: { id: string; name: string }
+  role: string
+}
 export type WorkspaceDecision =
   | { kind: 'setup' }
   | { kind: 'invitation-pending' }
