@@ -91,30 +91,44 @@ class WorkspaceMember(TimestampMixin, Base):
 class BrokerageProfile(TimestampMixin, Base):
     __tablename__ = "brokerage_profiles"
     __table_args__ = (
-        CheckConstraint("minimum_sqm >= 0", name="ck_brokerage_profiles_minimum_sqm"),
-        CheckConstraint("minimum_sqm <= ideal_minimum_sqm", name="ck_brokerage_profiles_min_ideal"),
         CheckConstraint(
-            "ideal_minimum_sqm <= ideal_maximum_sqm",
+            "min_transaction_size_sqm > 0",
+            name="ck_brokerage_profiles_min_transaction_size",
+        ),
+        CheckConstraint(
+            "min_transaction_size_sqm <= ideal_transaction_size_min_sqm",
+            name="ck_brokerage_profiles_min_ideal",
+        ),
+        CheckConstraint(
+            "ideal_transaction_size_min_sqm <= ideal_transaction_size_max_sqm",
             name="ck_brokerage_profiles_ideal_range",
         ),
-        CheckConstraint("ideal_maximum_sqm <= maximum_sqm", name="ck_brokerage_profiles_ideal_max"),
+        CheckConstraint(
+            "ideal_transaction_size_max_sqm <= max_transaction_size_sqm",
+            name="ck_brokerage_profiles_ideal_max",
+        ),
+        CheckConstraint("country = 'South Africa'", name="ck_brokerage_profiles_country"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     workspace_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("workspaces.id", ondelete="CASCADE"), unique=True, index=True
     )
-    property_sectors: Mapped[list[str]] = mapped_column(json_type)
+    property_sectors: Mapped[list[str]] = mapped_column(json_type, default=list)
+    custom_property_sectors: Mapped[list[str]] = mapped_column(json_type, default=list)
     country: Mapped[str] = mapped_column(String(100))
-    primary_metro: Mapped[str] = mapped_column(String(120))
-    submarkets: Mapped[list[str]] = mapped_column(json_type)
-    minimum_sqm: Mapped[int] = mapped_column(Integer)
-    ideal_minimum_sqm: Mapped[int] = mapped_column(Integer)
-    ideal_maximum_sqm: Mapped[int] = mapped_column(Integer)
-    maximum_sqm: Mapped[int] = mapped_column(Integer)
-    industries: Mapped[list[str]] = mapped_column(json_type)
+    primary_market: Mapped[str] = mapped_column(String(120))
+    submarkets: Mapped[list[str]] = mapped_column(json_type, default=list)
+    # Deprecated compatibility column. Active onboarding always persists an empty list.
+    custom_submarkets: Mapped[list[str]] = mapped_column(json_type, default=list)
+    min_transaction_size_sqm: Mapped[int] = mapped_column(Integer)
+    ideal_transaction_size_min_sqm: Mapped[int] = mapped_column(Integer)
+    ideal_transaction_size_max_sqm: Mapped[int] = mapped_column(Integer)
+    max_transaction_size_sqm: Mapped[int] = mapped_column(Integer)
+    industries: Mapped[list[str]] = mapped_column(json_type, default=list)
+    custom_industries: Mapped[list[str]] = mapped_column(json_type, default=list)
     prospecting_horizon: Mapped[str] = mapped_column(String(30))
-    opportunity_types: Mapped[list[str]] = mapped_column(json_type)
-    priorities: Mapped[list[str]] = mapped_column(json_type)
+    opportunity_types: Mapped[list[str]] = mapped_column(json_type, default=list)
+    priority_factors: Mapped[list[str]] = mapped_column(json_type, default=list)
 
     workspace: Mapped[Workspace] = relationship(back_populates="brokerage_profile")

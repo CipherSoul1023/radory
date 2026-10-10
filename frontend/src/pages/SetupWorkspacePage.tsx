@@ -1,41 +1,65 @@
-import { useClerk, useSession, useUser } from '@clerk/react'
+﻿import { useClerk, useSession, useUser } from '@clerk/react'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   ChevronLeft,
   ChevronRight,
+  LockKeyhole,
   MapPin,
   Search,
   Sparkles,
   Star,
   TrendingUp,
+  X,
 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import citySkyline from '../assets/auth/city-skyline.png'
+import {
+  SearchableCombobox,
+  SearchableMultiCombobox,
+  type SearchOption,
+} from '../components/onboarding/SearchableSelect'
 import { radoryLogo } from '../components/landing/landingAssets'
+import {
+  addPreparedSubmarket,
+  findSouthAfricanCity,
+  removeSelectedSubmarket,
+  southAfricanCities,
+  southAfricanSubmarkets,
+} from '../data/southAfricanGeography'
 import { useAuthenticatedRequest } from '../services/api'
 import {
-  buildPriorityOptions,
+  addUniqueCustomValue,
   horizons,
   industries,
   initialOnboardingState,
   opportunityTypes,
+  priorityFactors,
   propertySectors,
+  selectPrimaryMarket,
   toSetupPayload,
+  toggleIndustry,
+  togglePriorityFactor,
   validateStep,
   type OnboardingState,
+  type SelectOption,
 } from '../services/onboarding'
 import './setupWorkspace.css'
 
-const steps = ['Brokerage', 'Coverage', 'Clients', 'Opportunities', 'Priorities']
-const metroSuggestions = [
-  'Johannesburg',
-  'Cape Town',
-  'Pretoria / Tshwane',
-  'Durban',
-  'Gqeberha',
-  'Bloemfontein',
+const steps = [
+  'Brokerage',
+  'Market & property',
+  'Ideal clients',
+  'Opportunities',
+  'Priorities',
 ]
+const cityOptions: SearchOption[] = southAfricanCities.map(
+  ({ id, name, province }) => ({
+    id,
+    label: name,
+    meta: province,
+  }),
+)
 
 interface SetupStatus {
   status: 'needs_setup' | 'provisioning' | 'ready'
@@ -55,7 +79,7 @@ function ChoicePills({
   onToggle,
   single = false,
 }: {
-  options: readonly string[]
+  options: readonly SelectOption[]
   selected: string[]
   onToggle: (value: string) => void
   single?: boolean
@@ -63,21 +87,80 @@ function ChoicePills({
   return (
     <div className="setup-pills" role={single ? 'radiogroup' : 'group'}>
       {options.map((option) => {
-        const active = selected.includes(option)
+        const active = selected.includes(option.value)
         return (
           <button
             aria-checked={active}
             className={`setup-pill${active ? ' is-selected' : ''}`}
-            key={option}
-            onClick={() => onToggle(option)}
+            key={option.value}
+            onClick={() => onToggle(option.value)}
             role={single ? 'radio' : 'checkbox'}
             type="button"
           >
             {active && <span className="setup-check">✓</span>}
-            {option}
+            {option.label}
           </button>
         )
       })}
+    </div>
+  )
+}
+
+function CustomValuesField({
+  id,
+  label,
+  examples,
+  values,
+  onChange,
+}: {
+  id: string
+  label: string
+  examples: string
+  values: string[]
+  onChange: (values: string[]) => void
+}) {
+  const [input, setInput] = useState('')
+  const addValue = () => {
+    const next = addUniqueCustomValue(values, input)
+    if (next !== values) {
+      onChange(next)
+      setInput('')
+    }
+  }
+  return (
+    <div className="setup-custom-field">
+      <label htmlFor={id}>{label}</label>
+      <div className="setup-add-row">
+        <input
+          id={id}
+          onChange={(event) => setInput(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault()
+              addValue()
+            }
+          }}
+          placeholder={examples}
+          value={input}
+        />
+        <button onClick={addValue} type="button">
+          Add
+        </button>
+      </div>
+      {values.length > 0 && (
+        <div className="setup-tags">
+          {values.map((value) => (
+            <button
+              key={value}
+              onClick={() => onChange(values.filter((item) => item !== value))}
+              type="button"
+            >
+              {value}
+              <X aria-hidden="true" size={12} />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -93,9 +176,9 @@ function FieldError({ message }: { message: string }) {
 export function SetupWorkspacePage() {
   const [step, setStep] = useState(1)
   const [state, setState] = useState<OnboardingState>(initialOnboardingState)
-  const [submarket, setSubmarket] = useState('')
   const [validationError, setValidationError] = useState('')
   const [submitError, setSubmitError] = useState('')
+  const [marketChangeNotice, setMarketChangeNotice] = useState('')
   const [loadingStatus, setLoadingStatus] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const request = useAuthenticatedRequest()
@@ -104,7 +187,6 @@ export function SetupWorkspacePage() {
   const { user } = useUser()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const priorityOptions = useMemo(() => buildPriorityOptions(state), [state])
 
   const openWorkspace = async (organizationId: string) => {
     await clerk.setActive({ organization: organizationId })
@@ -123,7 +205,9 @@ export function SetupWorkspacePage() {
       .catch((error: unknown) => {
         if (!cancelled)
           setSubmitError(
-            error instanceof Error ? error.message : 'Unable to load workspace setup.',
+            error instanceof Error
+              ? error.message
+              : 'Unable to load workspace setup.',
           )
       })
       .finally(() => {
@@ -139,50 +223,38 @@ export function SetupWorkspacePage() {
   const update = <K extends keyof OnboardingState>(
     key: K,
     value: OnboardingState[K],
-  ) =>
-    setState((current) => {
-      const next = { ...current, [key]: value }
-      if (
-        ![
-          'propertySectors',
-          'submarkets',
-          'industries',
-          'prospectingHorizon',
-          'opportunityTypes',
-        ].includes(key)
-      )
-        return next
-      const validPriorities = new Set(buildPriorityOptions(next).map(({ id }) => id))
-      return {
-        ...next,
-        priorities: next.priorities.filter((id) => validPriorities.has(id)),
-      }
-    })
+  ) => setState((current) => ({ ...current, [key]: value }))
 
   const toggle = (
-    key: 'propertySectors' | 'industries' | 'opportunityTypes',
+    key: 'propertySectors' | 'opportunityTypes',
     value: string,
   ) => {
     const values = state[key]
-    if (key === 'industries' && value === 'Any industry') {
-      update(key, values.includes(value) ? [] : [value])
-      return
-    }
-    const withoutAny = key === 'industries' ? values.filter((item) => item !== 'Any industry') : values
-    update(
-      key,
-      withoutAny.includes(value)
-        ? withoutAny.filter((item) => item !== value)
-        : [...withoutAny, value],
-    )
+    const next = values.includes(value)
+      ? values.filter((item) => item !== value)
+      : [...values, value]
+    setState((current) => ({
+      ...current,
+      [key]: next,
+      ...(key === 'propertySectors' &&
+      value === 'other' &&
+      !next.includes('other')
+        ? { customPropertySectors: [] }
+        : {}),
+    }))
   }
 
-  const addSubmarket = () => {
-    const value = submarket.trim()
-    if (!value || state.submarkets.some((item) => item.toLowerCase() === value.toLowerCase()))
-      return
-    update('submarkets', [...state.submarkets, value])
-    setSubmarket('')
+  const chooseMarket = (option: SearchOption) => {
+    const changed = Boolean(
+      state.primaryMarket && state.primaryMarket !== option.label,
+    )
+    const hadSubmarkets = state.submarkets.length > 0
+    setState((current) => selectPrimaryMarket(current, option.label))
+    setMarketChangeNotice(
+      changed && hadSubmarkets
+        ? 'Your previous submarket selections were cleared for the new primary market.'
+        : '',
+    )
   }
 
   const next = () => {
@@ -223,22 +295,68 @@ export function SetupWorkspacePage() {
     }
   }
 
+  const selectedCity = findSouthAfricanCity(state.primaryMarket)
+  const selectedCityOption = selectedCity
+    ? {
+        id: selectedCity.id,
+        label: selectedCity.name,
+        meta: selectedCity.province,
+      }
+    : null
+  const submarketOptions: SearchOption[] = southAfricanSubmarkets.map(
+    ({ id, name, market, province }) => ({
+      id,
+      label: name,
+      meta: `${market} · ${province}`,
+      preferred: market === state.primaryMarket,
+    }),
+  )
+  const hasMarketSuggestions = submarketOptions.some(
+    ({ preferred }) => preferred,
+  )
   const initials =
     [user?.firstName, user?.lastName]
       .filter(Boolean)
       .map((part) => part?.[0])
       .join('') || 'R'
 
+  const headings = [
+    ['Brokerage', 'Name the brokerage that this workspace represents.'],
+    [
+      'Market & Property Coverage',
+      'Define the commercial property and South African markets your team covers.',
+    ],
+    [
+      'Ideal Client / Deal Profile',
+      'Describe the tenant businesses and space requirements that suit your brokerage.',
+    ],
+    [
+      'Opportunity Preferences',
+      'Choose the situations and timing your team wants to pursue.',
+    ],
+    [
+      'Priority Factors',
+      'Select up to three factors Radory should emphasize when ordering relevant opportunities.',
+    ],
+  ] as const
+
   return (
     <div className="setup-app">
       <header className="setup-topbar">
         <img className="setup-logo" src={radoryLogo} alt="Radory" />
         <nav className="setup-nav" aria-label="Workspace navigation">
-          <span>Intelligence</span><span>Companies</span><span>Markets</span>
-          <span>Opportunities</span><span className="is-active">My Workspace</span>
+          <span>Intelligence</span>
+          <span>Companies</span>
+          <span>Markets</span>
+          <span>Opportunities</span>
+          <span className="is-active">My Workspace</span>
         </nav>
-        <div className="setup-search"><Search size={15} /> Search companies, markets, or opportunities...</div>
-        <div className="setup-avatar" aria-label="Signed-in user">{initials}</div>
+        <div className="setup-search">
+          <Search size={15} /> Search companies, markets, or opportunities...
+        </div>
+        <div className="setup-avatar" aria-label="Signed-in user">
+          {initials}
+        </div>
       </header>
 
       <div className="setup-layout">
@@ -247,14 +365,22 @@ export function SetupWorkspacePage() {
           <div className="setup-heading">
             <div>
               <h1>Set up your brokerage workspace</h1>
-              <p>Tell Radory what your tenant-representation team targets so we can build the right search coverage and rank the most relevant opportunities.</p>
+              <p>
+                Define which tenant opportunities suit your brokerage, then
+                choose what should matter most when Radory orders those matches.
+              </p>
             </div>
             <div className="setup-steps" aria-label={`Step ${step} of 5`}>
               {steps.map((label, index) => {
                 const number = index + 1
                 return (
-                  <div className={`setup-step${number === step ? ' is-active' : ''}${number < step ? ' is-done' : ''}`} key={label}>
-                    <div className="setup-step-circle">{number < step ? '✓' : number}</div>
+                  <div
+                    className={`setup-step${number === step ? ' is-active' : ''}${number < step ? ' is-done' : ''}`}
+                    key={label}
+                  >
+                    <div className="setup-step-circle">
+                      {number < step ? '✓' : number}
+                    </div>
                     <div>{label}</div>
                   </div>
                 )
@@ -266,74 +392,359 @@ export function SetupWorkspacePage() {
             <div className="setup-card-head">
               <div className="setup-number">{step}</div>
               <div>
-                <h2>{steps[step - 1] === 'Coverage' ? 'Market coverage' : steps[step - 1] === 'Clients' ? 'Client focus' : steps[step - 1] === 'Opportunities' ? 'Opportunity preferences' : steps[step - 1] === 'Priorities' ? 'What should Radory prioritize?' : 'Brokerage'}</h2>
-                <p>{step === 1 ? 'Your workspace will use your brokerage name.' : step === 2 ? 'Define the markets, submarkets and property sectors your team covers.' : step === 3 ? 'Tell Radory what deal sizes and tenant sectors matter to you.' : step === 4 ? 'Define the situations and timing you want Radory to surface.' : 'Choose up to 3 priorities for opportunity ranking.'}</p>
+                <h2>{headings[step - 1][0]}</h2>
+                <p>{headings[step - 1][1]}</p>
               </div>
             </div>
             <div className="setup-card-body">
               {step === 1 && (
                 <>
                   <div className="setup-field">
-                    <label htmlFor="brokerage-name">What is your brokerage name?</label>
-                    <input id="brokerage-name" autoComplete="organization" placeholder="e.g. ABC Commercial" value={state.brokerageName} onChange={(event) => update('brokerageName', event.target.value)} />
-                    <small>This becomes the name of your Radory workspace.</small>
+                    <label htmlFor="brokerage-name">
+                      What is the name of your brokerage?
+                    </label>
+                    <input
+                      id="brokerage-name"
+                      autoComplete="organization"
+                      placeholder="e.g. ABC Commercial"
+                      value={state.brokerageName}
+                      onChange={(event) =>
+                        update('brokerageName', event.target.value)
+                      }
+                    />
+                    <small>
+                      This will be used as the name of your Radory workspace.
+                    </small>
                   </div>
-                  <div className="setup-notice"><b>Tenant representation only for this version.</b><br />Radory is currently focused on tenant-representation prospecting, so this onboarding does not ask you to choose landlord representation.</div>
+                  <div className="setup-notice">
+                    Radory currently supports tenant-representation prospecting.
+                  </div>
                 </>
               )}
 
               {step === 2 && (
                 <>
-                  <div className="setup-field"><label>Which property sectors do you work in?</label><ChoicePills options={propertySectors} selected={state.propertySectors} onToggle={(value) => toggle('propertySectors', value)} /></div>
-                  <div className="setup-grid-two">
-                    <div className="setup-field"><label htmlFor="country">Country</label><input id="country" value={state.country} onChange={(event) => update('country', event.target.value)} /></div>
-                    <div className="setup-field"><label htmlFor="metro">Primary market / metro</label><input id="metro" list="metro-options" placeholder="e.g. Johannesburg" value={state.primaryMetro} onChange={(event) => update('primaryMetro', event.target.value)} /><datalist id="metro-options">{metroSuggestions.map((metro) => <option key={metro} value={metro} />)}</datalist></div>
-                  </div>
                   <div className="setup-field">
-                    <label htmlFor="submarket">Which submarkets or precincts do you actively cover?</label>
-                    <div className="setup-add-row"><input id="submarket" placeholder="e.g. Sandton" value={submarket} onChange={(event) => setSubmarket(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); addSubmarket() } }} /><button type="button" onClick={addSubmarket}>Add submarket</button></div>
-                    <div className="setup-tags">{state.submarkets.map((item) => <button type="button" key={item} onClick={() => update('submarkets', state.submarkets.filter((value) => value !== item))}>{item}<span aria-hidden="true">×</span></button>)}</div>
-                    <small>Add each market your team actively covers. Select a tag to remove it.</small>
+                    <label>
+                      Which types of commercial property do you represent
+                      tenants in?
+                    </label>
+                    <p className="setup-helper">
+                      Property sector describes the type of space your clients
+                      need — for example offices, warehouses or retail space.
+                      This is different from tenant industry, which describes
+                      what the tenant&apos;s business does.
+                    </p>
+                    <ChoicePills
+                      options={propertySectors}
+                      selected={state.propertySectors}
+                      onToggle={(value) => toggle('propertySectors', value)}
+                    />
+                    {state.propertySectors.includes('other') && (
+                      <CustomValuesField
+                        id="custom-property-sector"
+                        label="Add another property sector"
+                        examples="e.g. Data centres"
+                        values={state.customPropertySectors}
+                        onChange={(values) =>
+                          update('customPropertySectors', values)
+                        }
+                      />
+                    )}
                   </div>
+                  <div className="setup-grid-two">
+                    <div className="setup-field">
+                      <label>Which country do you operate in?</label>
+                      <div className="setup-locked-field">
+                        South Africa{' '}
+                        <LockKeyhole aria-label="Locked" size={15} />
+                      </div>
+                    </div>
+                    <div className="setup-field">
+                      <label htmlFor="primary-market">
+                        What is your primary market?
+                      </label>
+                      <p className="setup-helper">
+                        Select the South African city or metro where you
+                        primarily prospect for tenant opportunities.
+                      </p>
+                      <SearchableCombobox
+                        id="primary-market"
+                        options={cityOptions}
+                        value={selectedCityOption}
+                        placeholder="Search South African cities"
+                        onSelect={chooseMarket}
+                      />
+                    </div>
+                  </div>
+                  {state.primaryMarket && (
+                    <div className="setup-field">
+                      <label htmlFor="submarkets">
+                        Which submarkets, precincts or business districts do you
+                        usually work in?
+                      </label>
+                      <p className="setup-helper">
+                        Optional — search and select the areas you regularly
+                        cover.
+                      </p>
+                      <SearchableMultiCombobox
+                        id="submarkets"
+                        options={submarketOptions}
+                        selected={state.submarkets}
+                        placeholder="Search submarkets..."
+                        onSelect={(value) =>
+                          update(
+                            'submarkets',
+                            addPreparedSubmarket(state.submarkets, value),
+                          )
+                        }
+                        onRemove={(value) =>
+                          update(
+                            'submarkets',
+                            removeSelectedSubmarket(state.submarkets, value),
+                          )
+                        }
+                      />
+                      {!hasMarketSuggestions && (
+                        <small>
+                          No market-specific suggestions are available yet. Type
+                          to search the broader prepared South African list.
+                        </small>
+                      )}
+                      {marketChangeNotice && (
+                        <p className="setup-state-notice" role="status">
+                          {marketChangeNotice}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
 
               {step === 3 && (
                 <>
                   <div className="setup-field">
-                    <label>What size transactions do you typically pursue?</label>
+                    <label>
+                      What size space requirements are the best fit for your
+                      brokerage?
+                    </label>
+                    <p className="setup-helper">
+                      Enter the approximate floor area of tenant requirements
+                      you typically want to pursue.
+                    </p>
                     <div className="setup-size-grid">
-                      <div><input aria-label="Minimum square metres" inputMode="numeric" placeholder="500" value={state.minimumSqm} onChange={(event) => update('minimumSqm', event.target.value)} /><small>Minimum m²</small></div>
-                      <div className="setup-ideal-range"><input aria-label="Ideal minimum square metres" inputMode="numeric" placeholder="1,500" value={state.idealMinimumSqm} onChange={(event) => update('idealMinimumSqm', event.target.value)} /><span>–</span><input aria-label="Ideal maximum square metres" inputMode="numeric" placeholder="4,000" value={state.idealMaximumSqm} onChange={(event) => update('idealMaximumSqm', event.target.value)} /><small>Ideal range m²</small></div>
-                      <div><input aria-label="Maximum square metres" inputMode="numeric" placeholder="8,000" value={state.maximumSqm} onChange={(event) => update('maximumSqm', event.target.value)} /><small>Maximum m²</small></div>
+                      <label>
+                        Minimum size
+                        <div className="setup-unit-input">
+                          <input
+                            aria-label="Minimum size"
+                            inputMode="numeric"
+                            placeholder="500"
+                            value={state.minTransactionSizeSqm}
+                            onChange={(event) =>
+                              update(
+                                'minTransactionSizeSqm',
+                                event.target.value,
+                              )
+                            }
+                          />
+                          <span>m²</span>
+                        </div>
+                      </label>
+                      <label>
+                        Ideal range
+                        <div className="setup-ideal-range">
+                          <div className="setup-unit-input">
+                            <input
+                              aria-label="Ideal minimum size"
+                              inputMode="numeric"
+                              placeholder="1,500"
+                              value={state.idealTransactionSizeMinSqm}
+                              onChange={(event) =>
+                                update(
+                                  'idealTransactionSizeMinSqm',
+                                  event.target.value,
+                                )
+                              }
+                            />
+                            <span>m²</span>
+                          </div>
+                          <b>to</b>
+                          <div className="setup-unit-input">
+                            <input
+                              aria-label="Ideal maximum size"
+                              inputMode="numeric"
+                              placeholder="4,000"
+                              value={state.idealTransactionSizeMaxSqm}
+                              onChange={(event) =>
+                                update(
+                                  'idealTransactionSizeMaxSqm',
+                                  event.target.value,
+                                )
+                              }
+                            />
+                            <span>m²</span>
+                          </div>
+                        </div>
+                      </label>
+                      <label>
+                        Maximum size
+                        <div className="setup-unit-input">
+                          <input
+                            aria-label="Maximum size"
+                            inputMode="numeric"
+                            placeholder="8,000"
+                            value={state.maxTransactionSizeSqm}
+                            onChange={(event) =>
+                              update(
+                                'maxTransactionSizeSqm',
+                                event.target.value,
+                              )
+                            }
+                          />
+                          <span>m²</span>
+                        </div>
+                      </label>
                     </div>
                   </div>
-                  <div className="setup-field"><label>Which tenant industries do you actively target?</label><ChoicePills options={industries} selected={state.industries} onToggle={(value) => toggle('industries', value)} /><small>“Any industry” keeps your search universe broad and cannot be combined with another industry.</small></div>
+                  <div className="setup-field">
+                    <label>
+                      Which types of businesses do you most often want to
+                      represent?
+                    </label>
+                    <p className="setup-helper">
+                      Tenant industry describes what the company does, not the
+                      type of property it occupies.
+                    </p>
+                    <ChoicePills
+                      options={industries}
+                      selected={state.industries}
+                      onToggle={(value) => {
+                        const next = toggleIndustry(state.industries, value)
+                        setState((current) => ({
+                          ...current,
+                          industries: next,
+                          customIndustries: next.includes('other')
+                            ? current.customIndustries
+                            : [],
+                        }))
+                      }}
+                    />
+                    {state.industries.includes('other') && (
+                      <CustomValuesField
+                        id="custom-industry"
+                        label="Add another tenant industry"
+                        examples="e.g. Life sciences"
+                        values={state.customIndustries}
+                        onChange={(values) =>
+                          update('customIndustries', values)
+                        }
+                      />
+                    )}
+                    <small>
+                      Any industry keeps your profile broad and cannot be
+                      combined with another industry.
+                    </small>
+                  </div>
                 </>
               )}
 
               {step === 4 && (
                 <>
-                  <div className="setup-field"><label>How far ahead of a potential property decision do you want Radory to surface companies?</label><ChoicePills options={horizons} selected={state.prospectingHorizon ? [state.prospectingHorizon] : []} single onToggle={(value) => update('prospectingHorizon', value)} /><small>This is used for ranking after Radory estimates timing from company evidence.</small></div>
-                  <div className="setup-field"><label>Which real-estate situations do you want to pursue?</label><ChoicePills options={opportunityTypes} selected={state.opportunityTypes} onToggle={(value) => toggle('opportunityTypes', value)} /></div>
+                  <div className="setup-field">
+                    <label>
+                      How early would you like Radory to surface a company
+                      before it may need to make a property decision?
+                    </label>
+                    <p className="setup-helper">
+                      Earlier opportunities may have weaker evidence but give
+                      you more time to build a relationship. Nearer-term
+                      opportunities may be more actionable but could already be
+                      competitive.
+                    </p>
+                    <ChoicePills
+                      options={horizons}
+                      selected={
+                        state.prospectingHorizon
+                          ? [state.prospectingHorizon]
+                          : []
+                      }
+                      single
+                      onToggle={(value) => update('prospectingHorizon', value)}
+                    />
+                  </div>
+                  <div className="setup-field">
+                    <label>
+                      Which tenant real-estate situations are you interested in
+                      pursuing?
+                    </label>
+                    <p className="setup-helper">
+                      Choose the situations where you would want Radory to alert
+                      you to a potential tenant-representation opportunity.
+                    </p>
+                    <ChoicePills
+                      options={opportunityTypes}
+                      selected={state.opportunityTypes}
+                      onToggle={(value) => toggle('opportunityTypes', value)}
+                    />
+                  </div>
                 </>
               )}
 
               {step === 5 && (
                 <>
-                  <div className="setup-notice"><b>No repeated questionnaire.</b><br />These choices come from the markets, industries, opportunity types and deal preferences you already selected.</div>
+                  <div className="setup-field">
+                    <label>
+                      What should matter most when Radory ranks your
+                      opportunities?
+                    </label>
+                    <p className="setup-helper">
+                      Your profile already tells Radory what is relevant. Now
+                      choose the factors Radory should give the most weight when
+                      deciding which matching opportunities appear first.
+                    </p>
+                  </div>
                   <div className="setup-priority-grid">
-                    {priorityOptions.map((option) => {
-                      const selected = state.priorities.includes(option.id)
+                    {priorityFactors.map((option) => {
+                      const selected = state.priorityFactors.includes(
+                        option.value,
+                      )
                       return (
-                        <button aria-pressed={selected} className={`setup-priority${selected ? ' is-selected' : ''}`} key={option.id} type="button" onClick={() => { if (!selected && state.priorities.length >= 3) return; update('priorities', selected ? state.priorities.filter((id) => id !== option.id) : [...state.priorities, option.id]) }}>
-                          <span className="setup-priority-top"><span>{option.symbol}</span><span className="setup-dot" /></span>
-                          <span><b>{option.label}</b><small>{option.description}</small></span>
+                        <button
+                          aria-pressed={selected}
+                          className={`setup-priority${selected ? ' is-selected' : ''}`}
+                          key={option.value}
+                          type="button"
+                          onClick={() =>
+                            update(
+                              'priorityFactors',
+                              togglePriorityFactor(
+                                state.priorityFactors,
+                                option.value,
+                              ),
+                            )
+                          }
+                        >
+                          <span className="setup-priority-top">
+                            <span>{option.symbol}</span>
+                            <span className="setup-dot" />
+                          </span>
+                          <span>
+                            <b>{option.label}</b>
+                            <small>{option.description}</small>
+                          </span>
                         </button>
                       )
                     })}
                   </div>
-                  <p className="setup-count">{state.priorities.length} of 3 priorities selected</p>
+                  <p className="setup-count">
+                    {state.priorityFactors.length} of 3 priority factors
+                    selected
+                  </p>
+                  <p className="setup-helper">
+                    These choices affect ordering only. Radory will still
+                    consider every matching factor in your profile.
+                  </p>
                 </>
               )}
 
@@ -343,21 +754,92 @@ export function SetupWorkspacePage() {
           </section>
 
           <div className="setup-actions">
-            <button className="setup-button" disabled={step === 1 || submitting} onClick={() => { setValidationError(''); setStep((current) => Math.max(1, current - 1)) }} type="button"><ChevronLeft size={17} /> Back</button>
-            <button className="setup-button is-primary" disabled={loadingStatus || submitting} onClick={() => void (step === 5 ? submit() : next())} type="button">{submitting ? 'Creating workspace…' : step === 5 ? 'Create workspace' : 'Continue'}{!submitting && <ChevronRight size={17} />}</button>
+            <button
+              className="setup-button"
+              disabled={step === 1 || submitting}
+              onClick={() => {
+                setValidationError('')
+                setStep((current) => Math.max(1, current - 1))
+              }}
+              type="button"
+            >
+              <ChevronLeft size={17} /> Back
+            </button>
+            <button
+              className="setup-button is-primary"
+              disabled={loadingStatus || submitting}
+              onClick={() => void (step === 5 ? submit() : next())}
+              type="button"
+            >
+              {submitting
+                ? 'Creating workspace…'
+                : step === 5
+                  ? 'Create workspace'
+                  : 'Continue'}
+              {!submitting && <ChevronRight size={17} />}
+            </button>
           </div>
         </main>
 
         <aside className="setup-side">
-          <div className="setup-side-card" style={{ '--setup-city': `url(${citySkyline})` } as React.CSSProperties}>
+          <div
+            className="setup-side-card"
+            style={
+              { '--setup-city': `url(${citySkyline})` } as React.CSSProperties
+            }
+          >
             <div className="setup-side-inner">
               <img src={radoryLogo} alt="Radory" />
               <h3>Smarter opportunities for tenant reps.</h3>
-              <p>Your answers shape Radory’s search coverage and opportunity ranking, so your workspace focuses on the companies most relevant to your brokerage.</p>
-              <div className="setup-benefit"><span><MapPin size={17} /></span><div><b>Search coverage</b><small>Markets, submarkets, industries and opportunity types guide discovery.</small></div></div>
-              <div className="setup-benefit"><span><TrendingUp size={17} /></span><div><b>Brokerage fit</b><small>Deal size, timing and property context help rank companies.</small></div></div>
-              <div className="setup-benefit"><span><Star size={17} /></span><div><b>Your priorities</b><small>Your top selections influence what appears first.</small></div></div>
-              <div className="setup-tip"><b><Sparkles size={14} /> Tenant-representation first</b><p>This onboarding is intentionally focused on tenant-rep prospecting.</p></div>
+              <p>
+                Your answers define the opportunities that fit your brokerage
+                and the factors that should move the strongest matches higher.
+              </p>
+              <div className="setup-benefit">
+                <span>
+                  <MapPin size={17} />
+                </span>
+                <div>
+                  <b>Relevant markets</b>
+                  <small>
+                    Your markets, submarkets, industries and property sectors
+                    define a good fit.
+                  </small>
+                </div>
+              </div>
+              <div className="setup-benefit">
+                <span>
+                  <TrendingUp size={17} />
+                </span>
+                <div>
+                  <b>Brokerage fit</b>
+                  <small>
+                    Deal size, timing and property context help order relevant
+                    companies.
+                  </small>
+                </div>
+              </div>
+              <div className="setup-benefit">
+                <span>
+                  <Star size={17} />
+                </span>
+                <div>
+                  <b>Your priorities</b>
+                  <small>
+                    Your top factors influence which matching opportunities
+                    appear first.
+                  </small>
+                </div>
+              </div>
+              <div className="setup-tip">
+                <b>
+                  <Sparkles size={14} /> Tenant-representation first
+                </b>
+                <p>
+                  This onboarding is focused on tenant-representation
+                  prospecting.
+                </p>
+              </div>
             </div>
           </div>
         </aside>

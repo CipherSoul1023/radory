@@ -22,18 +22,21 @@ from app.models import BrokerageProfile, User, Workspace, WorkspaceMember
 
 SETUP = {
     "brokerage_name": "Northstar Tenant Advisory",
-    "property_sectors": ["Office", "Industrial / Logistics"],
+    "property_sectors": ["office", "industrial_logistics", "other"],
+    "custom_property_sectors": ["data_centres", "medical_property"],
     "country": "South Africa",
-    "primary_metro": "Johannesburg",
+    "primary_market": "Johannesburg",
     "submarkets": ["Sandton", "Rosebank"],
-    "minimum_sqm": 500,
-    "ideal_minimum_sqm": 1500,
-    "ideal_maximum_sqm": 4000,
-    "maximum_sqm": 8000,
-    "industries": ["Technology", "Financial services"],
-    "prospecting_horizon": "6–12 months",
-    "opportunity_types": ["Expansion", "Relocation"],
-    "priorities": ["opportunity:Expansion", "submarket:Sandton"],
+    "custom_submarkets": [],
+    "min_transaction_size_sqm": 500,
+    "ideal_transaction_size_min_sqm": 1500,
+    "ideal_transaction_size_max_sqm": 4000,
+    "max_transaction_size_sqm": 8000,
+    "industries": ["technology", "financial_services", "other"],
+    "custom_industries": ["proptech"],
+    "prospecting_horizon": "up_to_12_months",
+    "opportunity_types": ["expansion", "relocation", "lease_renewal"],
+    "priority_factors": ["location_fit", "deal_size_fit", "evidence_strength"],
 }
 
 
@@ -190,6 +193,10 @@ def test_setup_creates_clerk_org_and_persists_profile_idempotently(onboarding_cl
     assert profile.status_code == 200
     assert profile.json()["brokerage_name"] == SETUP["brokerage_name"]
     assert profile.json()["submarkets"] == SETUP["submarkets"]
+    assert profile.json()["custom_submarkets"] == []
+    assert profile.json()["custom_property_sectors"] == SETUP["custom_property_sectors"]
+    assert profile.json()["custom_industries"] == SETUP["custom_industries"]
+    assert profile.json()["priority_factors"] == SETUP["priority_factors"]
 
 
 def test_existing_clerk_membership_cannot_create_another_workspace(onboarding_client):
@@ -200,6 +207,16 @@ def test_existing_clerk_membership_cannot_create_another_workspace(onboarding_cl
     assert clerk.created == []
     with factory() as db:
         assert db.scalar(select(func.count()).select_from(Workspace)) == 0
+
+
+def test_setup_accepts_an_empty_optional_submarket_list(onboarding_client):
+    client, _, clerk = onboarding_client
+    response = client.post(
+        "/api/workspace/setup",
+        json=SETUP | {"submarkets": [], "custom_submarkets": []},
+    )
+    assert response.status_code == 200
+    assert len(clerk.created) == 1
 
 
 def test_failed_clerk_call_reuses_pending_workspace_on_retry(onboarding_client):
@@ -259,11 +276,17 @@ def test_active_invited_member_is_mirrored_without_onboarding(onboarding_client)
 @pytest.mark.parametrize(
     "changes",
     [
-        {"industries": ["Any industry", "Technology"]},
-        {"priorities": ["one", "two", "three", "four"]},
-        {"minimum_sqm": 9000},
-        {"property_sectors": ["Residential"]},
-        {"priorities": ["industry:Unselected industry"]},
+        {"country": "Botswana"},
+        {"property_sectors": ["office", "other"], "custom_property_sectors": []},
+        {"industries": ["any_industry", "technology"], "custom_industries": []},
+        {"industries": ["other"], "custom_industries": []},
+        {"priority_factors": ["one", "two", "three", "four"]},
+        {"min_transaction_size_sqm": 9000},
+        {"property_sectors": ["residential"], "custom_property_sectors": []},
+        {"priority_factors": ["unknown_factor"]},
+        {"prospecting_horizon": "6_to_12_months"},
+        {"submarkets": ["Atlantis Moon Base"]},
+        {"custom_submarkets": ["Kramerville"]},
     ],
 )
 def test_setup_validation_rejects_invalid_profiles(onboarding_client, changes):
