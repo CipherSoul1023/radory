@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import {
   AuthEntry,
@@ -8,14 +9,39 @@ import {
 import { AcceptInvitationPage } from './pages/AcceptInvitationPage'
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
 import { LandingPage } from './pages/LandingPage'
-import { CompaniesPage } from './pages/CompaniesPage'
-import { MarketActivityPage } from './pages/MarketActivityPage'
-import { OpportunitiesPage } from './pages/OpportunitiesPage'
-import { SettingsPage } from './pages/SettingsPage'
 import { SignInPage } from './pages/SignInPage'
 import { SignUpPage } from './pages/SignUpPage'
-import { WatchlistPage } from './pages/WatchlistPage'
-import { WorkspaceDashboardPage } from './pages/WorkspaceDashboardPage'
+
+const WorkspaceDashboardPage = lazy(() =>
+  import('./pages/WorkspaceDashboardPage').then((module) => ({
+    default: module.WorkspaceDashboardPage,
+  })),
+)
+const OpportunitiesPage = lazy(() =>
+  import('./pages/OpportunitiesPage').then((module) => ({
+    default: module.OpportunitiesPage,
+  })),
+)
+const CompaniesPage = lazy(() =>
+  import('./pages/CompaniesPage').then((module) => ({
+    default: module.CompaniesPage,
+  })),
+)
+const MarketActivityPage = lazy(() =>
+  import('./pages/MarketActivityPage').then((module) => ({
+    default: module.MarketActivityPage,
+  })),
+)
+const WatchlistPage = lazy(() =>
+  import('./pages/WatchlistPage').then((module) => ({
+    default: module.WatchlistPage,
+  })),
+)
+const SettingsPage = lazy(() =>
+  import('./pages/SettingsPage').then((module) => ({
+    default: module.SettingsPage,
+  })),
+)
 
 export default function App() {
   const location = useLocation()

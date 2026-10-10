@@ -111,7 +111,7 @@ export function WorkspaceGate() {
   const invited = hasInvitationContext(params)
   const { busy, error, run } = useAuthAction()
   const memberships = useQuery({
-    queryKey: ['workspace-memberships', session?.id, orgId, location.key],
+    queryKey: ['workspace-memberships', session?.id, orgId],
     enabled: Boolean(isLoaded && isSignedIn && session?.user),
     retry: 1,
     queryFn: async () => {
@@ -132,9 +132,9 @@ export function WorkspaceGate() {
   if (!isLoaded) return <AuthStatus title="Loading your session…" />
   if (!isSignedIn)
     return <Navigate to={withInvitationContext('/sign-in', invited)} replace />
-  if (memberships.isPending || memberships.isFetching)
+  if (memberships.isPending)
     return <AuthStatus title="Loading your brokerage…" />
-  if (memberships.isError)
+  if (memberships.isError && !memberships.data)
     return (
       <AuthStatus title="Unable to load your brokerage">
         <p className="auth-subtitle">
