@@ -38,6 +38,14 @@ services:
       DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
       REDIS_URL: ${REDIS_URL:?Set REDIS_URL in .env}
       TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+      TAVILY_SEARCH_DEPTH: ${TAVILY_SEARCH_DEPTH:-basic}
+      TAVILY_MAX_RESULTS: ${TAVILY_MAX_RESULTS:-10}
+      TAVILY_TIMEOUT_SECONDS: ${TAVILY_TIMEOUT_SECONDS:-30}
+      RADAR_QUERY_MAX_ATTEMPTS: ${RADAR_QUERY_MAX_ATTEMPTS:-3}
+      RADAR_QUERY_LEASE_SECONDS: ${RADAR_QUERY_LEASE_SECONDS:-120}
+      RADAR_RECONCILE_INTERVAL_SECONDS: ${RADAR_RECONCILE_INTERVAL_SECONDS:-60}
+      RADAR_DISPATCH_STALE_SECONDS: ${RADAR_DISPATCH_STALE_SECONDS:-60}
+      RADAR_RETRY_BASE_SECONDS: ${RADAR_RETRY_BASE_SECONDS:-30}
       NEBIUS_API_KEY: ${NEBIUS_API_KEY:-}
       NEBIUS_BASE_URL: ${NEBIUS_BASE_URL:-https://api.tokenfactory.nebius.com/v1}
       NEMOTRON_MODEL: ${NEMOTRON_MODEL:-}
@@ -81,6 +89,15 @@ services:
       timeout: 45s
       start_period: 30s
       retries: 5
+
+  beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.worker
+    environment: *backend_environment
+    volumes:
+      - ./backend:/app
+    command: celery -A app.workers.celery_app:celery_app beat --loglevel=info
 
   frontend:
     build:

@@ -1,33 +1,22 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
-    JSON,
     CheckConstraint,
-    DateTime,
     ForeignKey,
     Integer,
     String,
     UniqueConstraint,
-    func,
 )
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
+from app.models.base import TimestampMixin, json_type
 
-json_type = JSON().with_variant(JSONB(), "postgresql")
-
-
-class TimestampMixin:
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
-    )
+if TYPE_CHECKING:
+    from app.models.search_job import SearchJob
 
 
 class User(TimestampMixin, Base):
@@ -38,6 +27,9 @@ class User(TimestampMixin, Base):
     email: Mapped[str | None] = mapped_column(String(320), nullable=True)
 
     memberships: Mapped[list[WorkspaceMember]] = relationship(back_populates="user")
+    initiated_search_jobs: Mapped[list[SearchJob]] = relationship(
+        back_populates="initiated_by_user"
+    )
 
 
 class Workspace(TimestampMixin, Base):
@@ -67,6 +59,7 @@ class Workspace(TimestampMixin, Base):
     brokerage_profile: Mapped[BrokerageProfile | None] = relationship(
         back_populates="workspace", cascade="all, delete-orphan", uselist=False
     )
+    search_jobs: Mapped[list[SearchJob]] = relationship(back_populates="workspace")
 
 
 class WorkspaceMember(TimestampMixin, Base):
@@ -132,3 +125,4 @@ class BrokerageProfile(TimestampMixin, Base):
     priority_factors: Mapped[list[str]] = mapped_column(json_type, default=list)
 
     workspace: Mapped[Workspace] = relationship(back_populates="brokerage_profile")
+    search_jobs: Mapped[list[SearchJob]] = relationship(back_populates="brokerage_profile")

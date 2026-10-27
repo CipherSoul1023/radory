@@ -13,39 +13,11 @@ from app.schemas import (
     SetupStatusResponse,
     WorkspaceSetupResponse,
 )
+from app.services.workspace_context import claim_organization, get_or_create_user
 
 
 class ExistingOrganizationError(RuntimeError):
     pass
-
-
-def claim_organization(claims: dict) -> tuple[str | None, str]:
-    organization = claims.get("o")
-    if isinstance(organization, dict):
-        organization_id = organization.get("id")
-        role = organization.get("rol", "member")
-        if isinstance(role, str) and not role.startswith("org:"):
-            role = f"org:{role}"
-    else:
-        organization_id = claims.get("org_id")
-        role = claims.get("org_role", "org:member")
-    return (
-        organization_id if isinstance(organization_id, str) else None,
-        role if isinstance(role, str) else "org:member",
-    )
-
-
-def _user(db: Session, clerk_user_id: str, claims: dict) -> User:
-    user = db.scalar(select(User).where(User.clerk_user_id == clerk_user_id))
-    if user is None:
-        email = claims.get("email")
-        user = User(
-            clerk_user_id=clerk_user_id,
-            email=email if isinstance(email, str) else None,
-        )
-        db.add(user)
-        db.flush()
-    return user
 
 
 def _membership_workspace(db: Session, user_id: uuid.UUID) -> Workspace | None:
@@ -83,7 +55,7 @@ def setup_status(db: Session, claims: dict) -> SetupStatusResponse:
             )
         )
         if active_workspace is not None:
-            user = user or _user(db, clerk_user_id, claims)
+            user = user or get_or_create_user(db, clerk_user_id, claims)
             member = db.scalar(
                 select(WorkspaceMember).where(
                     WorkspaceMember.workspace_id == active_workspace.id,
@@ -128,7 +100,7 @@ def provision_workspace(
     claims: dict,
     setup: BrokerageSetupRequest,
 ) -> WorkspaceSetupResponse:
-    user = _user(db, claims["sub"], claims)
+    user = get_or_create_user(db, claims["sub"], claims)
     existing = _membership_workspace(db, user.id)
     if existing is not None:
         return _response(existing)
@@ -212,7 +184,7 @@ def brokerage_profile(db: Session, claims: dict) -> BrokerageProfileResponse | N
     )
     if workspace is None or workspace.brokerage_profile is None:
         return None
-    user = _user(db, claims["sub"], claims)
+    user = get_or_create_user(db, claims["sub"], claims)
     member = db.scalar(
         select(WorkspaceMember).where(
             WorkspaceMember.workspace_id == workspace.id,

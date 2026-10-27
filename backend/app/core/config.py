@@ -1,6 +1,7 @@
 from functools import lru_cache
+from typing import Literal
 
-from pydantic import field_validator
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,6 +17,14 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6380/0"
 
     tavily_api_key: str = ""
+    tavily_search_depth: Literal["basic", "advanced", "fast", "ultra-fast"] = "basic"
+    tavily_max_results: int = Field(default=10, ge=1, le=20)
+    tavily_timeout_seconds: float = Field(default=30.0, gt=0, le=120)
+    radar_query_max_attempts: int = Field(default=3, ge=1, le=10)
+    radar_query_lease_seconds: int = Field(default=120, ge=30, le=3600)
+    radar_reconcile_interval_seconds: int = Field(default=60, ge=10, le=3600)
+    radar_dispatch_stale_seconds: int = Field(default=60, ge=10, le=3600)
+    radar_retry_base_seconds: int = Field(default=30, ge=1, le=3600)
     nebius_api_key: str = ""
     nebius_base_url: str = "https://api.tokenfactory.nebius.com/v1"
     nemotron_nano_model: str = ""

@@ -1,16 +1,16 @@
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel
 
 
-class SignalCategory(str, Enum):
+class SignalCategory(StrEnum):
     GROWTH = "GROWTH"
     WORKPLACE = "WORKPLACE"
     PROPERTY = "PROPERTY"
     CORPORATE_CHANGE = "CORPORATE_CHANGE"
 
 
-class DiscoveryCapability(str, Enum):
+class DiscoveryCapability(StrEnum):
     DIRECT = "DIRECT"
     CONDITIONAL = "CONDITIONAL"
     NONE = "NONE"
