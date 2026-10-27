@@ -24,6 +24,7 @@ class SuccessfulTavily:
 
     def execute(self, planned_query):
         assert planned_query.query_text
+        assert planned_query.include_raw_content is True
         return TavilyResponse(
             results=[
                 TavilyResult(
@@ -37,6 +38,7 @@ class SuccessfulTavily:
                         "id": "result-1",
                         "title": "Example expansion",
                         "url": "https://example.com/expansion",
+                        "raw_content": "# Expansion\n\nThe company opened a larger office.",
                         "future_field": {"preserved": True},
                     },
                 )
@@ -66,6 +68,7 @@ def test_job_creation_persists_all_26_queries_and_reuses_active_job(
     assert first.job.configured_submarkets == ["Sandton", "Rosebank"]
     assert first.job.resolved_submarket == "Sandton"
     assert search_db.scalar(select(func.count()).select_from(SearchQuery)) == 26
+    assert all(search_db.scalars(select(SearchQuery.include_raw_content)))
 
     second = create_search_job(
         search_db,
@@ -102,6 +105,9 @@ def test_successful_query_stores_raw_evidence_and_updates_status(
     result = search_db.scalar(select(SearchResult).where(SearchResult.search_query_id == query.id))
     assert result.provider_score == 0.91
     assert result.raw_payload["future_field"] == {"preserved": True}
+    assert result.raw_payload["raw_content"] == (
+        "# Expansion\n\nThe company opened a larger office."
+    )
     search_db.refresh(creation.job)
     assert creation.job.status == "running"
 

@@ -19,7 +19,8 @@ def test_tavily_missing_key(monkeypatch):
         client.search("unused")
 
 
-def test_tavily_search_sends_supported_policy_and_preserves_raw_result():
+@pytest.mark.parametrize("include_raw_content", [False, True])
+def test_tavily_search_sends_supported_policy_and_preserves_raw_result(include_raw_content):
     captured: dict = {}
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -33,6 +34,9 @@ def test_tavily_search_sends_supported_policy_and_preserves_raw_result():
                         "title": "Expansion",
                         "url": "https://example.com/expansion",
                         "content": "Expansion evidence",
+                        "raw_content": "# Expansion\n\nArticle body"
+                        if include_raw_content
+                        else None,
                         "score": 0.9,
                         "provider_extension": "preserve me",
                     }
@@ -50,6 +54,7 @@ def test_tavily_search_sends_supported_policy_and_preserves_raw_result():
             include_domains_mode="prefer",
             search_depth="basic",
             max_results=10,
+            include_raw_content=include_raw_content,
         )
     assert captured == {
         "query": "Johannesburg expands operations",
@@ -57,12 +62,15 @@ def test_tavily_search_sends_supported_policy_and_preserves_raw_result():
         "max_results": 10,
         "topic": "general",
         "include_answer": False,
-        "include_raw_content": False,
+        "include_raw_content": include_raw_content,
         "include_usage": True,
         "include_domains": ["itweb.co.za"],
         "include_domains_mode": "prefer",
     }
     assert response.results[0].raw_payload["provider_extension"] == "preserve me"
+    assert response.results[0].raw_payload["raw_content"] == (
+        "# Expansion\n\nArticle body" if include_raw_content else None
+    )
     assert response.usage == {"credits": 1}
 
 

@@ -123,7 +123,7 @@ def create_search_job(
                 include_domains_mode=plan.include_domains_mode,
                 search_depth=config.tavily_search_depth,
                 max_results=config.tavily_max_results,
-                include_raw_content=False,
+                include_raw_content=True,
                 status="pending",
             )
         )
