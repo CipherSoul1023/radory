@@ -15,6 +15,7 @@ from app.search.evidence import (
     prepare_search_result,
     source_url_parts,
 )
+from app.search.extraction_contract import SemanticExtractionInput
 
 
 @pytest.fixture
@@ -76,6 +77,9 @@ def test_preparation_maps_persisted_provenance_without_writes(
     assert "workspace_id" not in payload
     assert "discovery_signal" not in payload
     assert "provider_score" not in payload
+    semantic_input = SemanticExtractionInput.from_document(prepared.document)
+    assert semantic_input.blocks[-1].text == prepared.document.blocks[-1].text
+    assert semantic_input.provider_published_at == result.published_at
     assert not search_db.dirty and not search_db.new and not search_db.deleted
     source.raw_payload["raw_content"] = "snapshot changed independently"
     assert result.raw_payload == original
