@@ -111,6 +111,15 @@ async def test_transport_errors_are_safe_and_not_automatically_retried(prepared_
 
 
 @pytest.mark.asyncio
+async def test_non_json_provider_body_is_an_extraction_failure(prepared_evidence):
+    client = FakeClient(error=json.JSONDecodeError("invalid provider body", "private text", 0))
+    result = await SemanticExtractor(client, model="test-nemotron").extract(prepared_evidence)
+    assert result.error_code == "invalid_provider_response"
+    assert result.output is None and result.model_calls == 1
+    assert "private text" not in repr(result)
+
+
+@pytest.mark.asyncio
 async def test_oversized_input_never_calls_provider(prepared_evidence):
     document = replace(
         prepared_evidence.document,

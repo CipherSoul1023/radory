@@ -147,6 +147,9 @@ class SemanticExtractor:
             return failure(f"provider_http_{exc.response.status_code}", model_calls=1)
         except httpx.RequestError:
             return failure("provider_transport_error", model_calls=1)
+        except ValueError:
+            # The existing Nebius transport decodes the response body before returning it.
+            return failure("invalid_provider_response", model_calls=1)
 
         try:
             if not isinstance(response, dict):
