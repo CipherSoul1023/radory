@@ -128,7 +128,10 @@ Run backend tests and lint from `backend/`:
 Before live evaluation, select the exact configured model, verify its response behavior,
 agree on call/token limits and estimated cost, and select representative documents. The
 previous 260 discovery results predate raw-content enablement, so they do not constitute a
-full-content extraction evaluation. Additional retrieval requires its own bounded approval.
+full-content extraction evaluation. A separately approved second discovery run is now available:
+see [the raw-content run report](raw-content-discovery-run.md) for coverage and preservation
+checks. Its raw content has not yet been evaluated with Nemotron. Any further retrieval
+requires its own bounded approval.
 
 Before migration, review actual semantic quality and finalize observation granularity,
 extraction/source associations, stable evidence retention, cache invalidation, and retry rules.
