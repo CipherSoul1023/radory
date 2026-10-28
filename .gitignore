@@ -26,3 +26,6 @@ Thumbs.db
 *.swp
 *.swo
 *.log
+/experiments/nemotron_extraction/data_local/*
+!/experiments/nemotron_extraction/data_local/.gitkeep
+/experiments/nemotron_extraction/results/local/
