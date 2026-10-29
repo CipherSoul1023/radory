@@ -1,0 +1,54 @@
+{
+  "arm": "enable_thinking_false_4096",
+  "manual_control_semantic_regressions": 2,
+  "controls": [
+    {
+      "case_id": "pilot-v1-001",
+      "verdict": "regressed",
+      "notes": [
+        "The company and business_expansion signal were identified, but local_headcount_growth was missed.",
+        "The stage changed from the gold underway value to completed.",
+        "Pretoria West was used as the market and the string null was emitted as a submarket literal.",
+        "Backend validation rejected the unsupported literal output."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "verdict": "no_regression",
+      "notes": [
+        "The assessed zero-event answer matched gold and passed backend validation."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "verdict": "regressed",
+      "notes": [
+        "The company and rto_change signal were identified, but the stage was underway instead of completed.",
+        "The summary expanded the truncated snippet to full-time office work without literal support.",
+        "The strings null were emitted for market and submarket instead of JSON null.",
+        "Backend validation rejected the unsupported literal output."
+      ]
+    }
+  ],
+  "recovery_cases": [
+    {
+      "case_id": "pilot-v1-004",
+      "verdict": "technically_complete_but_backend_rejected",
+      "notes": [
+        "The company and funding_expansion signal matched gold.",
+        "The output misused South Africa as a market and international markets as a submarket.",
+        "The stage was planned instead of the gold completed value.",
+        "Backend validation rejected unsupported literal values."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-008",
+      "verdict": "technically_complete_but_semantically_incorrect",
+      "notes": [
+        "The response passed schema and backend validation because zero relevant events is a valid shape.",
+        "Gold contains three supported events, including ma_consolidation and market_entry.",
+        "The zero-event response is therefore a severe semantic false negative."
+      ]
+    }
+  ]
+}

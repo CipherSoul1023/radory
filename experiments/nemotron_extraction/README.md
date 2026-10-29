@@ -51,3 +51,11 @@ The completed result is recorded in `results/experiment_a4r_v1/report.md`. The n
 `scripts/run_enable_thinking_compatibility.py` defaults to offline preflight and requires `--live` for the zero-retry run. Exact requests and responses remain under ignored `results/local/enable_thinking_compatibility_v1/`. The reviewable result records provider acceptance, reported reasoning tokens, finish reason and final-answer validity, and never starts A4-R2 automatically.
 
 The completed probe passed. Nebius returned HTTP 200 for both requests; the control used 99 reported reasoning tokens, while `enable_thinking: false` used zero and returned the same correct final answer. See `results/enable_thinking_compatibility_v1/report.md`. This establishes capability only; it does not establish real-evidence extraction quality.
+
+## Experiment A4-R2
+
+`cases/experiment_a4r2_v1.json` applies the verified `enable_thinking: false` control to A4-R's two reasoning-truncation cases and three controls. It freezes the A4-R evidence, semantic messages, model, strict pattern-free schema, 4,096-token limit, timeout, provider sampling defaults and backend validation. The request adds only `chat_template_kwargs` and permits five calls with no retries.
+
+`scripts/run_experiment_a4r2.py` defaults to offline preflight and requires `--live`. `scripts/compare_experiment_a4r2.py` loads gold only after all responses are saved and compares A4-R2 with A3, A4-R default and A4-R `/no_think`. Exact requests and responses remain under ignored `results/local/experiment_a4r2_v1/`. A4-R2 never starts a later experiment or modifies production code automatically.
+
+A4-R2 eliminated reasoning and truncation on all five cases, but failed the overall gate. All responses were parseable and typed, while only two passed backend validation; controls 001 and 017 regressed, case 004 contained unsupported literal facts, and case 008 returned a semantically incorrect zero-event answer. See `results/experiment_a4r2_v1/report.md`.

@@ -1,0 +1,284 @@
+{
+  "controls": [
+    {
+      "arm": "a3_reference",
+      "case_id": "pilot-v1-001",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ACTOM",
+            "signals": [
+              "business_expansion",
+              "local_headcount_growth"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Pretoria",
+                "submarket": "Pretoria West",
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      }
+    },
+    {
+      "arm": "a3_reference",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      }
+    },
+    {
+      "arm": "a3_reference",
+      "case_id": "pilot-v1-017",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "SARS",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      }
+    },
+    {
+      "arm": "a4r_default_4096",
+      "case_id": "pilot-v1-001",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ACTOM",
+            "signals": [
+              "business_expansion",
+              "local_headcount_growth"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Pretoria",
+                "submarket": "Pretoria West",
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      }
+    },
+    {
+      "arm": "a4r_default_4096",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      }
+    },
+    {
+      "arm": "a4r_default_4096",
+      "case_id": "pilot-v1-017",
+      "validation_status": "failed",
+      "error": "unsupported_literal_fact",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "SARS",
+            "signals": [
+              "office_opening",
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": ":{",
+                "precision": "unclear"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "arm": "a4r_no_think_4096",
+      "case_id": "pilot-v1-001",
+      "validation_status": "failed",
+      "error": "unmatched_evidence_quote",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ACTOM",
+            "signals": [
+              "business_expansion",
+              "local_headcount_growth"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Pretoria West",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "this week",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "arm": "a4r_no_think_4096",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      }
+    },
+    {
+      "arm": "a4r_no_think_4096",
+      "case_id": "pilot-v1-017",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "SARS",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      }
+    },
+    {
+      "arm": "enable_thinking_false_4096",
+      "case_id": "pilot-v1-001",
+      "validation_status": "failed",
+      "error": "unsupported_literal_fact",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ACTOM",
+            "signals": [
+              "business_expansion"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Pretoria West",
+                "submarket": "null",
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "continued expansion",
+                "precision": "unclear"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "arm": "enable_thinking_false_4096",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      }
+    },
+    {
+      "arm": "enable_thinking_false_4096",
+      "case_id": "pilot-v1-017",
+      "validation_status": "failed",
+      "error": "unsupported_literal_fact",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "South African Revenue Service (SARS)",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "null",
+                "submarket": "null",
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "now",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

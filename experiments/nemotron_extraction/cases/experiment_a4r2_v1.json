@@ -1,0 +1,69 @@
+{
+  "experiment_id": "experiment_a4r2_v1",
+  "purpose": "Test the verified Nebius enable_thinking control on A4-R's two truncation cases and three controls.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "a4r_plan_sha256": "a708023dbb4ccf49e7fd9177e2b2eb4bc03f18ff2d3e5fbb5f3dd9e50550dec7",
+  "a4r_default_predictions_sha256": "77f0e863b470a29cfe3952be9ea8e4729ae29ad8f4a35af6623256bcb8d8d045",
+  "a4r_no_think_predictions_sha256": "8cb9847599f4141cc7ea208d89addb9bd91ae4cd102dd5f4f488584a48bf1ad9",
+  "compatibility_results_sha256": "128b3ed9c7338bb3ed0f5eb8485c0611bbad2830c8256723bf9ee6ee5c4e33b6",
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 5,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "cases": [
+    {
+      "case_id": "pilot-v1-001",
+      "role": "successful_control",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-004",
+      "role": "a3_reasoning_truncation",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-008",
+      "role": "a3_reasoning_truncation",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "role": "successful_control",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "role": "successful_control",
+      "variant": "snippet"
+    }
+  ],
+  "acceptance": {
+    "case_count": 5,
+    "parseable_json": 5,
+    "typed_schema": 5,
+    "backend_valid": 5,
+    "truncations": 0,
+    "backend_valid_controls": 3,
+    "backend_valid_recovery_cases": 2,
+    "character_collapse_cases": 0,
+    "cases_with_nonzero_reasoning_tokens": 0,
+    "manual_control_semantic_regressions": 0
+  },
+  "frozen_request_rules": [
+    "Use the exact A4-R evidence and semantic messages.",
+    "Use the same pattern-free strict provider schema, model, 4096-token limit, timeout and provider sampling defaults.",
+    "Add only chat_template_kwargs with enable_thinking false.",
+    "Do not repair, normalize, retry or overwrite model output.",
+    "Do not load gold answers until every provider response is saved."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start A4-S, A4-E, Experiment B, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}
