@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     nemotron_ultra_model: str = ""
     nemotron_model: str = ""
     nemotron_extraction_max_tokens: int = Field(default=4096, ge=1, le=8192)
+    nemotron_synthesis_max_tokens: int = Field(default=4096, ge=1, le=8192)
     clerk_publishable_key: str = ""
     clerk_secret_key: str = ""
     clerk_jwks_url: str = ""
