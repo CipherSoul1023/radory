@@ -1,0 +1,43 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "verdict": "semantic_improvement_but_technical_failure",
+  "chunk_reviews": [
+    {
+      "chunk_id": "chunk-001",
+      "backend_result": "incomplete_model_response",
+      "finish_reason": "length",
+      "reasoning_tokens": 3029,
+      "notes": [
+        "The response exhausted the 4,096-token completion allowance before producing complete valid JSON.",
+        "The partial answer fully described the first Greenstreet/SCDA 3 merger and began a second event for the subsequent Stanlib transaction.",
+        "Because the response was incomplete, neither event was accepted or included in the aggregate."
+      ]
+    },
+    {
+      "chunk_id": "chunk-002",
+      "backend_result": "succeeded",
+      "finish_reason": "stop",
+      "reasoning_tokens": 1662,
+      "notes": [
+        "The model recovered the Aker Horizons acquisition and classified both ma_consolidation and market_entry.",
+        "Company, signal set, planned stage, South Africa country value and empty timing matched the frozen gold event exactly.",
+        "Every quotation matched the supplied evidence and the backend accepted the event."
+      ]
+    }
+  ],
+  "aggregate_review": {
+    "backend_result": "succeeded",
+    "predicted_events": 1,
+    "gold_events": 3,
+    "matched_events": 1,
+    "gold_signal_keys": [
+      "ma_consolidation",
+      "market_entry"
+    ],
+    "matched_signal_keys": [
+      "ma_consolidation",
+      "market_entry"
+    ],
+    "conclusion": "Default reasoning materially improved semantic interpretation, but one chunk still exhausted the output budget and made the full extraction incomplete."
+  }
+}

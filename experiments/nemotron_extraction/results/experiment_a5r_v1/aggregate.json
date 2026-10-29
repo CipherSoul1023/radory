@@ -1,0 +1,123 @@
+{
+  "experiment_id": "experiment_a5r_v1",
+  "arm": "paragraph_decomposition_default_reasoning_4096",
+  "case_id": "pilot-v1-008",
+  "variant": "raw_content",
+  "input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+  "prediction": {
+    "outcome": "assessed",
+    "events": [
+      {
+        "subject_company": {
+          "value": "Aker Horizons AS",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "related_companies": [
+          {
+            "company": {
+              "value": "Mainstream Renewable Power Ltd",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+                }
+              ]
+            },
+            "role": {
+              "value": "acquired entity",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "value": "Aker Horizons AS will acquire sole control of Mainstream Renewable Power Ltd",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "signals": [
+          {
+            "signal_key": "market_entry",
+            "evidence": [
+              {
+                "block_id": "body_chunk_002",
+                "quote": "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+              }
+            ]
+          },
+          {
+            "signal_key": "ma_consolidation",
+            "evidence": [
+              {
+                "block_id": "body_chunk_002",
+                "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+              }
+            ]
+          }
+        ],
+        "stage": {
+          "value": "planned",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "locations": [
+          {
+            "country": {
+              "value": "South Africa",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+                }
+              ]
+            },
+            "market": null,
+            "submarket": null,
+            "role": "event_location"
+          }
+        ],
+        "timing": [],
+        "missing_facts": [
+          "event_timing",
+          "local_headcount",
+          "workplace_plans"
+        ]
+      }
+    ]
+  },
+  "validation_status": "succeeded",
+  "error": null,
+  "validation_checks": {
+    "json_object": true,
+    "typed_schema": true,
+    "allowed_signal_keys": true,
+    "valid_enums": true,
+    "quotes_match_input": true,
+    "quote_count": 8,
+    "unmatched_quotes": [],
+    "schema_errors": []
+  },
+  "aggregation": {
+    "validated_chunk_outputs_included": 1,
+    "chunk_count": 2,
+    "deduplication": "none",
+    "event_count": 1
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "experiment_id": "experiment_a5r_v1",
+  "purpose": "Test whether normal reasoning recovers case 008's events when applied to A5-D's exact smaller evidence chunks.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "source_case_id": "pilot-v1-008",
+  "a5d_plan_sha256": "135afee71e419a7ef5e2eaf18f2a8e8ab16d274725e7389ccfaef9a86296f055",
+  "a5d_chunk_predictions_sha256": "3a1d3d778cfc363d746aa5b6d4d63a3a37a14b7d18e24e265d13fc00b3dbb0c5",
+  "a5d_aggregate_sha256": "8d46d817eece39931f67cf127849513a594e6e5eaf3feee3e1959f2257f717b8",
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 2,
+  "reasoning_mode": "provider_default",
+  "prompt_variant": "grounding_addendum_v1",
+  "acceptance": {
+    "chunk_calls": 2,
+    "parseable_json": 2,
+    "typed_schema": 2,
+    "backend_valid_chunks": 2,
+    "truncations": 0,
+    "aggregate_backend_valid": true,
+    "expected_events": 3,
+    "matched_events": 3,
+    "signal_true_positives": 2,
+    "signal_extra": 0,
+    "signal_missing": 0
+  },
+  "frozen_request_rules": [
+    "Use A5-D's exact two frozen evidence chunks and aggregation behavior.",
+    "Keep A4-E's grounding addendum, model, strict pattern-free provider schema, backend validators, token limit, timeout and provider sampling defaults.",
+    "Remove only chat_template_kwargs enable_thinking false so the model uses provider-default reasoning.",
+    "Do not send a reasoning budget, effort value or undocumented provider parameter.",
+    "Do not repair, normalize, retry, deduplicate or semantically merge model outputs.",
+    "Do not load gold answers until both provider responses and the aggregate are saved."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start another experiment, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}

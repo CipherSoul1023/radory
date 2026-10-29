@@ -75,3 +75,11 @@ A4-E improved backend acceptance from two to four of five cases without reasonin
 `scripts/run_experiment_a5d.py` keeps A4-E's grounding prompt, thinking-off control, strict pattern-free schema, model, validators and token budget. It aggregates only backend-valid chunk events and performs no semantic merging or deduplication. `scripts/compare_experiment_a5d.py` loads gold only after both exact responses and the aggregate are saved. Exact requests and provider responses remain under ignored `results/local/experiment_a5d_v1/`; production code remains unchanged.
 
 A5-D passed its technical gate but failed its semantic gate. Both chunks returned valid zero-event answers, leaving all three gold events and both signal types missing. Shorter evidence alone therefore did not repair reasoning-off recall. See `results/experiment_a5d_v1/report.md`.
+
+## Experiment A5-R
+
+`cases/experiment_a5r_v1.json` applies provider-default reasoning to A5-D's exact two frozen chunks. The evidence, A4-E grounding prompt, strict pattern-free schema, model, validators, 4,096-token limit, timeout, provider sampling defaults and aggregation remain fixed. The only request difference is that `chat_template_kwargs: {"enable_thinking": false}` is omitted; no reasoning budget, effort value or undocumented Nebius field is introduced.
+
+`scripts/run_experiment_a5r.py` permits two zero-retry calls and refuses overwrites. `scripts/compare_experiment_a5r.py` compares technical completion and semantic recall against A5-D after both exact responses and the aggregate are saved. Provider requests and responses remain under ignored `results/local/experiment_a5r_v1/`; production code remains unchanged.
+
+A5-R failed its full gate but established that reasoning materially improves case-008 recall. One chunk produced an exact accepted Aker event with both expected signals; the other found the Greenstreet/Stanlib events but exhausted the 4,096-token allowance before completing valid JSON. See `results/experiment_a5r_v1/report.md`.
