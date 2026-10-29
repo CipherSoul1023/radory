@@ -1,0 +1,161 @@
+{
+  "experiment_id": "experiment_a_v1",
+  "purpose": "Output reliability only; no semantic prompt, evidence or validator changes.",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "baseline_sha256": "1b04e11a1d2611d5361cde9cdebf9790c1f358a24ddc4c889432ac03c4cb4df2",
+  "specification_fingerprint": "1311350c12959561d20a58e45a159df167b971d1f573d1010b629867f4a7a366",
+  "response_format_fingerprint": "05c97b0d55356b855df8255d4dfecf8c22534bc40a1202a0debd9747dd256a62",
+  "cases": [
+    {
+      "case_id": "pilot-v1-001",
+      "role": "successful_control",
+      "variant": "raw_content",
+      "input_fingerprint": "3179017ffaec2356ae43196885f8dd7101206c29a9d657fed84c71051cf61b74",
+      "baseline_validation_error": null
+    },
+    {
+      "case_id": "pilot-v1-002",
+      "role": "successful_control",
+      "variant": "raw_content",
+      "input_fingerprint": "78fef2953b79210754a4922df5bb0639fe03a4db29b0493b9779970370c1beed",
+      "baseline_validation_error": null
+    },
+    {
+      "case_id": "pilot-v1-003",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "f39e66e3557f013232ca3dae09df0d135bde0551a3ad69dfc4739cb7976cf855",
+      "baseline_validation_error": "invalid_output_schema"
+    },
+    {
+      "case_id": "pilot-v1-004",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "8b893ace5e7fc1f08751c89d3219a4b296a50bf756a3252bcc3022ecac7a4315",
+      "baseline_validation_error": "unmatched_evidence_quote"
+    },
+    {
+      "case_id": "pilot-v1-005",
+      "role": "successful_control",
+      "variant": "raw_content",
+      "input_fingerprint": "3e69f49a8834c4891eabe1071352153bc9b703e4e61ce976dfec3dfeb01af98a",
+      "baseline_validation_error": null
+    },
+    {
+      "case_id": "pilot-v1-006",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "80057e7cb11495e5264b755d59aaf275bed83869e6a2bdae155fdd74945fb316",
+      "baseline_validation_error": "unsupported_literal_fact"
+    },
+    {
+      "case_id": "pilot-v1-007",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "aa27335fb6e243f8c59232b028dd69cf7d6e251bd853e87732e74a75f8c5960a",
+      "baseline_validation_error": "invalid_output_schema"
+    },
+    {
+      "case_id": "pilot-v1-008",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+      "baseline_validation_error": "incomplete_model_response"
+    },
+    {
+      "case_id": "pilot-v1-009",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "3d5c5bca6344c146d5b1a3871380478548c440b52a18cce25d1723d0d4595c40",
+      "baseline_validation_error": "unsupported_literal_fact"
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "role": "successful_control",
+      "variant": "raw_content",
+      "input_fingerprint": "30dcab99c49482bf7d64d44e3350e7f1a5f50b31fc97fb5949301d945e155f55",
+      "baseline_validation_error": null
+    },
+    {
+      "case_id": "pilot-v1-012",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "aacd782de7ed1ba265ae9e78db6f4f00c7514e2907c7859a181cfac6e3bfa8a8",
+      "baseline_validation_error": "unmatched_evidence_quote"
+    },
+    {
+      "case_id": "pilot-v1-015",
+      "role": "previous_failure",
+      "variant": "raw_content",
+      "input_fingerprint": "aba53fbff8b394f95e1c6f3ad836c1d6401ecb2245a6c479b7de566a808639e2",
+      "baseline_validation_error": "invalid_output_schema"
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "role": "successful_control",
+      "variant": "snippet",
+      "input_fingerprint": "d6c64365c455025b26e8367d69a66597f6c56b22d9f487d3f027f66cfe9697a3",
+      "baseline_validation_error": null
+    },
+    {
+      "case_id": "pilot-v1-020",
+      "role": "previous_failure",
+      "variant": "snippet",
+      "input_fingerprint": "7da62cf0f7ddc3369891c6e48b5b00f33508f07e3c0ccec41825435072b1b3b7",
+      "baseline_validation_error": "unsupported_literal_fact"
+    },
+    {
+      "case_id": "pilot-v1-022",
+      "role": "previous_failure",
+      "variant": "snippet",
+      "input_fingerprint": "fdb8d99df4068d2196a5f5ab4fdf3a7ae69a248fc52943970edbcb6f6915431e",
+      "baseline_validation_error": "invalid_output_schema"
+    },
+    {
+      "case_id": "pilot-v1-024",
+      "role": "successful_control",
+      "variant": "snippet",
+      "input_fingerprint": "d6b05431f695af52e4c2e173c306a2c7107d733fd787442c8e5ee5f905972d4c",
+      "baseline_validation_error": null
+    }
+  ],
+  "arms": [
+    {
+      "name": "a1_schema_4096",
+      "max_tokens": 4096
+    },
+    {
+      "name": "a2_schema_8192",
+      "max_tokens": 8192
+    }
+  ],
+  "max_live_calls": 32,
+  "max_completion_tokens_across_arms": 196608,
+  "retries": 0,
+  "sampling_and_reasoning_settings": "Unspecified; preserve existing provider defaults.",
+  "http_timeout_seconds": 60,
+  "acceptance_per_arm": {
+    "case_count": 16,
+    "json_objects_min": 16,
+    "typed_schema_min": 16,
+    "backend_valid_min": 15,
+    "truncations_max": 0,
+    "valid_controls_min": 6
+  },
+  "control_semantics": "Review against baseline and gold after both arms are saved; flag semantic regressions separately from backend validity.",
+  "stop_conditions": [
+    "Do not overwrite or retry an existing arm.",
+    "Abort on provider HTTP/transport failure; no automatic fallback or weaker schema.",
+    "Do not start semantic prompt experiments if output-reliability acceptance fails."
+  ],
+  "limitations": [
+    "Pilot v1 is a historical reference, not a contemporaneous repeated baseline.",
+    "One output per case per arm is exploratory and cannot establish consistency.",
+    "Provider schema cannot enforce exact evidence support or all Pydantic validators.",
+    "Selected failures and controls are development cases, not an unseen holdout."
+  ],
+  "sources": [
+    "https://docs.tokenfactory.nebius.com/ai-models-inference/json",
+    "https://github.com/nebius/token-factory-cookbook/blob/main/models/nemotron/nemotron3-super-120B.md"
+  ]
+}

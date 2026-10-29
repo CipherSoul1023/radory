@@ -15,3 +15,11 @@ Complete provider responses are saved before validation or comparison. Predictio
 `scripts/compare_pilot_v1.py --gold <path> --review <path>` runs offline and requires all 24 predictions first. It reads the supplied `case_id`/`expected` answer format without rewriting it into `GoldAnswerV1`. Verbatim reference copies are under Git-ignored `data_local/pilot_v1/reference/`. The seven review-memo cases are excluded from clear-case metrics. Field comparisons and signal-presence counts are diagnostics; the report explains semantic alternatives and limitations.
 
 Run scripts from the repository root using `backend/.venv/Scripts/python.exe`. No production settings, database records, investigation searches, or gold answers are changed by this experiment.
+
+## Output reliability experiment A
+
+`cases/experiment_a_v1.json` freezes the 10 failed pilot cases and six successful controls, two configurations, a 32-call ceiling, and acceptance criteria. A1 adds schema-constrained output at 4,096 tokens. A2 retains that schema and raises only the output budget to 8,192. Both preserve the exact original system/evidence messages, model, schema, validator, timeout and unspecified sampling/reasoning settings. The existing production transport does not expose `response_format`, so an experiment-only subclass adds that documented request field; production code is unchanged.
+
+`scripts/run_experiment_a.py` defaults to offline preflight. Live execution requires `--live --arm a1_schema_4096` or `--live --arm a2_schema_8192`. An arm cannot overwrite an existing run or retry a case. The plan was frozen before any inference; A2 requires A1's completion. Outputs live under `results/experiment_a_v1/`, with exact requests/responses and settings under ignored `results/local/experiment_a_v1/`.
+
+`scripts/compare_experiment_a.py` requires both 16-case output files before loading the unchanged gold key. It measures the predefined technical gate and records control-case changes for semantic review. The original pilot is a historical reference, not a repeated contemporaneous baseline. Failure of the gate stops progression to semantic prompt changes or a fresh holdout; the thresholds are not relaxed after seeing results.
