@@ -1,0 +1,32 @@
+{
+  "experiment_id": "experiment_a3_v1",
+  "purpose": "Real-evidence confirmation of the provider-specific strict schema without regex pattern constraints.",
+  "parent_experiment": "experiment_a_v1",
+  "parent_plan_sha256": "cb6a8424669e5ce44ec05ddbe7da806ffd03067809dcaec18ac64e43b017cc47",
+  "baseline_sha256": "1b04e11a1d2611d5361cde9cdebf9790c1f358a24ddc4c889432ac03c4cb4df2",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "arm": "a3_schema_without_patterns_4096",
+  "max_tokens": 4096,
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_live_calls": 16,
+  "retries": 0,
+  "sampling_and_reasoning_settings": "Unspecified; preserve existing provider defaults.",
+  "http_timeout_seconds": 60,
+  "acceptance": {
+    "case_count": 16,
+    "typed_schema": 16,
+    "backend_valid_min": 15,
+    "truncations_max": 0,
+    "backend_valid_controls": 6,
+    "character_collapse_cases_max": 0,
+    "character_collapse_occurrences_max": 0
+  },
+  "output_budget_rationale": "A1 had zero truncations at 4096; A2 still truncated at 8192 when reasoning consumed the allowance; the compatibility probe removed collapse at 4096. This keeps A3 identical to A1 except for provider-schema pattern removal.",
+  "stop_conditions": [
+    "Never overwrite or retry a saved A3 run.",
+    "Abort after a provider HTTP or transport error.",
+    "Do not increase the output budget during the run.",
+    "Do not change prompts, evidence, gold, validators, production code or acceptance thresholds.",
+    "Do not proceed to Experiment B automatically."
+  ]
+}

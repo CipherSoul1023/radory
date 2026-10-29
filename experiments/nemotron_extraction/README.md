@@ -23,3 +23,15 @@ Run scripts from the repository root using `backend/.venv/Scripts/python.exe`. N
 `scripts/run_experiment_a.py` defaults to offline preflight. Live execution requires `--live --arm a1_schema_4096` or `--live --arm a2_schema_8192`. An arm cannot overwrite an existing run or retry a case. The plan was frozen before any inference; A2 requires A1's completion. Outputs live under `results/experiment_a_v1/`, with exact requests/responses and settings under ignored `results/local/experiment_a_v1/`.
 
 `scripts/compare_experiment_a.py` requires both 16-case output files before loading the unchanged gold key. It measures the predefined technical gate and records control-case changes for semantic review. The original pilot is a historical reference, not a repeated contemporaneous baseline. Failure of the gate stops progression to semantic prompt changes or a fresh holdout; the thresholds are not relaxed after seeing results.
+
+## Schema compatibility probe
+
+`cases/schema_compatibility_v1.json` defines four short synthetic cases and three response-format modes. The probe keeps the semantic messages, evidence, model, 4,096-token limit, provider defaults and backend validation fixed. It compares the current strict JSON Schema, the same provider schema with only regex `pattern` keywords removed, and JSON-object mode. This is a disposable diagnosis of the single-character output collapse; it does not change the production extraction contract or establish real-evidence accuracy.
+
+`scripts/run_schema_compatibility.py` defaults to an offline preflight and requires `--live` for its bounded 12-call run. It refuses overwrites and retries. `scripts/compare_schema_compatibility.py` checks mechanical validity, collapsed free-text values and explicit synthetic semantic anchors after all responses are saved. Exact requests and responses remain under ignored `results/local/schema_compatibility_v1/`.
+
+## Experiment A3
+
+`cases/experiment_a3_v1.json` references Experiment A's immutable plan and exact 16 real-evidence cases. A3 keeps the original prompt, evidence, model, backend contract, validation, timeout, provider defaults and 4,096-token budget. Its experiment-only strict provider schema removes only regex `pattern` keywords. The budget matches A1 because A1 had no truncations, A2 still truncated at 8,192, and this makes pattern removal the only A1/A3 request difference.
+
+`scripts/run_experiment_a3.py` defaults to offline preflight and requires `--live` for the bounded 16-call, zero-retry run. `scripts/compare_experiment_a3.py` applies the existing comparison logic to Historical/A1/A2/A3 and adds the frozen character-collapse gate. Exact A3 requests and responses remain under ignored `results/local/experiment_a3_v1/`. A3 never advances into Experiment B automatically.

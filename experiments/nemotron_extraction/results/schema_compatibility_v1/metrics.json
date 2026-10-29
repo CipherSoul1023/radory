@@ -1,0 +1,55 @@
+{
+  "strict_current": {
+    "cases": 4,
+    "parseable_json": 4,
+    "typed_schema": 4,
+    "backend_valid": 2,
+    "truncations": 0,
+    "collapsed_free_text_values": 32,
+    "semantic_anchor_matches": 1,
+    "errors": {
+      "unmatched_evidence_quote": 2
+    },
+    "usage": {
+      "prompt_tokens": 11494,
+      "completion_tokens": 4587,
+      "total_tokens": 16081,
+      "reasoning_tokens": 3816
+    },
+    "acceptance_passed": false
+  },
+  "strict_without_patterns": {
+    "cases": 4,
+    "parseable_json": 4,
+    "typed_schema": 4,
+    "backend_valid": 4,
+    "truncations": 0,
+    "collapsed_free_text_values": 0,
+    "semantic_anchor_matches": 2,
+    "errors": {},
+    "usage": {
+      "prompt_tokens": 11494,
+      "completion_tokens": 5509,
+      "total_tokens": 17003,
+      "reasoning_tokens": 4319
+    },
+    "acceptance_passed": false
+  },
+  "json_object": {
+    "cases": 4,
+    "parseable_json": 4,
+    "typed_schema": 4,
+    "backend_valid": 4,
+    "truncations": 0,
+    "collapsed_free_text_values": 0,
+    "semantic_anchor_matches": 2,
+    "errors": {},
+    "usage": {
+      "prompt_tokens": 11494,
+      "completion_tokens": 4728,
+      "total_tokens": 16222,
+      "reasoning_tokens": 3601
+    },
+    "acceptance_passed": false
+  }
+}

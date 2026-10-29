@@ -1,0 +1,814 @@
+{
+  "controls": [
+    {
+      "arm": "historical",
+      "case_id": "pilot-v1-001",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ACTOM",
+            "signals": [
+              "business_expansion",
+              "local_headcount_growth"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Pretoria West",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "historical",
+      "case_id": "pilot-v1-002",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "Rentoza",
+            "signals": [
+              "business_rescue_closure"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Sandton",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "1 July 2026",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "historical",
+      "case_id": "pilot-v1-005",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ENGIE",
+            "signals": [
+              "leadership_buildout"
+            ],
+            "stage": "planned",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "effective 1 June 2026",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "historical",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "historical",
+      "case_id": "pilot-v1-017",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "SARS",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "now",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "historical",
+      "case_id": "pilot-v1-024",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "Pictet & Cie",
+            "signals": [
+              "office_opening"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "South Africa",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "has opened",
+                "precision": "unclear"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a1_schema_4096",
+      "case_id": "pilot-v1-001",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "A",
+            "signals": [
+              "business_expansion",
+              "local_headcount_growth"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "A",
+                "market": "A",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "A",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "arm": "a1_schema_4096",
+      "case_id": "pilot-v1-002",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "R",
+            "signals": [
+              "business_rescue_closure"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "R",
+                "market": "R",
+                "submarket": "R",
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "R",
+                "precision": "month"
+              },
+              {
+                "expression": "R",
+                "precision": "month"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R",
+        "R"
+      ]
+    },
+    {
+      "arm": "a1_schema_4096",
+      "case_id": "pilot-v1-005",
+      "validation_status": "failed",
+      "error": "unmatched_evidence_quote",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "E",
+            "signals": [
+              "local_headcount_growth"
+            ],
+            "stage": "planned",
+            "locations": [
+              {
+                "country": "E",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "E",
+                "precision": "day"
+              },
+              {
+                "expression": "E",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "arm": "a1_schema_4096",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a1_schema_4096",
+      "case_id": "pilot-v1-017",
+      "validation_status": "failed",
+      "error": "unmatched_evidence_quote",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "S",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "S",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "n",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "S",
+        "S",
+        "P",
+        "c",
+        "S",
+        "n",
+        "S",
+        "T",
+        "T",
+        "T",
+        "T",
+        "T",
+        "S",
+        "T",
+        "T"
+      ]
+    },
+    {
+      "arm": "a1_schema_4096",
+      "case_id": "pilot-v1-024",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "P",
+            "signals": [
+              "business_expansion",
+              "office_opening"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "P",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "P",
+                "precision": "unclear"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P"
+      ]
+    },
+    {
+      "arm": "a2_schema_8192",
+      "case_id": "pilot-v1-001",
+      "validation_status": "failed",
+      "error": "unmatched_evidence_quote",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "A",
+            "signals": [
+              "local_headcount_growth"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "Z",
+                "market": "P",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "t",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "A",
+        "S",
+        "Z",
+        "P",
+        "t",
+        "A",
+        "q",
+        "Q",
+        "Q",
+        "Z",
+        "P",
+        "T"
+      ]
+    },
+    {
+      "arm": "a2_schema_8192",
+      "case_id": "pilot-v1-002",
+      "validation_status": "failed",
+      "error": "unsupported_literal_fact",
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "R",
+            "signals": [
+              "business_rescue_closure"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "S",
+                "market": "S",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "1",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "R",
+        "R",
+        "S",
+        "S",
+        "1",
+        "*",
+        "*",
+        "*",
+        "A",
+        "*",
+        "*",
+        "T",
+        "S"
+      ]
+    },
+    {
+      "arm": "a2_schema_8192",
+      "case_id": "pilot-v1-005",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "E",
+            "signals": [
+              "leadership_buildout"
+            ],
+            "stage": "planned",
+            "locations": [
+              {
+                "country": "E",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "E",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "arm": "a2_schema_8192",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a2_schema_8192",
+      "case_id": "pilot-v1-017",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "S",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "S",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "n",
+                "precision": "relative"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": [
+        "S",
+        "S",
+        "S",
+        "n",
+        "S",
+        "S",
+        "S",
+        "n",
+        "S",
+        "n",
+        "S",
+        "n"
+      ]
+    },
+    {
+      "arm": "a2_schema_8192",
+      "case_id": "pilot-v1-024",
+      "validation_status": "failed",
+      "error": "invalid_output_schema",
+      "signature": null,
+      "collapsed_free_text_values": [
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P",
+        "P"
+      ]
+    },
+    {
+      "arm": "a3_schema_without_patterns_4096",
+      "case_id": "pilot-v1-001",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ACTOM",
+            "signals": [
+              "business_expansion",
+              "local_headcount_growth"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Pretoria",
+                "submarket": "Pretoria West",
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a3_schema_without_patterns_4096",
+      "case_id": "pilot-v1-002",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "Rentoza",
+            "signals": [
+              "business_rescue_closure"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "Sandton",
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "1 July 2026",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a3_schema_without_patterns_4096",
+      "case_id": "pilot-v1-005",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "ENGIE",
+            "signals": [
+              "leadership_buildout"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": "South Africa",
+                "submarket": "South Africa",
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "effective 1 June 2026",
+                "precision": "day"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a3_schema_without_patterns_4096",
+      "case_id": "pilot-v1-010",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": []
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a3_schema_without_patterns_4096",
+      "case_id": "pilot-v1-017",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "SARS",
+            "signals": [
+              "rto_change"
+            ],
+            "stage": "underway",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": []
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    },
+    {
+      "arm": "a3_schema_without_patterns_4096",
+      "case_id": "pilot-v1-024",
+      "validation_status": "succeeded",
+      "error": null,
+      "signature": {
+        "outcome": "assessed",
+        "events": [
+          {
+            "company": "Pictet & Cie",
+            "signals": [
+              "business_expansion",
+              "office_opening"
+            ],
+            "stage": "completed",
+            "locations": [
+              {
+                "country": "South Africa",
+                "market": null,
+                "submarket": null,
+                "role": "event_location"
+              }
+            ],
+            "timing": [
+              {
+                "expression": "has opened its first office",
+                "precision": "unclear"
+              }
+            ]
+          }
+        ]
+      },
+      "collapsed_free_text_values": []
+    }
+  ]
+}

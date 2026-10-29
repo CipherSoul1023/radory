@@ -1,0 +1,523 @@
+{
+  "historical": {
+    "cases": 16,
+    "parseable_json": 14,
+    "typed_schema": 11,
+    "backend_valid": 6,
+    "truncations": 1,
+    "valid_controls": 6,
+    "technical_gate_passed": false,
+    "failed_case_ids": [
+      "pilot-v1-003",
+      "pilot-v1-004",
+      "pilot-v1-006",
+      "pilot-v1-007",
+      "pilot-v1-008",
+      "pilot-v1-009",
+      "pilot-v1-012",
+      "pilot-v1-015",
+      "pilot-v1-020",
+      "pilot-v1-022"
+    ],
+    "failed_control_ids": [],
+    "primary_errors": {
+      "invalid_output_schema": 4,
+      "unmatched_evidence_quote": 2,
+      "unsupported_literal_fact": 3,
+      "incomplete_model_response": 1
+    },
+    "quotes_all_match": 10,
+    "usage": {
+      "prompt_tokens": 82266,
+      "completion_tokens": 38287,
+      "total_tokens": 120553,
+      "reasoning_tokens": 28150
+    },
+    "summed_duration_seconds": 283.797,
+    "character_collapse_cases": 0,
+    "character_collapse_occurrences": 0,
+    "character_collapse_case_ids": [],
+    "gold_diagnostics": {
+      "cases": 16,
+      "accepted_by_backend": 6,
+      "interpretable_typed_outputs": 11,
+      "outcome_matches": 11,
+      "event_count_matches": 6,
+      "expected_events": 24,
+      "matched_events": 10,
+      "missing_events": 14,
+      "extra_events": 0,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 9,
+        "signals": 6,
+        "stage": 8,
+        "geography": 5,
+        "timing": 4
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 11,
+        "extra_vs_gold": 2,
+        "missing_vs_gold": 13,
+        "precision": 0.8461538461538461,
+        "recall": 0.4583333333333333
+      },
+      "per_signal": {
+        "business_expansion": {
+          "true_positive": 2,
+          "missing_vs_gold": 3,
+          "extra_vs_gold": 1
+        },
+        "local_headcount_growth": {
+          "true_positive": 2
+        },
+        "business_rescue_closure": {
+          "true_positive": 1,
+          "missing_vs_gold": 1
+        },
+        "funding_expansion": {
+          "missing_vs_gold": 1,
+          "true_positive": 1
+        },
+        "downsizing_layoffs": {
+          "missing_vs_gold": 1
+        },
+        "leadership_buildout": {
+          "true_positive": 1,
+          "missing_vs_gold": 1
+        },
+        "ma_consolidation": {
+          "missing_vs_gold": 3
+        },
+        "market_entry": {
+          "missing_vs_gold": 2,
+          "extra_vs_gold": 1
+        },
+        "office_relocation": {
+          "true_positive": 1
+        },
+        "completed_move": {
+          "missing_vs_gold": 1
+        },
+        "rto_change": {
+          "true_positive": 1
+        },
+        "office_opening": {
+          "true_positive": 2
+        }
+      },
+      "positive_cases": 15,
+      "positive_cases_detected_in_typed_output": 10,
+      "positive_cases_detected_in_parseable_raw_output": 13,
+      "positive_cases_usable_after_validation": 5,
+      "zero_event_cases": 1,
+      "zero_event_cases_returning_no_positive_events": 1,
+      "zero_event_cases_correct": 1,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 6,
+        "extra": 0,
+        "missing": 18
+      }
+    }
+  },
+  "a1_schema_4096": {
+    "cases": 16,
+    "parseable_json": 16,
+    "typed_schema": 16,
+    "backend_valid": 12,
+    "truncations": 0,
+    "valid_controls": 4,
+    "technical_gate_passed": false,
+    "failed_case_ids": [
+      "pilot-v1-005",
+      "pilot-v1-006",
+      "pilot-v1-017",
+      "pilot-v1-020"
+    ],
+    "failed_control_ids": [
+      "pilot-v1-005",
+      "pilot-v1-017"
+    ],
+    "primary_errors": {
+      "unmatched_evidence_quote": 4
+    },
+    "quotes_all_match": 12,
+    "usage": {
+      "prompt_tokens": 82266,
+      "completion_tokens": 30291,
+      "total_tokens": 112557,
+      "reasoning_tokens": 26117
+    },
+    "summed_duration_seconds": 152.076,
+    "character_collapse_cases": 14,
+    "character_collapse_occurrences": 179,
+    "character_collapse_case_ids": [
+      "pilot-v1-001",
+      "pilot-v1-002",
+      "pilot-v1-003",
+      "pilot-v1-004",
+      "pilot-v1-005",
+      "pilot-v1-006",
+      "pilot-v1-007",
+      "pilot-v1-009",
+      "pilot-v1-012",
+      "pilot-v1-015",
+      "pilot-v1-017",
+      "pilot-v1-020",
+      "pilot-v1-022",
+      "pilot-v1-024"
+    ],
+    "gold_diagnostics": {
+      "cases": 16,
+      "accepted_by_backend": 12,
+      "interpretable_typed_outputs": 16,
+      "outcome_matches": 15,
+      "event_count_matches": 9,
+      "expected_events": 24,
+      "matched_events": 13,
+      "missing_events": 11,
+      "extra_events": 1,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 0,
+        "signals": 7,
+        "stage": 3,
+        "geography": 0,
+        "timing": 1
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 13,
+        "extra_vs_gold": 5,
+        "missing_vs_gold": 11,
+        "precision": 0.7222222222222222,
+        "recall": 0.5416666666666666
+      },
+      "per_signal": {
+        "business_expansion": {
+          "true_positive": 1,
+          "missing_vs_gold": 4,
+          "extra_vs_gold": 2
+        },
+        "local_headcount_growth": {
+          "true_positive": 2,
+          "extra_vs_gold": 1
+        },
+        "business_rescue_closure": {
+          "true_positive": 2
+        },
+        "funding_expansion": {
+          "missing_vs_gold": 1,
+          "true_positive": 1
+        },
+        "downsizing_layoffs": {
+          "true_positive": 1
+        },
+        "market_entry": {
+          "extra_vs_gold": 2,
+          "missing_vs_gold": 2
+        },
+        "leadership_buildout": {
+          "missing_vs_gold": 1,
+          "true_positive": 1
+        },
+        "ma_consolidation": {
+          "true_positive": 1,
+          "missing_vs_gold": 2
+        },
+        "office_relocation": {
+          "true_positive": 1
+        },
+        "completed_move": {
+          "missing_vs_gold": 1
+        },
+        "rto_change": {
+          "true_positive": 1
+        },
+        "office_opening": {
+          "true_positive": 2
+        }
+      },
+      "positive_cases": 15,
+      "positive_cases_detected_in_typed_output": 14,
+      "positive_cases_detected_in_parseable_raw_output": 14,
+      "positive_cases_usable_after_validation": 10,
+      "zero_event_cases": 1,
+      "zero_event_cases_returning_no_positive_events": 1,
+      "zero_event_cases_correct": 1,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 10,
+        "extra": 4,
+        "missing": 14
+      }
+    }
+  },
+  "a2_schema_8192": {
+    "cases": 16,
+    "parseable_json": 15,
+    "typed_schema": 14,
+    "backend_valid": 7,
+    "truncations": 1,
+    "valid_controls": 3,
+    "technical_gate_passed": false,
+    "failed_case_ids": [
+      "pilot-v1-001",
+      "pilot-v1-002",
+      "pilot-v1-006",
+      "pilot-v1-007",
+      "pilot-v1-008",
+      "pilot-v1-009",
+      "pilot-v1-012",
+      "pilot-v1-020",
+      "pilot-v1-024"
+    ],
+    "failed_control_ids": [
+      "pilot-v1-001",
+      "pilot-v1-002",
+      "pilot-v1-024"
+    ],
+    "primary_errors": {
+      "unmatched_evidence_quote": 4,
+      "unsupported_literal_fact": 3,
+      "incomplete_model_response": 1,
+      "invalid_output_schema": 1
+    },
+    "quotes_all_match": 11,
+    "usage": {
+      "prompt_tokens": 82266,
+      "completion_tokens": 39307,
+      "total_tokens": 121573,
+      "reasoning_tokens": 35131
+    },
+    "summed_duration_seconds": 212.954,
+    "character_collapse_cases": 14,
+    "character_collapse_occurrences": 179,
+    "character_collapse_case_ids": [
+      "pilot-v1-001",
+      "pilot-v1-002",
+      "pilot-v1-003",
+      "pilot-v1-004",
+      "pilot-v1-005",
+      "pilot-v1-006",
+      "pilot-v1-007",
+      "pilot-v1-009",
+      "pilot-v1-012",
+      "pilot-v1-015",
+      "pilot-v1-017",
+      "pilot-v1-020",
+      "pilot-v1-022",
+      "pilot-v1-024"
+    ],
+    "gold_diagnostics": {
+      "cases": 16,
+      "accepted_by_backend": 7,
+      "interpretable_typed_outputs": 14,
+      "outcome_matches": 14,
+      "event_count_matches": 8,
+      "expected_events": 24,
+      "matched_events": 10,
+      "missing_events": 14,
+      "extra_events": 3,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 0,
+        "signals": 7,
+        "stage": 1,
+        "geography": 0,
+        "timing": 1
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 13,
+        "extra_vs_gold": 2,
+        "missing_vs_gold": 11,
+        "precision": 0.8666666666666667,
+        "recall": 0.5416666666666666
+      },
+      "per_signal": {
+        "local_headcount_growth": {
+          "true_positive": 2
+        },
+        "business_expansion": {
+          "missing_vs_gold": 4,
+          "extra_vs_gold": 1,
+          "true_positive": 1
+        },
+        "business_rescue_closure": {
+          "true_positive": 2
+        },
+        "funding_expansion": {
+          "missing_vs_gold": 1,
+          "true_positive": 1
+        },
+        "downsizing_layoffs": {
+          "true_positive": 1
+        },
+        "leadership_buildout": {
+          "true_positive": 2
+        },
+        "ma_consolidation": {
+          "true_positive": 1,
+          "missing_vs_gold": 2
+        },
+        "market_entry": {
+          "missing_vs_gold": 2,
+          "extra_vs_gold": 1
+        },
+        "office_relocation": {
+          "true_positive": 1
+        },
+        "completed_move": {
+          "missing_vs_gold": 1
+        },
+        "rto_change": {
+          "true_positive": 1
+        },
+        "office_opening": {
+          "true_positive": 1,
+          "missing_vs_gold": 1
+        }
+      },
+      "positive_cases": 15,
+      "positive_cases_detected_in_typed_output": 13,
+      "positive_cases_detected_in_parseable_raw_output": 14,
+      "positive_cases_usable_after_validation": 6,
+      "zero_event_cases": 1,
+      "zero_event_cases_returning_no_positive_events": 1,
+      "zero_event_cases_correct": 1,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 6,
+        "extra": 1,
+        "missing": 18
+      }
+    }
+  },
+  "a3_schema_without_patterns_4096": {
+    "cases": 16,
+    "parseable_json": 14,
+    "typed_schema": 13,
+    "backend_valid": 11,
+    "truncations": 2,
+    "valid_controls": 6,
+    "technical_gate_passed": false,
+    "failed_case_ids": [
+      "pilot-v1-003",
+      "pilot-v1-004",
+      "pilot-v1-008",
+      "pilot-v1-012",
+      "pilot-v1-015"
+    ],
+    "failed_control_ids": [],
+    "primary_errors": {
+      "invalid_output_schema": 1,
+      "incomplete_model_response": 2,
+      "unmatched_evidence_quote": 1,
+      "unsupported_literal_fact": 1
+    },
+    "quotes_all_match": 12,
+    "usage": {
+      "prompt_tokens": 82266,
+      "completion_tokens": 32530,
+      "total_tokens": 114796,
+      "reasoning_tokens": 26425
+    },
+    "summed_duration_seconds": 183.143,
+    "character_collapse_cases": 0,
+    "character_collapse_occurrences": 0,
+    "character_collapse_case_ids": [],
+    "gold_diagnostics": {
+      "cases": 16,
+      "accepted_by_backend": 11,
+      "interpretable_typed_outputs": 13,
+      "outcome_matches": 12,
+      "event_count_matches": 7,
+      "expected_events": 24,
+      "matched_events": 11,
+      "missing_events": 13,
+      "extra_events": 0,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 10,
+        "signals": 8,
+        "stage": 7,
+        "geography": 3,
+        "timing": 3
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 11,
+        "extra_vs_gold": 3,
+        "missing_vs_gold": 13,
+        "precision": 0.7857142857142857,
+        "recall": 0.4583333333333333
+      },
+      "per_signal": {
+        "business_expansion": {
+          "true_positive": 1,
+          "missing_vs_gold": 4,
+          "extra_vs_gold": 2
+        },
+        "local_headcount_growth": {
+          "true_positive": 2
+        },
+        "business_rescue_closure": {
+          "true_positive": 2
+        },
+        "funding_expansion": {
+          "missing_vs_gold": 2
+        },
+        "downsizing_layoffs": {
+          "missing_vs_gold": 1
+        },
+        "leadership_buildout": {
+          "true_positive": 2
+        },
+        "ma_consolidation": {
+          "true_positive": 1,
+          "missing_vs_gold": 2
+        },
+        "market_entry": {
+          "missing_vs_gold": 2,
+          "extra_vs_gold": 1
+        },
+        "office_relocation": {
+          "true_positive": 1
+        },
+        "completed_move": {
+          "missing_vs_gold": 1
+        },
+        "rto_change": {
+          "true_positive": 1
+        },
+        "office_opening": {
+          "missing_vs_gold": 1,
+          "true_positive": 1
+        }
+      },
+      "positive_cases": 15,
+      "positive_cases_detected_in_typed_output": 11,
+      "positive_cases_detected_in_parseable_raw_output": 12,
+      "positive_cases_usable_after_validation": 9,
+      "zero_event_cases": 1,
+      "zero_event_cases_returning_no_positive_events": 1,
+      "zero_event_cases_correct": 1,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 9,
+        "extra": 3,
+        "missing": 15
+      }
+    }
+  },
+  "artifact_sha256": {
+    "historical": "1b04e11a1d2611d5361cde9cdebf9790c1f358a24ddc4c889432ac03c4cb4df2",
+    "a1_schema_4096": "083417cb4c4993d34f237411dbe0bbd04fc113588f379683580e2e211119d21d",
+    "a2_schema_8192": "a2d1eeccacf8ab7c1101eec9ab4da3d9ec2e66e1361fea1b5382761a664b98ce",
+    "a3_schema_without_patterns_4096": "c0fec8bcb1fd3fffc25c12612881cae49e063531ca049dd82b8beec800140d4e"
+  },
+  "gold_sha256": "d2a5e0a39cdf64380602f44658647d7d28cb0eedd733af00ef8d665972da9852"
+}

@@ -1,0 +1,99 @@
+{
+  "experiment_id": "schema_compatibility_v1",
+  "purpose": "Isolate the single-character output collapse without changing production code or semantic instructions.",
+  "max_tokens": 4096,
+  "retries": 0,
+  "modes": [
+    "strict_current",
+    "strict_without_patterns",
+    "json_object"
+  ],
+  "max_live_calls": 12,
+  "cases": [
+    {
+      "case_id": "schema-v1-001",
+      "content_basis": "raw_content",
+      "title": "Northstar Analytics plans Pretoria office",
+      "body": "Northstar Analytics plans to open a new office in Pretoria in July 2027. Construction has not started.",
+      "expected": {
+        "outcome": "assessed",
+        "company": "Northstar Analytics",
+        "required_signals": [
+          "office_opening"
+        ],
+        "stage": "planned",
+        "location_literals": [
+          "Pretoria"
+        ],
+        "timing_literal": "July 2027"
+      }
+    },
+    {
+      "case_id": "schema-v1-002",
+      "content_basis": "raw_content",
+      "title": "Bluebird Finance updates Cape Town attendance policy",
+      "body": "Bluebird Finance will require employees at its Cape Town office to work in the office four days per week starting 1 September 2027, up from two days per week.",
+      "expected": {
+        "outcome": "assessed",
+        "company": "Bluebird Finance",
+        "required_signals": [
+          "rto_change"
+        ],
+        "stage": "planned",
+        "location_literals": [
+          "Cape Town"
+        ],
+        "timing_literal": "1 September 2027"
+      }
+    },
+    {
+      "case_id": "schema-v1-003",
+      "content_basis": "raw_content",
+      "title": "Solaris Data establishes Johannesburg operation",
+      "body": "Solaris Data entered the Johannesburg market in South Africa in May 2027 by establishing its first sales operation there.",
+      "expected": {
+        "outcome": "assessed",
+        "company": "Solaris Data",
+        "required_signals": [
+          "market_entry",
+          "business_expansion"
+        ],
+        "stage": "completed",
+        "location_literals": [
+          "Johannesburg",
+          "South Africa"
+        ],
+        "timing_literal": "May 2027"
+      }
+    },
+    {
+      "case_id": "schema-v1-004",
+      "content_basis": "raw_content",
+      "title": "Cedar Retail launches rewards app",
+      "body": "Cedar Retail launched a mobile rewards app for customers. The announcement did not discuss hiring, geographic expansion, workplace policy, property, mergers, layoffs, or office plans.",
+      "expected": {
+        "outcome": "assessed",
+        "company": null,
+        "required_signals": [],
+        "stage": null,
+        "location_literals": [],
+        "timing_literal": null
+      }
+    }
+  ],
+  "acceptance": {
+    "per_mode_cases": 4,
+    "parseable_json": 4,
+    "typed_schema": 4,
+    "backend_valid": 4,
+    "truncations": 0,
+    "collapsed_free_text_values": 0,
+    "semantic_anchor_matches": 4
+  },
+  "stop_conditions": [
+    "Never overwrite or retry a saved live run.",
+    "Abort after a provider HTTP or transport error.",
+    "Do not modify production contracts or validators from probe results.",
+    "Do not proceed to real-evidence semantic tuning or persistence from this runner."
+  ]
+}
