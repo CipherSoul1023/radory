@@ -1,0 +1,747 @@
+[
+  {
+    "source_id": "S01",
+    "source_name": "Official corporate newsroom: Microsoft example",
+    "domain": "news.microsoft.com",
+    "source_category": "official_company",
+    "supported_signal_keys": [
+      "business_expansion"
+    ],
+    "geographic_coverage": "Global, including South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary statement of its own investment plans; plans are not completed transactions",
+    "source_limitations": "Example domain only: resolve each company’s own domain. Data centres and skilling are not corporate office requirements.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Infrastructure investment is explicitly identified; distinguish it from office demand.",
+    "representative_evidence_url": "https://news.microsoft.com/source/emea/features/microsoft-invests-zar-5-4bn-in-south-africa",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S02",
+    "source_name": "Official office directory: Zoho example",
+    "domain": "zoho.com",
+    "source_category": "official_company",
+    "supported_signal_keys": [
+      "office_opening",
+      "completed_move"
+    ],
+    "geographic_coverage": "Global, including Johannesburg and Cape Town",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary source for listed contact location",
+    "source_limitations": "Address may be shared or serviced; directory does not disclose lease, size or requirement.",
+    "information_freshness": "Live directory; individual entry update dates may be absent",
+    "best_investigation_use_cases": "Current listed offices help check presence; directory alone does not prove a recent opening.",
+    "representative_evidence_url": "https://www.zoho.com/contactus.html",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S03",
+    "source_name": "Official careers: Microsoft example",
+    "domain": "careers.microsoft.com",
+    "source_category": "official_careers",
+    "supported_signal_keys": [
+      "local_headcount_growth",
+      "workplace_hiring"
+    ],
+    "geographic_coverage": "Global with Johannesburg page",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "A vacancy is not proof of net growth. ATS domains differ by employer; resolve employer identity.",
+    "information_freshness": "Vacancy-driven; expiry and reposting must be checked",
+    "best_investigation_use_cases": "Check employer, local role and work arrangement.",
+    "representative_evidence_url": "https://careers.microsoft.com/v2/global/en/locations/johannesburg.html",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S04",
+    "source_name": "Official policy statement: Amazon example",
+    "domain": "aboutamazon.com",
+    "source_category": "official_company",
+    "supported_signal_keys": [
+      "rto_change"
+    ],
+    "geographic_coverage": "Global; do not assume South African site applicability",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary statement of policy; no evidence of Gauteng space shortage",
+    "source_limitations": "Global corporate policy must be scoped to local entity, function and site.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Dated policy announcement identifies implementation timing and exceptions.",
+    "representative_evidence_url": "https://www.aboutamazon.com/news/company-news/ceo-andy-jassy-latest-update-on-amazon-return-to-office-manager-team-ratio",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S05",
+    "source_name": "Official occupier event: Ninety One example",
+    "domain": "ninetyone.com",
+    "source_category": "official_company",
+    "supported_signal_keys": [
+      "completed_move"
+    ],
+    "geographic_coverage": "Global, including South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Event marketing is not a lease document; corroborate project identity and timing.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Company describes return to Cape Town offices; useful completion check.",
+    "representative_evidence_url": "https://ninetyone.com/en/south-africa/events/35-year-event-2026",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S06",
+    "source_name": "ITWeb",
+    "domain": "itweb.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "market_entry",
+      "local_headcount_growth",
+      "business_expansion",
+      "leadership_buildout",
+      "workplace_hiring",
+      "office_opening",
+      "office_relocation",
+      "completed_move"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Editorial and supplied releases coexist. Hiring after an opening does not establish another requirement.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Zoho reporting combines local hiring with an office already opened.",
+    "representative_evidence_url": "https://www.itweb.co.za/article/zoho-charts-workforce-growth-for-sa-market/lLn147mQ1Wr7J6Aa",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S07",
+    "source_name": "TechCentral",
+    "domain": "techcentral.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "market_entry",
+      "local_headcount_growth",
+      "business_expansion",
+      "leadership_buildout",
+      "funding_expansion",
+      "office_opening",
+      "completed_move"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Representative content indexed; article-level access varies",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Distinguish partner content, commentary and reporting; no site-wide access guarantee.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Kemtek ribbon-cutting is completion evidence, not an unfilled search.",
+    "representative_evidence_url": "https://techcentral.co.za/kemtek-cuts-the-ribbon-to-unlock-growth/248430/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S08",
+    "source_name": "BusinessLIVE / Business Day",
+    "domain": "businessday.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "business_expansion",
+      "funding_expansion",
+      "ma_consolidation",
+      "downsizing_layoffs",
+      "business_rescue_closure",
+      "signed_lease",
+      "fitout_activity"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "businesslive.co.za redirected to businessday.co.za; homepage offers Subscribe and Log In; full article access not established",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Retain businesslive.co.za as historical alias. Subscription or licensing can limit full text; do not promote snippets to complete evidence.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Named headquarters refurbishment reporting.",
+    "representative_evidence_url": "https://www.businessday.co.za/companies/2026-08-28-growthpoints-revamp-secures-net-zero-status-for-ninety-one-headquarters/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S09",
+    "source_name": "Moneyweb",
+    "domain": "moneyweb.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "signed_lease",
+      "fitout_activity",
+      "ma_consolidation",
+      "business_expansion",
+      "downsizing_layoffs",
+      "business_rescue_closure"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Representative text indexed; access varies by article",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Some content may require subscription; reports can repeat supplied statements; financial growth is not office demand.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Named occupier and landlord reporting can clarify retention versus relocation.",
+    "representative_evidence_url": "https://www.moneyweb.co.za/investing/esg/growthpoint-turns-ninety-ones-cape-town-hq-into-a-lower-carbon-asset/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S10",
+    "source_name": "Engineering News",
+    "domain": "engineeringnews.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "business_expansion",
+      "office_opening",
+      "office_relocation",
+      "signed_lease",
+      "completed_move",
+      "fitout_activity",
+      "named_tenant"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Representative articles indexed; article-level pay restrictions possible",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Industrial projects dominate some coverage; completion stories and old archives frequently surface.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Historical Exxaro consolidation and completed headquarters example.",
+    "representative_evidence_url": "https://www.engineeringnews.co.za/article/growthpoint-completes-exxaros-new-corporate-headquarters-in-centurion-2019-06-21",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S11",
+    "source_name": "BusinessTech",
+    "domain": "businesstech.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "rto_change",
+      "office_relocation",
+      "business_expansion",
+      "downsizing_layoffs"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Aggregate trends, unnamed companies and third-party quotes cannot establish a company-specific open requirement.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Reports already-concluded relocations associated with workplace changes.",
+    "representative_evidence_url": "https://businesstech.co.za/news/property/788814/companies-making-huge-changes-to-fight-work-from-home-in-south-africa/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S12",
+    "source_name": "Daily Maverick / Business Maverick",
+    "domain": "dailymaverick.co.za",
+    "source_category": "business_media",
+    "supported_signal_keys": [
+      "downsizing_layoffs",
+      "business_rescue_closure",
+      "ma_consolidation"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Representative article publicly retrieved; membership prompts and page-level changes possible",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "A cost reduction statement does not establish property disposal; distinguish reporting from opinion and company statements.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "A publisher’s own reorganisation statement is a primary retrenchment example.",
+    "representative_evidence_url": "https://www.dailymaverick.co.za/article/2024-09-19-announcement-about-daily-mavericks-cost-reduction-and-reorganisation/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S13",
+    "source_name": "Property Wheel",
+    "domain": "propertywheel.co.za",
+    "source_category": "property_media",
+    "supported_signal_keys": [
+      "office_opening",
+      "office_relocation",
+      "sublease_disposal",
+      "fitout_activity",
+      "named_tenant",
+      "signed_lease",
+      "completed_move",
+      "ma_consolidation"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Release syndication is common; repeated versions of one release are one evidence origin.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Named tenant building and refurbishment status.",
+    "representative_evidence_url": "https://propertywheel.co.za/2026/08/growthpoint-scores-13th-net-zero-carbon-certification-for-ninety-ones-cape-town-hq/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S14",
+    "source_name": "Growthpoint Properties",
+    "domain": "growthpoint.co.za",
+    "source_category": "landlord_developer",
+    "supported_signal_keys": [
+      "signed_lease",
+      "fitout_activity",
+      "named_tenant",
+      "completed_move",
+      "office_relocation",
+      "sublease_disposal"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary participant for its own named transaction; marketing incentive remains",
+    "source_limitations": "Vacancy schedules do not identify departing tenant unless explicit. Old commitment announcements need current status.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Landlord explicitly documents lease commitment and refurbishment instead of relocation.",
+    "representative_evidence_url": "https://growthpoint.co.za/pressoffice/ninety-one-recommits-to-green-office-refit",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S15",
+    "source_name": "Redefine Properties",
+    "domain": "redefine.co.za",
+    "source_category": "landlord_developer",
+    "supported_signal_keys": [
+      "sublease_disposal",
+      "named_tenant",
+      "signed_lease"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Property page indexed; dynamic sections and broker/tenant portals may limit access",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary for own building attributes; tenant attribution must be explicit",
+    "source_limitations": "Observed building page does not verify named leasing-announcement coverage for every signal. Support list means conditional evidentiary use, not guaranteed coverage.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Office property page supplies building context; not tenant demand by itself.",
+    "representative_evidence_url": "https://redefine.co.za/properties/silver-point-office-park",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S16",
+    "source_name": "Trend Group",
+    "domain": "trendgroup.co.za",
+    "source_category": "fitout_architecture",
+    "supported_signal_keys": [
+      "fitout_activity",
+      "office_opening",
+      "office_relocation",
+      "completed_move"
+    ],
+    "geographic_coverage": "South Africa and wider network",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary contractor for own scope and client attribution; not lease authority",
+    "source_limitations": "Portfolio can be undated and retrospective. A photographed office is not an available requirement.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Named delivered 2U project; demonstrates retrospective project intelligence.",
+    "representative_evidence_url": "https://trendgroup.co.za/projects/2u-office-design/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S17",
+    "source_name": "Paragon Group",
+    "domain": "paragongroup.design",
+    "source_category": "fitout_architecture",
+    "supported_signal_keys": [
+      "fitout_activity",
+      "named_tenant",
+      "office_relocation",
+      "completed_move"
+    ],
+    "geographic_coverage": "South Africa and international projects",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Current verified project domain is paragongroup.design; paragon.co.za remains an observed legacy/contact domain. Do not confuse with similarly named firms.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "144 Oxford project identifies corporate tenant and workplace strategy.",
+    "representative_evidence_url": "https://www.paragongroup.design/projects/144-oxford-anglo-american",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S18",
+    "source_name": "LinkedIn",
+    "domain": "linkedin.com",
+    "source_category": "public_social_jobs",
+    "supported_signal_keys": [
+      "leadership_buildout",
+      "workplace_hiring",
+      "local_headcount_growth",
+      "rto_change",
+      "office_opening",
+      "completed_move"
+    ],
+    "geographic_coverage": "Global",
+    "accessibility": "Public visibility is user-controlled; full profile may require login. Job listing accessibility varies.",
+    "searchability": {
+      "public_web_observation": "Some public jobs/posts indexed; authenticated data not tested",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Company-authored statement can support a claim; individual profiles are self-reported",
+    "source_limitations": "No employee-count scraping or authenticated automation assumed. Index refresh may lag; skill-keyword job hits can refer to another employer.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Official visibility documentation explains why public evidence can be incomplete.",
+    "representative_evidence_url": "https://www.linkedin.com/help/linkedin/answer/a518980/make-your-public-profile-visible-to-people-not-signed-in-to-linkedin?lang=en",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S19",
+    "source_name": "PNet",
+    "domain": "pnet.co.za",
+    "source_category": "job_board",
+    "supported_signal_keys": [
+      "workplace_hiring",
+      "local_headcount_growth"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Recruiter may conceal employer. Category counts, duplicates and replacement roles do not prove company headcount growth.",
+    "information_freshness": "Frequently changing listings; individual dates and requisition IDs required",
+    "best_investigation_use_cases": "Facilities listing text was accessible; scope includes routine operations and manufacturing.",
+    "representative_evidence_url": "https://www.pnet.co.za/jobs/facilities-management",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S20",
+    "source_name": "Careers24",
+    "domain": "careers24.com",
+    "source_category": "job_board",
+    "supported_signal_keys": [
+      "workplace_hiring",
+      "local_headcount_growth"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Representative listing indexed; application/account requirements not tested",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Role locality can be recruiter location; identify end employer and distinguish property management from occupier CRE.",
+    "information_freshness": "Vacancy lifecycle; indexed examples may be expired",
+    "best_investigation_use_cases": "Named role pages can provide mandate and locality.",
+    "representative_evidence_url": "https://www.careers24.com/jobs/adverts/2359241-portfolio-facilities-manager-sandton/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S21",
+    "source_name": "CIPC",
+    "domain": "cipc.co.za",
+    "source_category": "regulatory",
+    "supported_signal_keys": [
+      "business_rescue_closure",
+      "ma_consolidation"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public guidance; enterprise enquiry/disclosures have customer login and potentially fees",
+    "searchability": {
+      "public_web_observation": "Public guidance indexed; company record retrieval not established",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Authoritative for filed status where actual record is obtained",
+    "source_limitations": "Guidance does not prove an entity is in rescue. Registration/address alone is not office demand. Historical search limits/fees are not assumed current.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Official business-rescue process guidance; use entity disclosures only through authorised access.",
+    "representative_evidence_url": "https://www.cipc.co.za/?page_id=16072",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S22",
+    "source_name": "InvestSA",
+    "domain": "investsa.gov.za",
+    "source_category": "investment_agency",
+    "supported_signal_keys": [
+      "market_entry",
+      "business_expansion",
+      "funding_expansion"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Pledges, industrial capital and implementation are distinct. Investment totals do not establish office requirements.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Investment commitments and company projects provide sector context.",
+    "representative_evidence_url": "https://www.investsa.gov.za/investment-drive/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S23",
+    "source_name": "Gauteng Growth and Development Agency",
+    "domain": "ggda.co.za",
+    "source_category": "investment_agency",
+    "supported_signal_keys": [
+      "market_entry",
+      "business_expansion"
+    ],
+    "geographic_coverage": "Gauteng",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary agency statements, when company and project are named",
+    "source_limitations": "Observed source verifies facilitation role, not a comprehensive pipeline of tenant requirements. Its own vacancies/tenders are not investee growth.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Investment facilitation function verified; company-specific content coverage needs pilot.",
+    "representative_evidence_url": "https://ggda.co.za/vacancy/call-for-applications-manager-investment-facilitation-for-gauteng-growth-and-development-agency-ggda/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S24",
+    "source_name": "National eTenders",
+    "domain": "etenders.gov.za",
+    "source_category": "procurement",
+    "supported_signal_keys": [
+      "office_opening",
+      "office_relocation",
+      "fitout_activity",
+      "signed_lease"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public search pages and document-download affordances observed; every document not tested",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Plan, advertisement, award and occupation differ. Procurement compliance and eligibility must be assessed. A notice is an attribute mapped to existing signals, not a new key.",
+    "information_freshness": "Notice deadlines; procurement plan dates are not an active tender guarantee",
+    "best_investigation_use_cases": "Office accommodation plans and fit-out notices are searchable; inspect full documents and status.",
+    "representative_evidence_url": "https://www.etenders.gov.za/Home/ProcurementPlans",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S25",
+    "source_name": "Government Printing Works eGazettes",
+    "domain": "gpwonline.co.za",
+    "source_category": "gazette",
+    "supported_signal_keys": [
+      "business_rescue_closure",
+      "ma_consolidation"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public index observed; individual document access varies",
+    "searchability": {
+      "public_web_observation": "Index searchable; PDF text/OCR coverage variable",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Match legal entity and notice type. Gazette material is not a lease database or proof of physical occupation.",
+    "information_freshness": "Issue date; publication may follow event",
+    "best_investigation_use_cases": "Legal/Government Gazette categories support targeted legal-status checks.",
+    "representative_evidence_url": "https://www.gpwonline.co.za/egazettes/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S26",
+    "source_name": "City of Johannesburg Planning",
+    "domain": "joburg.org.za",
+    "source_category": "municipal_planning",
+    "supported_signal_keys": [
+      "business_expansion",
+      "named_tenant",
+      "fitout_activity"
+    ],
+    "geographic_coverage": "Johannesburg municipality, not all Gauteng",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "Lists indexed; linked PDFs/GIS retrieval variable",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary for notice/application, weak for unnamed occupier intent",
+    "source_limitations": "Owner/applicant often differs from occupier. Planning consent is not a signed lease or fit-out commencement.",
+    "information_freshness": "Batch publication; application and approval differ",
+    "best_investigation_use_cases": "Dated advertised land-use application lists; use only with known site.",
+    "representative_evidence_url": "https://joburg.org.za/departments_/Pages/Development-Planning-2026/Advertised-Land-Use-Applications.aspx",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S27",
+    "source_name": "Competition Commission South Africa",
+    "domain": "compcom.co.za",
+    "source_category": "regulatory",
+    "supported_signal_keys": [
+      "ma_consolidation",
+      "downsizing_layoffs"
+    ],
+    "geographic_coverage": "South Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary for published merger decision/conditions",
+    "source_limitations": "Approval does not prove transaction implementation, layoffs or office consolidation. Do not confuse competition.org.za with the regulator.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Conditional merger notices and decisions can constrain simplistic consolidation assumptions.",
+    "representative_evidence_url": "https://www.compcom.co.za/notices/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S28",
+    "source_name": "JSE SENS",
+    "domain": "jse.co.za",
+    "source_category": "exchange_disclosure",
+    "supported_signal_keys": [
+      "ma_consolidation",
+      "funding_expansion",
+      "business_rescue_closure",
+      "downsizing_layoffs",
+      "signed_lease"
+    ],
+    "geographic_coverage": "South African listed issuers and relevant group operations",
+    "accessibility": "Search index describes service; research tool reported robots block for jse.co.za",
+    "searchability": {
+      "public_web_observation": "Search metadata visible; direct retrieval blocked in this research environment",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Primary regulated issuer announcement, where full document obtained",
+    "source_limitations": "No licensed real-time feed assumed. Use clientportal.jse.co.za or issuer IR as verified route candidates, not access bypasses.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Listed-company announcements; prefer issuer-hosted copy when public retrieval fails.",
+    "representative_evidence_url": "https://www.jse.co.za/market-data/market-announcements",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S29",
+    "source_name": "Disrupt Africa",
+    "domain": "disruptafrica.com",
+    "source_category": "african_business_media",
+    "supported_signal_keys": [
+      "funding_expansion",
+      "market_entry",
+      "business_expansion",
+      "leadership_buildout"
+    ],
+    "geographic_coverage": "Africa",
+    "accessibility": "Public representative page found",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Capital raised and customer employee counts are not the startup’s workforce. Trace investor/company release when possible.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Funding reporting can distinguish product expansion from premises demand.",
+    "representative_evidence_url": "https://disruptafrica.com/2026/08/19/sa-hr-startup-jem-raises-8-4m-series-a-funding-round-to-support-product-expansion/",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  },
+  {
+    "source_id": "S30",
+    "source_name": "African Business",
+    "domain": "african.business",
+    "source_category": "african_business_media",
+    "supported_signal_keys": [
+      "market_entry",
+      "business_expansion",
+      "office_opening",
+      "completed_move"
+    ],
+    "geographic_coverage": "Africa/international",
+    "accessibility": "Indexed partner-content example; full site access not established",
+    "searchability": {
+      "public_web_observation": "indexed",
+      "tavily": "Not tested; indexed public text is a candidate, not a retrieval guarantee"
+    },
+    "reliability_assessment": "Named factual claims require passage-level attribution",
+    "source_limitations": "Country disambiguation essential; subdomain and partner-content variations. Secondary routing only until retrieval pilot.",
+    "information_freshness": "Event-driven; no freshness SLA",
+    "best_investigation_use_cases": "Regional office announcements; example is outside South Africa and labelled partner content.",
+    "representative_evidence_url": "https://app.african.business/2025/12/partner-content/ebid-opens-first-regional-office-in-abidjan-to-boost-west-african-development",
+    "verification_date": "2026-10-29",
+    "verification_scope": "Public search result or page inspection; no authenticated or Tavily access test"
+  }
+]
