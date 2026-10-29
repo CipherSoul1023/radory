@@ -1,0 +1,44 @@
+{
+  "experiment_id": "enable_thinking_compatibility_v1",
+  "purpose": "Determine whether Nebius accepts and applies the Nemotron 3 Super enable_thinking chat-template control.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "arms": [
+    {
+      "name": "provider_default",
+      "chat_template_kwargs": null
+    },
+    {
+      "name": "enable_thinking_false",
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    }
+  ],
+  "synthetic_task": "Calculate 37 * 41. Return only a JSON object with the integer field answer.",
+  "expected_answer": 1517,
+  "max_tokens": 1024,
+  "temperature": 1.0,
+  "top_p": 0.95,
+  "timeout_seconds": 60,
+  "max_live_calls": 2,
+  "retries": 0,
+  "interpretation": {
+    "rejected": "Nebius returns a non-success response for the enable_thinking_false request.",
+    "effective": "Nebius accepts the field, returns the correct final answer, and reports zero reasoning tokens.",
+    "accepted_but_ineffective": "Nebius accepts the field but still reports reasoning tokens.",
+    "inconclusive": "Nebius accepts the field but omits the usage detail needed to determine whether reasoning was disabled."
+  },
+  "constraints": [
+    "Use no Radory evidence or gold answers.",
+    "The treatment differs from the control only by chat_template_kwargs.",
+    "Do not retry or overwrite either call.",
+    "Do not send reasoning_budget, low_effort, or any other reasoning control.",
+    "Do not modify production code or start A4-R2 automatically."
+  ],
+  "sources": [
+    "https://docs.nvidia.com/nim/large-language-models/2.0.4/turbo/get-started-nemotron-3-super-120b-a12b.html",
+    "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+    "https://github.com/nebius/token-factory-cookbook/blob/main/models/nemotron/nemotron3-super-120B.md"
+  ]
+}

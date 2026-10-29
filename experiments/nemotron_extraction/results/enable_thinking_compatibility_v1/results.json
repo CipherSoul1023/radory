@@ -1,0 +1,41 @@
+{
+  "experiment_id": "enable_thinking_compatibility_v1",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "provider": "Nebius",
+  "calls_made": 2,
+  "results": [
+    {
+      "arm": "provider_default",
+      "http_status": 200,
+      "provider_accepted": true,
+      "classification": "control",
+      "finish_reason": "stop",
+      "reasoning_tokens": 99,
+      "completion_tokens": 110,
+      "final_answer_present": true,
+      "parsed_answer": 1517,
+      "answer_correct": true,
+      "duration_seconds": 2.89,
+      "request_sha256": "c383d8cacc5dbd4a1ce43b97c2795e608b508dc037252122aa9f8921b5b05556",
+      "response_sha256": "4dc6d5056b411ed003c4bcbc59619f62e377a35c2d98a8d684d3e7797619c960"
+    },
+    {
+      "arm": "enable_thinking_false",
+      "http_status": 200,
+      "provider_accepted": true,
+      "classification": "effective",
+      "finish_reason": "stop",
+      "reasoning_tokens": 0,
+      "completion_tokens": 10,
+      "final_answer_present": true,
+      "parsed_answer": 1517,
+      "answer_correct": true,
+      "duration_seconds": 0.766,
+      "request_sha256": "4e5111ca971df8c5840c91eee65104d70343302a6209b45c3c0dc806af906d6e",
+      "response_sha256": "1d6e6f7433f13064b100a50262ae48dcfd41d732b1ebebd9d003423b1bba1b41"
+    }
+  ],
+  "conclusion": "effective",
+  "proceed_to_a4r2": true,
+  "completed_at": "2026-10-29T04:56:36.443996+00:00"
+}

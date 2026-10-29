@@ -43,3 +43,11 @@ Run scripts from the repository root using `backend/.venv/Scripts/python.exe`. N
 `scripts/run_experiment_a4r.py` requires an explicit arm and `--live`; the no-think arm cannot start before the default arm is complete. The ten-call experiment has no retries or overwrites. `scripts/compare_experiment_a4r.py` compares reported reasoning tokens, finish reasons, schema/backend validity, recovery of both failures, character collapse and the three controls. It does not start A4-S, A4-E or Experiment B.
 
 The completed result is recorded in `results/experiment_a4r_v1/report.md`. The no-think arm failed its frozen gate: reported reasoning fell by only 3.62%, case 008 still truncated, and control 001 regressed. An initial zero-network local harness failure is retained separately and documented in the result set; it did not consume provider calls.
+
+## Nebius `enable_thinking` compatibility probe
+
+`cases/enable_thinking_compatibility_v1.json` defines a two-call synthetic probe for the model-specific `chat_template_kwargs: {"enable_thinking": false}` control. The control and treatment use the same short arithmetic task, strict one-field JSON schema, model, sampling configuration, output limit and timeout. The treatment adds only `chat_template_kwargs`; it sends no Radory evidence and does not use `reasoning_budget`, `low_effort` or another undocumented Nebius control.
+
+`scripts/run_enable_thinking_compatibility.py` defaults to offline preflight and requires `--live` for the zero-retry run. Exact requests and responses remain under ignored `results/local/enable_thinking_compatibility_v1/`. The reviewable result records provider acceptance, reported reasoning tokens, finish reason and final-answer validity, and never starts A4-R2 automatically.
+
+The completed probe passed. Nebius returned HTTP 200 for both requests; the control used 99 reported reasoning tokens, while `enable_thinking: false` used zero and returned the same correct final answer. See `results/enable_thinking_compatibility_v1/report.md`. This establishes capability only; it does not establish real-evidence extraction quality.
