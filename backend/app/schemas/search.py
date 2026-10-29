@@ -63,3 +63,30 @@ class SignalObservationResponse(BaseModel):
     related_companies: list[dict]
     missing_facts: list[str]
     created_at: datetime
+
+
+class InvestigationResultResponse(BaseModel):
+    result_rank: int
+    title: str
+    url: str
+    content: str
+    score: float | None
+    published_date: str | None
+
+
+class InvestigationQueryResponse(BaseModel):
+    edge_id: str
+    target_signal: str
+    investigation_question: str
+    query_text: str
+    reason: str
+    preferred_domains: list[str]
+    request_id: str | None
+    results: list[InvestigationResultResponse]
+
+
+class ObservationInvestigationResponse(BaseModel):
+    observation_id: UUID
+    outcome: Literal["investigate", "stop"]
+    rationale: str
+    queries: list[InvestigationQueryResponse]

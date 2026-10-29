@@ -7,6 +7,9 @@ from sqlalchemy.orm import Session
 from app.api.dependencies import current_workspace_admin, current_workspace_context
 from app.database.session import get_db_session
 from app.schemas import (
+    InvestigationQueryResponse,
+    InvestigationResultResponse,
+    ObservationInvestigationResponse,
     SearchJobCreateResponse,
     SearchJobResponse,
     SearchQuerySummary,
@@ -23,11 +26,74 @@ from app.search.engine import (
     retry_failed_query,
 )
 from app.search.extraction_engine import list_signal_observations
+from app.search.investigation import (
+    InvestigationDecisionFailed,
+    InvestigationNotConfigured,
+    InvestigationObservationNotFound,
+    InvestigationSearchFailed,
+    investigate_observation,
+)
 from app.search.tavily_client import RadarTavilyClient
 from app.services.workspace_context import ResolvedWorkspaceContext
 from app.tasks.radar_search import dispatch_search_queries
 
 router = APIRouter(prefix="/api/radar", tags=["radar search"])
+
+
+@router.post(
+    "/observations/{observation_id}/investigate",
+    response_model=ObservationInvestigationResponse,
+)
+async def investigate_signal_observation(
+    observation_id: UUID,
+    response: Response,
+    context: Annotated[ResolvedWorkspaceContext, Depends(current_workspace_admin)],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> ObservationInvestigationResponse:
+    response.headers["Cache-Control"] = "no-store"
+    try:
+        execution = await investigate_observation(
+            db,
+            workspace_id=context.workspace.id,
+            observation_id=observation_id,
+        )
+    except InvestigationObservationNotFound as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except InvestigationNotConfigured as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except InvestigationDecisionFailed as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    except InvestigationSearchFailed as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+    return ObservationInvestigationResponse(
+        observation_id=execution.observation_id,
+        outcome=execution.decision.outcome,
+        rationale=execution.decision.rationale,
+        queries=[
+            InvestigationQueryResponse(
+                edge_id=query.plan.edge_id,
+                target_signal=query.plan.target_signal,
+                investigation_question=query.plan.investigation_question,
+                query_text=query.plan.query_text,
+                reason=query.plan.reason,
+                preferred_domains=list(query.plan.preferred_domains),
+                request_id=query.request_id,
+                results=[
+                    InvestigationResultResponse(
+                        result_rank=rank,
+                        title=result.title,
+                        url=result.url,
+                        content=result.content,
+                        score=result.score,
+                        published_date=result.published_date,
+                    )
+                    for rank, result in enumerate(query.results, start=1)
+                ],
+            )
+            for query in execution.queries
+        ],
+    )
 
 
 @router.get("/observations", response_model=list[SignalObservationResponse])

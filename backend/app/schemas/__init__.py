@@ -5,6 +5,9 @@ from app.schemas.onboarding import (
     WorkspaceSetupResponse,
 )
 from app.schemas.search import (
+    InvestigationQueryResponse,
+    InvestigationResultResponse,
+    ObservationInvestigationResponse,
     SearchJobCreateResponse,
     SearchJobResponse,
     SearchQuerySummary,
@@ -13,6 +16,9 @@ from app.schemas.search import (
 
 __all__ = [
     "BrokerageProfileResponse",
+    "InvestigationQueryResponse",
+    "InvestigationResultResponse",
+    "ObservationInvestigationResponse",
     "BrokerageSetupRequest",
     "SetupStatusResponse",
     "SearchJobCreateResponse",

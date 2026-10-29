@@ -1,7 +1,11 @@
 import json
 
 import pytest
+from sqlalchemy.orm import Session
 
+from app.integrations.tavily.client import TavilyResponse, TavilyResult
+from app.models import SignalObservation
+from app.search.extraction_engine import extract_search_job
 from app.search.investigation import (
     INVESTIGATION_EDGES,
     INVESTIGATION_SOURCE_REGISTRY,
@@ -11,8 +15,11 @@ from app.search.investigation import (
     SemanticInvestigationPlanner,
     build_investigation_plans,
     candidate_edges,
+    investigate_observation,
+    load_investigation_case,
 )
 from app.search.signal_library import SIGNAL_LIBRARY
+from tests.test_extraction_engine import FakeExtractor, discovery_job, supported_output
 
 
 def case() -> InvestigationCase:
@@ -165,3 +172,74 @@ async def test_semantic_planner_rejects_unavailable_edge():
 
     assert result.status == "failed"
     assert result.error_code == "invalid_investigation_decision"
+
+
+class FakeTavily:
+    configured = True
+
+    def __init__(self):
+        self.calls = []
+
+    def execute(self, query):
+        self.calls.append(query)
+        return TavilyResponse(
+            request_id="tavily-1",
+            results=[
+                TavilyResult(
+                    title="Acme considers a Johannesburg office",
+                    url="https://example.com/acme",
+                    content="Acme is considering office options.",
+                    raw_payload={"raw_content": "Acme is considering office options."},
+                )
+            ],
+        )
+
+
+@pytest.mark.asyncio
+async def test_loads_workspace_case_and_executes_bounded_live_queries(
+    search_db: Session, search_workspace: dict
+):
+    job = discovery_job(search_db, search_workspace, usable_results=1)
+    await extract_search_job(
+        search_db,
+        search_job_id=job.id,
+        extractor=FakeExtractor(supported_output()),
+    )
+    observation = search_db.query(SignalObservation).one()
+    loaded = load_investigation_case(
+        search_db,
+        workspace_id=search_workspace["workspace"].id,
+        observation_id=observation.id,
+    )
+    assert loaded.company_name == "Acme"
+    assert loaded.country == job.country
+
+    client = FakeClient(
+        json.dumps(
+            {
+                "outcome": "investigate",
+                "rationale": "The office commitment is unresolved.",
+                "selected": [
+                    {
+                        "edge_id": "office_opening__signed_lease",
+                        "reason": "Check whether the requirement is already committed.",
+                    }
+                ],
+            }
+        )
+    )
+    tavily = FakeTavily()
+
+    execution = await investigate_observation(
+        search_db,
+        workspace_id=search_workspace["workspace"].id,
+        observation_id=observation.id,
+        planner=SemanticInvestigationPlanner(client, model="nemotron-super"),
+        tavily=tavily,
+    )
+
+    assert execution.decision.outcome == "investigate"
+    assert len(execution.queries) == 1
+    assert execution.queries[0].request_id == "tavily-1"
+    assert tavily.calls[0].include_raw_content is True
+    assert tavily.calls[0].max_results == 5

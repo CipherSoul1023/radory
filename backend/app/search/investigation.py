@@ -1,15 +1,23 @@
 from __future__ import annotations
 
+import asyncio
 import json
 from dataclasses import dataclass
 from importlib.resources import files
 from typing import Annotated, Literal, Protocol, Self
+from uuid import UUID
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
+from app.core.config import Settings, get_settings
 from app.integrations.nebius.client import NebiusNotConfigured
+from app.integrations.tavily.client import TavilyError, TavilyResult
+from app.models import ExtractionSource, SearchJob, SearchQuery, SearchResult, SignalObservation
 from app.search.signal_library import SIGNAL_LIBRARY
+from app.search.tavily_client import PlannedTavilyQuery, RadarTavilyClient
 
 MAX_INVESTIGATION_SEARCHES = 3
 INVESTIGATION_VERSION = "1"
@@ -329,3 +337,182 @@ class SemanticInvestigationPlanner:
             error_code=code,
             model=self.model,
         )
+
+
+class InvestigationObservationNotFound(RuntimeError):
+    pass
+
+
+class InvestigationNotConfigured(RuntimeError):
+    pass
+
+
+class InvestigationDecisionFailed(RuntimeError):
+    pass
+
+
+class InvestigationSearchFailed(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class ExecutedInvestigationQuery:
+    plan: InvestigationPlan
+    request_id: str | None
+    results: tuple[TavilyResult, ...]
+
+
+@dataclass(frozen=True)
+class InvestigationExecution:
+    observation_id: UUID
+    decision: InvestigationDecision
+    queries: tuple[ExecutedInvestigationQuery, ...]
+
+
+def _quotes(*values: list[dict]) -> tuple[str, ...]:
+    passages: list[str] = []
+    for collection in values:
+        for item in collection:
+            quote = item.get("quote") if isinstance(item, dict) else None
+            if isinstance(quote, str) and quote.strip() and quote not in passages:
+                passages.append(quote)
+    return tuple(passages)
+
+
+def load_investigation_case(
+    db: Session,
+    *,
+    workspace_id: UUID,
+    observation_id: UUID,
+) -> InvestigationCase:
+    observation = db.scalar(
+        select(SignalObservation).where(
+            SignalObservation.id == observation_id,
+            SignalObservation.workspace_id == workspace_id,
+        )
+    )
+    if observation is None:
+        raise InvestigationObservationNotFound("Signal observation not found")
+
+    related = list(
+        db.scalars(
+            select(SignalObservation)
+            .where(
+                SignalObservation.workspace_id == workspace_id,
+                SignalObservation.extraction_run_id == observation.extraction_run_id,
+                SignalObservation.event_index == observation.event_index,
+                SignalObservation.subject_company == observation.subject_company,
+            )
+            .order_by(SignalObservation.signal_key)
+        )
+    )
+    job = db.scalar(
+        select(SearchJob)
+        .join(SearchQuery, SearchQuery.job_id == SearchJob.id)
+        .join(SearchResult, SearchResult.search_query_id == SearchQuery.id)
+        .join(ExtractionSource, ExtractionSource.search_result_id == SearchResult.id)
+        .where(
+            SearchJob.workspace_id == workspace_id,
+            ExtractionSource.extraction_run_id == observation.extraction_run_id,
+        )
+        .order_by(SearchJob.created_at)
+        .limit(1)
+    )
+    if job is None:
+        raise InvestigationObservationNotFound("Observation discovery context not found")
+
+    return InvestigationCase(
+        company_name=observation.subject_company,
+        country=job.country,
+        market=job.market,
+        submarket=job.resolved_submarket,
+        observations=tuple(
+            InvestigationObservation(
+                signal_key=item.signal_key,
+                summary=item.summary,
+                stage=item.stage,
+                locations=tuple(item.locations),
+                timing=tuple(item.timing),
+                missing_facts=tuple(item.missing_facts),
+                supporting_passages=_quotes(
+                    item.subject_company_evidence,
+                    item.summary_evidence,
+                    item.signal_evidence,
+                    item.stage_evidence,
+                ),
+            )
+            for item in related
+        ),
+    )
+
+
+async def investigate_observation(
+    db: Session,
+    *,
+    workspace_id: UUID,
+    observation_id: UUID,
+    planner: SemanticInvestigationPlanner | None = None,
+    tavily: RadarTavilyClient | None = None,
+    settings: Settings | None = None,
+) -> InvestigationExecution:
+    """Run a bounded, non-persisted hackathon investigation for one observed event."""
+    case = load_investigation_case(
+        db,
+        workspace_id=workspace_id,
+        observation_id=observation_id,
+    )
+    config = settings or get_settings()
+    selected_planner = planner
+    if selected_planner is None:
+        if not config.nemotron_super_model:
+            raise InvestigationNotConfigured("NEMOTRON_SUPER_MODEL is required")
+        from app.integrations.nebius.client import NebiusClient
+
+        selected_planner = SemanticInvestigationPlanner(
+            NebiusClient(),
+            model=config.nemotron_super_model,
+        )
+    decision_result = await selected_planner.decide(case)
+    if decision_result.status != "succeeded" or decision_result.decision is None:
+        raise InvestigationDecisionFailed(
+            f"Investigation decision failed: {decision_result.error_code or 'unknown_error'}"
+        )
+    decision = decision_result.decision
+    plans = build_investigation_plans(case, decision)
+    if not plans:
+        return InvestigationExecution(
+            observation_id=observation_id,
+            decision=decision,
+            queries=(),
+        )
+    client = tavily or RadarTavilyClient()
+    if not client.configured:
+        raise InvestigationNotConfigured("Tavily search is not configured")
+    executed: list[ExecutedInvestigationQuery] = []
+    for plan in plans:
+        query = PlannedTavilyQuery(
+            query_text=plan.query_text,
+            preferred_domains=plan.preferred_domains,
+            include_domains_mode=plan.include_domains_mode,
+            search_depth="basic",
+            max_results=5,
+            include_raw_content=True,
+        )
+        try:
+            response = await asyncio.to_thread(client.execute, query)
+        except TavilyError as exc:
+            raise InvestigationSearchFailed(
+                f"Investigation search failed: {exc.error_code}"
+            ) from exc
+        executed.append(
+            ExecutedInvestigationQuery(
+                plan=plan,
+                request_id=response.request_id,
+                results=tuple(response.results),
+            )
+        )
+    return InvestigationExecution(
+        observation_id=observation_id,
+        decision=decision,
+        queries=tuple(executed),
+    )

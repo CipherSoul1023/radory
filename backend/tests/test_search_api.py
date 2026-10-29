@@ -7,6 +7,7 @@ import app.api.radar as radar_api
 from app.api.auth import authenticated_claims
 from app.database.session import get_db_session
 from app.main import app
+from app.search.investigation import InvestigationDecision, InvestigationExecution
 
 
 class ConfiguredTavily:
@@ -112,6 +113,46 @@ def test_observations_use_active_workspace_scope(
             "workspace_id": search_workspace["workspace"].id,
             "search_job_id": None,
             "limit": 25,
+        }
+        assert response.headers["cache-control"] == "no-store"
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_admin_can_request_bounded_observation_investigation(
+    monkeypatch, search_db: Session, search_workspace: dict
+):
+    def db_override() -> Generator[Session, None, None]:
+        yield search_db
+
+    observation_id = search_workspace["workspace"].id
+
+    async def fake_investigate(db, *, workspace_id, observation_id):
+        assert db is search_db
+        assert workspace_id == search_workspace["workspace"].id
+        return InvestigationExecution(
+            observation_id=observation_id,
+            decision=InvestigationDecision(
+                outcome="stop",
+                rationale="The matching requirement is already complete.",
+            ),
+            queries=(),
+        )
+
+    app.dependency_overrides[get_db_session] = db_override
+    app.dependency_overrides[authenticated_claims] = lambda: {
+        "sub": "user_search_admin",
+        "o": {"id": "org_search", "rol": "admin"},
+    }
+    monkeypatch.setattr(radar_api, "investigate_observation", fake_investigate)
+    try:
+        response = TestClient(app).post(f"/api/radar/observations/{observation_id}/investigate")
+        assert response.status_code == 200
+        assert response.json() == {
+            "observation_id": str(observation_id),
+            "outcome": "stop",
+            "rationale": "The matching requirement is already complete.",
+            "queries": [],
         }
         assert response.headers["cache-control"] == "no-store"
     finally:
