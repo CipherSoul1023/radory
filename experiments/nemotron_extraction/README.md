@@ -107,3 +107,11 @@ B1 failed its frozen gates, but it isolated a useful improvement. Both compact c
 `scripts/run_experiment_b2.py` validates passage references and subject-company grounding locally, permits two zero-retry calls and performs no repair, deduplication or semantic merging. `scripts/compare_experiment_b2.py` loads gold only after exact responses and the aggregate are saved. Requests and provider responses remain under ignored `results/local/experiment_b2_v1/`; production code remains unchanged.
 
 B2 passed both frozen gates. Both calls completed, both outputs passed backend validation, all three gold events matched, both expected signal types were present, and no extra event or invalid passage ID appeared. Manual review found one surplus unrelated passage in an otherwise correctly supported Aker signal, so citation precision remains a holdout metric. See `results/experiment_b2_v1/report.md`.
+
+## Experiment C1
+
+`cases/experiment_c1_v1.json` freezes the B2 fresh holdout before inference. It uses the eight pilot cases excluded from Experiment A: six clear-scoring cases and two cases already designated for manual review. The unchanged B2 indexed compact contract runs over deterministic, non-overlapping paragraph chunks of at most 2,400 characters, producing 16 bounded Super calls with provider-default reasoning, a 4,096-token limit and no retries.
+
+`scripts/run_experiment_c1.py` verifies every source input, chunk hash, B2 prerequisite and the Experiment A exclusion boundary before making calls. It concatenates backend-valid chunk events without semantic deduplication or repair and saves eight case aggregates before gold is available to `scripts/compare_experiment_c1.py`. Exact requests and responses remain under ignored `results/local/experiment_c1_v1/`; production extraction and persistence remain unchanged.
+
+C1 passed its full technical gate but failed its semantic gate. All 16 responses were parseable, typed and backend-valid with zero truncations or invalid passage IDs. Clear-case event precision was 100%, but recall was 66.7% because the model missed a separate Nestle/Froneri transaction in a passage where it found the layoffs. Three understandable zero-event pages were also misclassified as insufficient evidence. See `results/experiment_c1_v1/report.md`.

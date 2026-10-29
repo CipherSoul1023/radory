@@ -1,0 +1,85 @@
+{
+  "verdict": "technical_pass_semantic_fail",
+  "primary_clear_cases": [
+    {
+      "case_id": "pilot-v1-011",
+      "review": "correct_positive_with_plausible_extra_signal",
+      "findings": [
+        "The model identified one Global Political Solutions event and all three frozen gold signals: market_entry, office_opening and leadership_buildout.",
+        "It also returned business_expansion. The title explicitly says GPS expands operations into Sub-Sahara Africa, so this is a defensible overlapping label rather than a fabricated event.",
+        "The cited title and body passage directly support the company, office launch, market entry and leadership appointment."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-013",
+      "review": "correct_zero_events_wrong_outcome",
+      "findings": [
+        "The property listing contains no supported Radory company event, and the model correctly returned zero events.",
+        "It returned insufficient_evidence instead of assessed with an empty event list even though the listing is understandable enough to assess."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-016",
+      "review": "correct_assessed_zero",
+      "findings": [
+        "The sector funding roundup does not connect a specific funding event to one of the expansion conditions required by funding_expansion.",
+        "The model correctly returned assessed with zero events."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-019",
+      "review": "correct_zero_events_wrong_outcome",
+      "findings": [
+        "The commercial property listing does not support a named company's relocation, and the model correctly returned zero events.",
+        "It returned insufficient_evidence instead of assessed with an empty event list."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-021",
+      "review": "partial_positive_secondary_event_missed",
+      "findings": [
+        "The model correctly identified Nestle SA downsizing and cited the passages describing retrenchment notices and severance discussions.",
+        "It missed a separate ma_consolidation event: the same cited passage explicitly says Nestle is selling its remaining ice-cream operations to Froneri.",
+        "This is a secondary-event recall failure, not missing source context or a passage-indexing failure."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-023",
+      "review": "correct_zero_events_wrong_outcome",
+      "findings": [
+        "The generic office-relocation advice page contains no company event, and the model correctly returned zero events.",
+        "It returned insufficient_evidence instead of assessed with an empty event list."
+      ]
+    }
+  ],
+  "manual_review_cases": [
+    {
+      "case_id": "pilot-v1-014",
+      "review": "plausible_workplace_hiring_missed",
+      "findings": [
+        "The model returned assessed with zero events across the recruitment aggregator.",
+        "The working gold treats a SoluGrowth Office Manager vacancy as workplace_hiring. The supplied passages name SoluGrowth and describe responsibility for office operations, making the positive classification plausible.",
+        "This case remains outside the primary gate because aggregator attribution and signal policy were already designated for manual review."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-018",
+      "review": "correct_insufficient_evidence",
+      "findings": [
+        "The short generic facilities-manager search snippet does not identify a supported company event.",
+        "The model correctly returned insufficient_evidence with zero events."
+      ]
+    }
+  ],
+  "aggregate_review": {
+    "technical_gate": true,
+    "semantic_gate": false,
+    "event_precision": 1.0,
+    "event_recall": 0.6667,
+    "signal_precision": 0.8,
+    "signal_recall": 0.8,
+    "clear_outcome_matches": "3/6",
+    "clear_negative_false_positive_cases": 0,
+    "conclusion": "Indexed compact extraction is mechanically reliable and conservative on the holdout, but secondary-event recall and assessed-versus-insufficient calibration are not reliable enough to freeze the first-pass contract for production."
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "experiment_id": "experiment_c1_v1",
+  "purpose": "Fresh holdout for B2 indexed compact event detection on the eight pilot cases excluded from Experiment A.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "experiment_a_plan_sha256": "cb6a8424669e5ce44ec05ddbe7da806ffd03067809dcaec18ac64e43b017cc47",
+  "b2_plan_sha256": "1ea6fd2246e9e1d00c0967270503f32f0068a44b75c4d08084090c855739f8d3",
+  "b2_runner_sha256": "7e6f287c73b6f291255adf920cc15c73d41c2eaa29d528e3848a77732a053f17",
+  "signal_library_sha256": "eda6490b1ce27eba575a607a500425b5ed304d592522ba38cbfcfc59f174d9a1",
+  "response_format_fingerprint": "bbaa27f76eba51dcc6136400c710d27aca408e54a1226cf2c019478d9f6ac4be",
+  "gold_sha256": "d2a5e0a39cdf64380602f44658647d7d28cb0eedd733af00ef8d665972da9852",
+  "max_chunk_characters": 2400,
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 16,
+  "reasoning_mode": "provider_default",
+  "contract": "indexed_compact_event_detection_v1",
+  "cases": [
+    {
+      "case_id": "pilot-v1-011",
+      "scoring_set": "clear",
+      "variant": "raw_content",
+      "input_fingerprint": "bc8edea451b93ed8381e6a1c8d99d1aec03f97672b683876628def46bbb087ff",
+      "input_sha256": "8535f023ef61b3972b5e482d82f13d4f962b4bd68d2a8b296a3c517f43d2ac00",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 1985, "body_sha256": "9d10b77f6b4d0854df3d801393df93facd335cdde2ecd9b8f2425c130f19b50b"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-013",
+      "scoring_set": "clear",
+      "variant": "raw_content",
+      "input_fingerprint": "a88a3f8143197721461aff40647d47ef2ba2ea6b01af360f34108ae4fe05d4cb",
+      "input_sha256": "9c218a8b4f1a42051f5620412b9a3d429d71f3ee867ee994bb9bfb07c2fc761c",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 2316, "body_sha256": "c7c5fb1a86e14cb444b14c5c764e2dc3af9ae0747298cb1b94a8d444ca3ec2ac"},
+        {"chunk_id": "chunk-002", "body_characters": 1778, "body_sha256": "fdd3793c6f3d1f31bc5a01bf30e46de6affd76b295fcc601f7e1c5b8bbdb7622"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-014",
+      "scoring_set": "manual_review",
+      "variant": "raw_content",
+      "input_fingerprint": "e892c5841447be98cb5b9991ada7e3c6e31d964169344d30a8ac9cdd31a54582",
+      "input_sha256": "0d2a452aa8f5970de17591b0de0d8b01c23ef7011011f67a875aaf6e3500dcdd",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 2383, "body_sha256": "b628a47ad0531895bc3bd2edb87c8da4c3553b3d54f9755f94f040bbeb51a6dc"},
+        {"chunk_id": "chunk-002", "body_characters": 2377, "body_sha256": "e3dafb0344dd5c8fd424172b23097cd920cba2746dbc27e533836d375095ac30"},
+        {"chunk_id": "chunk-003", "body_characters": 2235, "body_sha256": "1fcb745666adf3ea62f33cf28680922ba24606af3cf271877d4812ce00a9eb57"},
+        {"chunk_id": "chunk-004", "body_characters": 2364, "body_sha256": "7dc3506afacf0dd7a9accb8f5f10abce736f40db9f8a4b45c70e569c2c5eb9d0"},
+        {"chunk_id": "chunk-005", "body_characters": 2388, "body_sha256": "c09cd57d6d18f92eb55b680b8da060b4a1cecda5306e782fbf8b965343577d6b"},
+        {"chunk_id": "chunk-006", "body_characters": 1851, "body_sha256": "49ad19b2f7e33822a9667758f4500e235367da1bf2f6dd9c94bc4efc2a3debee"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-016",
+      "scoring_set": "clear",
+      "variant": "raw_content",
+      "input_fingerprint": "6fcac8295fc56271031fa6cdada77f5ae086c5e28cf5618c5eddfff9efb7ffe5",
+      "input_sha256": "fb854d41910802e2c089f2632d0b5d9e1e9a8d4ffae7d7d38084cde637bd45a9",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 2336, "body_sha256": "1e8a0b90496028f06224a0cb55a84724fcc217ca74a54695b9dd8ab7c21f9f7b"},
+        {"chunk_id": "chunk-002", "body_characters": 2248, "body_sha256": "261895b3c311fea2f2c09fc058df9581fa812d6a9db31220b819a5c1e6055219"},
+        {"chunk_id": "chunk-003", "body_characters": 1979, "body_sha256": "b1ab0cc0c93b1b394cc201759e2a7978565ca6033e0cf9b5e3a41eccab88267b"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-018",
+      "scoring_set": "manual_review",
+      "variant": "snippet",
+      "input_fingerprint": "296ce468d6a812e3afa2d2a6948a19d21ccb37ffdd8725815b7839fc2220605a",
+      "input_sha256": "0db8c1f3aa116a463b0fe3e94fa48ffe636575e6d304a3354d927a76324e9752",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 150, "body_sha256": "85737c7982f5535bc3db116fafc08fa7b00a0e839ce4aaecdb6318058e57961d"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-019",
+      "scoring_set": "clear",
+      "variant": "snippet",
+      "input_fingerprint": "244182201300f7f98e7ace7ecf199a9c0d007102d1b73b07338ad9742691464b",
+      "input_sha256": "4ac8d4c161c532d4f155d5f65e8be7cfe622f3ea3a08be3dc2a54ea177694130",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 2398, "body_sha256": "c26c7690c766373f359c3fddf704a6957212147dfc0f2bab1a3203975a99b11c"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-021",
+      "scoring_set": "clear",
+      "variant": "snippet",
+      "input_fingerprint": "2fc6641ce996dfacbdf9ce007c4a4f822216ca19ff554ff1519975e975e8cce8",
+      "input_sha256": "d894854e1a53bf064f0174296cf38061be020d7e8e8c875fc320f8c0444fa27e",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 1238, "body_sha256": "b3afa891d80b01989f689b5e057484203c2124c6567ecd5af34d508db11d20b0"}
+      ]
+    },
+    {
+      "case_id": "pilot-v1-023",
+      "scoring_set": "clear",
+      "variant": "snippet",
+      "input_fingerprint": "6e05260789c572ad26bdd129edfdf832c3fe98c40799ad034a938f21f6826cd5",
+      "input_sha256": "42986b7b9805fd2c69bd372116cc960e463d19a4073e81abad19b57e7c1f372d",
+      "chunks": [
+        {"chunk_id": "chunk-001", "body_characters": 1251, "body_sha256": "18653848c3cc39f7ab0f80d97065f2d4a404714659e5e8d02d78a637900d7bc5"}
+      ]
+    }
+  ],
+  "acceptance": {
+    "case_count": 8,
+    "clear_case_count": 6,
+    "manual_review_case_count": 2,
+    "chunk_calls": 16,
+    "parseable_json": 16,
+    "typed_schema": 16,
+    "backend_valid_chunks": 16,
+    "truncations": 0,
+    "invalid_passage_references": 0,
+    "backend_valid_case_aggregates": 8,
+    "clear_exact_event_count_cases_min": 5,
+    "clear_outcome_matches_min": 5,
+    "clear_event_precision_min": 0.8,
+    "clear_event_recall_min": 0.8,
+    "clear_signal_precision_min": 0.8,
+    "clear_signal_recall_min": 0.8,
+    "clear_gold_negative_false_positive_cases_max": 0
+  },
+  "frozen_request_rules": [
+    "Use exactly the eight pilot cases excluded from Experiment A; do not substitute cases after seeing predictions.",
+    "Use the unchanged B2 system message, strict pattern-free provider schema, local contract and validators.",
+    "Use deterministic non-overlapping paragraph chunks of at most 2,400 characters and repeat only the title for context.",
+    "Use Nemotron Super with provider-default reasoning and the unchanged 4,096-token limit.",
+    "Perform no output repair, semantic deduplication, retries or cross-chunk merging beyond deterministic concatenation.",
+    "Do not load gold answers until all 16 provider responses and eight case aggregates are saved.",
+    "Keep the two pre-existing manual-review cases outside the primary semantic acceptance gate."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start detailed pass-two extraction, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}
