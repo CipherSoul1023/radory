@@ -90,3 +90,20 @@ class ObservationInvestigationResponse(BaseModel):
     outcome: Literal["investigate", "stop"]
     rationale: str
     queries: list[InvestigationQueryResponse]
+
+
+class RadarOpportunityResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    workspace_id: UUID
+    search_job_id: UUID
+    subject_company: str
+    status: Literal["running", "completed", "failed"]
+    report: dict | None
+    created_at: datetime
+    updated_at: datetime
+
+
+class RadarOpportunityCreateResponse(RadarOpportunityResponse):
+    created: bool

@@ -1,6 +1,7 @@
 from app.models.extraction_run import ExtractionRun
 from app.models.extraction_source import ExtractionSource
 from app.models.onboarding import BrokerageProfile, User, Workspace, WorkspaceMember
+from app.models.radar_opportunity import RadarOpportunity
 from app.models.search_job import SearchJob
 from app.models.search_query import SearchQuery
 from app.models.search_result import SearchResult
@@ -10,6 +11,7 @@ __all__ = [
     "BrokerageProfile",
     "ExtractionRun",
     "ExtractionSource",
+    "RadarOpportunity",
     "SearchJob",
     "SearchQuery",
     "SearchResult",

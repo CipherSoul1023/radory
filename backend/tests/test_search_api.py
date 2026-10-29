@@ -1,4 +1,7 @@
 from collections.abc import Generator
+from datetime import UTC, datetime
+from types import SimpleNamespace
+from uuid import uuid4
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
@@ -155,5 +158,85 @@ def test_admin_can_request_bounded_observation_investigation(
             "queries": [],
         }
         assert response.headers["cache-control"] == "no-store"
+    finally:
+        app.dependency_overrides.clear()
+
+
+def opportunity_record(workspace_id):
+    now = datetime.now(UTC)
+    return SimpleNamespace(
+        id=uuid4(),
+        workspace_id=workspace_id,
+        search_job_id=uuid4(),
+        subject_company="Acme",
+        status="completed",
+        report={
+            "company_name": "Acme",
+            "headline": {"text": "Acme is evaluating office space"},
+        },
+        created_at=now,
+        updated_at=now,
+    )
+
+
+def test_opportunity_list_uses_active_workspace_scope(
+    monkeypatch, search_db: Session, search_workspace: dict
+):
+    def db_override() -> Generator[Session, None, None]:
+        yield search_db
+
+    captured = {}
+    item = opportunity_record(search_workspace["workspace"].id)
+
+    def fake_list(db, *, workspace_id, limit):
+        captured.update(db=db, workspace_id=workspace_id, limit=limit)
+        return [item]
+
+    app.dependency_overrides[get_db_session] = db_override
+    app.dependency_overrides[authenticated_claims] = lambda: {
+        "sub": "user_search_admin",
+        "o": {"id": "org_search", "rol": "member"},
+    }
+    monkeypatch.setattr(radar_api, "list_radar_opportunities", fake_list)
+    try:
+        response = TestClient(app).get("/api/radar/opportunities?limit=25")
+        assert response.status_code == 200
+        assert response.json()[0]["subject_company"] == "Acme"
+        assert captured == {
+            "db": search_db,
+            "workspace_id": search_workspace["workspace"].id,
+            "limit": 25,
+        }
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_admin_can_create_opportunity_from_validated_observation(
+    monkeypatch, search_db: Session, search_workspace: dict
+):
+    def db_override() -> Generator[Session, None, None]:
+        yield search_db
+
+    observation_id = uuid4()
+    item = opportunity_record(search_workspace["workspace"].id)
+
+    async def fake_build(db, *, workspace_id, observation_id):
+        assert db is search_db
+        assert workspace_id == search_workspace["workspace"].id
+        return item, True
+
+    app.dependency_overrides[get_db_session] = db_override
+    app.dependency_overrides[authenticated_claims] = lambda: {
+        "sub": "user_search_admin",
+        "o": {"id": "org_search", "rol": "admin"},
+    }
+    monkeypatch.setattr(radar_api, "build_radar_opportunity", fake_build)
+    try:
+        response = TestClient(app).post(
+            f"/api/radar/opportunities/from-observation/{observation_id}"
+        )
+        assert response.status_code == 201
+        assert response.json()["created"] is True
+        assert response.json()["report"]["company_name"] == "Acme"
     finally:
         app.dependency_overrides.clear()

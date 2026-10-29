@@ -10,6 +10,8 @@ from app.schemas import (
     InvestigationQueryResponse,
     InvestigationResultResponse,
     ObservationInvestigationResponse,
+    RadarOpportunityCreateResponse,
+    RadarOpportunityResponse,
     SearchJobCreateResponse,
     SearchJobResponse,
     SearchQuerySummary,
@@ -33,11 +35,67 @@ from app.search.investigation import (
     InvestigationSearchFailed,
     investigate_observation,
 )
+from app.search.opportunity_engine import (
+    OpportunityAlreadyRunning,
+    OpportunityBuildFailed,
+    OpportunityNotConfigured,
+    OpportunityNotFound,
+    build_radar_opportunity,
+    list_radar_opportunities,
+)
 from app.search.tavily_client import RadarTavilyClient
 from app.services.workspace_context import ResolvedWorkspaceContext
 from app.tasks.radar_search import dispatch_search_queries
 
 router = APIRouter(prefix="/api/radar", tags=["radar search"])
+
+
+@router.get("/opportunities", response_model=list[RadarOpportunityResponse])
+def get_radar_opportunities(
+    response: Response,
+    context: Annotated[ResolvedWorkspaceContext, Depends(current_workspace_context)],
+    db: Annotated[Session, Depends(get_db_session)],
+    limit: Annotated[int, Query(ge=1, le=200)] = 100,
+) -> list[RadarOpportunityResponse]:
+    response.headers["Cache-Control"] = "no-store"
+    return [
+        RadarOpportunityResponse.model_validate(item)
+        for item in list_radar_opportunities(
+            db,
+            workspace_id=context.workspace.id,
+            limit=limit,
+        )
+    ]
+
+
+@router.post(
+    "/opportunities/from-observation/{observation_id}",
+    response_model=RadarOpportunityCreateResponse,
+)
+async def create_radar_opportunity(
+    observation_id: UUID,
+    response: Response,
+    context: Annotated[ResolvedWorkspaceContext, Depends(current_workspace_admin)],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> RadarOpportunityCreateResponse:
+    response.headers["Cache-Control"] = "no-store"
+    try:
+        opportunity, created = await build_radar_opportunity(
+            db,
+            workspace_id=context.workspace.id,
+            observation_id=observation_id,
+        )
+    except OpportunityNotFound as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except OpportunityAlreadyRunning as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except OpportunityNotConfigured as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except OpportunityBuildFailed as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    response.status_code = 201 if created else 200
+    values = RadarOpportunityResponse.model_validate(opportunity).model_dump()
+    return RadarOpportunityCreateResponse(**values, created=created)
 
 
 @router.post(
