@@ -80,3 +80,39 @@ def test_radar_job_lookup_is_scoped_to_active_workspace(search_db: Session, sear
         assert response.status_code == 404
     finally:
         app.dependency_overrides.clear()
+
+
+def test_observations_use_active_workspace_scope(
+    monkeypatch, search_db: Session, search_workspace: dict
+):
+    def db_override() -> Generator[Session, None, None]:
+        yield search_db
+
+    captured = {}
+
+    def fake_list(db, *, workspace_id, search_job_id, limit):
+        captured.update(
+            workspace_id=workspace_id,
+            search_job_id=search_job_id,
+            limit=limit,
+        )
+        return []
+
+    app.dependency_overrides[get_db_session] = db_override
+    app.dependency_overrides[authenticated_claims] = lambda: {
+        "sub": "user_search_admin",
+        "o": {"id": "org_search", "rol": "member"},
+    }
+    monkeypatch.setattr(radar_api, "list_signal_observations", fake_list)
+    try:
+        response = TestClient(app).get("/api/radar/observations?limit=25")
+        assert response.status_code == 200
+        assert response.json() == []
+        assert captured == {
+            "workspace_id": search_workspace["workspace"].id,
+            "search_job_id": None,
+            "limit": 25,
+        }
+        assert response.headers["cache-control"] == "no-store"
+    finally:
+        app.dependency_overrides.clear()

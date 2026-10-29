@@ -8,7 +8,11 @@ from sqlalchemy.orm import Session
 
 from app.models import ExtractionRun, SearchJob, SearchQuery, SearchResult
 from app.search.extraction_contract import SemanticExtractionOutput
-from app.search.extraction_engine import ExtractionJobNotReady, extract_search_job
+from app.search.extraction_engine import (
+    ExtractionJobNotReady,
+    extract_search_job,
+    list_signal_observations,
+)
 from app.search.extractor import ExtractionResult, extraction_identity
 
 
@@ -16,8 +20,9 @@ class FakeExtractor:
     model = "fake-super"
     max_output_tokens = 4096
 
-    def __init__(self):
+    def __init__(self, output=None):
         self.calls = []
+        self.output = output or SemanticExtractionOutput(outcome="assessed", events=[])
 
     async def extract(self, evidence):
         self.calls.append(evidence)
@@ -28,7 +33,7 @@ class FakeExtractor:
         )
         return ExtractionResult(
             status="succeeded",
-            output=SemanticExtractionOutput(outcome="assessed", events=[]),
+            output=self.output,
             error_code=None,
             cache_key=identity.cache_key,
             model=self.model,
@@ -100,6 +105,33 @@ def discovery_job(
     db.commit()
     db.refresh(job)
     return job
+
+
+def supported_output() -> SemanticExtractionOutput:
+    quote = {
+        "block_id": "body",
+        "quote": "Acme plans to open a Johannesburg office next year.",
+    }
+    return SemanticExtractionOutput.model_validate(
+        {
+            "outcome": "assessed",
+            "events": [
+                {
+                    "subject_company": {"value": "Acme", "evidence": [quote]},
+                    "related_companies": [],
+                    "summary": {
+                        "value": "Acme plans a Johannesburg office.",
+                        "evidence": [quote],
+                    },
+                    "signals": [{"signal_key": "office_opening", "evidence": [quote]}],
+                    "stage": {"value": "planned", "evidence": [quote]},
+                    "locations": [],
+                    "timing": [],
+                    "missing_facts": ["event_timing"],
+                }
+            ],
+        }
+    )
 
 
 @pytest.mark.asyncio
@@ -174,3 +206,35 @@ async def test_rejects_nonterminal_discovery_job(search_db: Session, search_work
             search_job_id=job.id,
             extractor=FakeExtractor(),
         )
+
+
+@pytest.mark.asyncio
+async def test_observation_query_is_scoped_to_workspace_and_search_job(
+    search_db: Session, search_workspace: dict
+):
+    job = discovery_job(search_db, search_workspace, usable_results=1)
+    await extract_search_job(
+        search_db,
+        search_job_id=job.id,
+        extractor=FakeExtractor(supported_output()),
+    )
+
+    matching = list_signal_observations(
+        search_db,
+        workspace_id=search_workspace["workspace"].id,
+        search_job_id=job.id,
+    )
+    another_job = list_signal_observations(
+        search_db,
+        workspace_id=search_workspace["workspace"].id,
+        search_job_id=job.id.__class__(int=0),
+    )
+    another_workspace = list_signal_observations(
+        search_db,
+        workspace_id=job.id.__class__(int=0),
+    )
+
+    assert len(matching) == 1
+    assert matching[0].subject_company == "Acme"
+    assert another_job == []
+    assert another_workspace == []

@@ -4,7 +4,12 @@ from app.schemas.onboarding import (
     SetupStatusResponse,
     WorkspaceSetupResponse,
 )
-from app.schemas.search import SearchJobCreateResponse, SearchJobResponse, SearchQuerySummary
+from app.schemas.search import (
+    SearchJobCreateResponse,
+    SearchJobResponse,
+    SearchQuerySummary,
+    SignalObservationResponse,
+)
 
 __all__ = [
     "BrokerageProfileResponse",
@@ -13,5 +18,6 @@ __all__ = [
     "SearchJobCreateResponse",
     "SearchJobResponse",
     "SearchQuerySummary",
+    "SignalObservationResponse",
     "WorkspaceSetupResponse",
 ]

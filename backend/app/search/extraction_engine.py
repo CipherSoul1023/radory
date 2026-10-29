@@ -9,7 +9,14 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.core.config import Settings, get_settings
 from app.integrations.nebius.client import NebiusClient
-from app.models import SearchJob, SearchQuery
+from app.models import (
+    ExtractionRun,
+    ExtractionSource,
+    SearchJob,
+    SearchQuery,
+    SearchResult,
+    SignalObservation,
+)
 from app.search.evidence import (
     EvidenceUnavailable,
     PreparedEvidence,
@@ -57,6 +64,36 @@ class ExtractionJobResult:
     succeeded_extractions: int
     failed_extractions: int
     observations: int
+
+
+def list_signal_observations(
+    db: Session,
+    *,
+    workspace_id: uuid.UUID,
+    search_job_id: uuid.UUID | None = None,
+    limit: int = 100,
+) -> list[SignalObservation]:
+    if not 1 <= limit <= 200:
+        raise ValueError("Observation limit must be between 1 and 200")
+    statement = select(SignalObservation).where(SignalObservation.workspace_id == workspace_id)
+    if search_job_id is not None:
+        statement = (
+            statement.join(
+                ExtractionRun,
+                ExtractionRun.id == SignalObservation.extraction_run_id,
+            )
+            .join(
+                ExtractionSource,
+                ExtractionSource.extraction_run_id == ExtractionRun.id,
+            )
+            .join(SearchResult, SearchResult.id == ExtractionSource.search_result_id)
+            .join(SearchQuery, SearchQuery.id == SearchResult.search_query_id)
+            .where(SearchQuery.job_id == search_job_id)
+            .distinct()
+        )
+    return list(
+        db.scalars(statement.order_by(SignalObservation.created_at.desc()).limit(limit)).all()
+    )
 
 
 def _load_job(db: Session, search_job_id: uuid.UUID) -> SearchJob:

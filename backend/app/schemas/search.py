@@ -45,3 +45,21 @@ class SearchJobResponse(BaseModel):
 
 class SearchJobCreateResponse(SearchJobResponse):
     created: bool
+
+
+class SignalObservationResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    workspace_id: UUID
+    extraction_run_id: UUID
+    event_index: int
+    signal_key: str
+    subject_company: str
+    summary: str
+    stage: Literal["planned", "underway", "completed", "cancelled", "unclear"]
+    locations: list[dict]
+    timing: list[dict]
+    related_companies: list[dict]
+    missing_facts: list[str]
+    created_at: datetime

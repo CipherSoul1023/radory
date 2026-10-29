@@ -1,12 +1,17 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import current_workspace_admin, current_workspace_context
 from app.database.session import get_db_session
-from app.schemas import SearchJobCreateResponse, SearchJobResponse, SearchQuerySummary
+from app.schemas import (
+    SearchJobCreateResponse,
+    SearchJobResponse,
+    SearchQuerySummary,
+    SignalObservationResponse,
+)
 from app.search.engine import (
     ActiveSearchJobExists,
     BrokerageProfileRequired,
@@ -17,11 +22,30 @@ from app.search.engine import (
     query_status_counts,
     retry_failed_query,
 )
+from app.search.extraction_engine import list_signal_observations
 from app.search.tavily_client import RadarTavilyClient
 from app.services.workspace_context import ResolvedWorkspaceContext
 from app.tasks.radar_search import dispatch_search_queries
 
 router = APIRouter(prefix="/api/radar", tags=["radar search"])
+
+
+@router.get("/observations", response_model=list[SignalObservationResponse])
+def get_signal_observations(
+    response: Response,
+    context: Annotated[ResolvedWorkspaceContext, Depends(current_workspace_context)],
+    db: Annotated[Session, Depends(get_db_session)],
+    job_id: UUID | None = None,
+    limit: Annotated[int, Query(ge=1, le=200)] = 100,
+) -> list[SignalObservationResponse]:
+    response.headers["Cache-Control"] = "no-store"
+    observations = list_signal_observations(
+        db,
+        workspace_id=context.workspace.id,
+        search_job_id=job_id,
+        limit=limit,
+    )
+    return [SignalObservationResponse.model_validate(item) for item in observations]
 
 
 def _job_response(db: Session, job, *, created: bool | None = None):
