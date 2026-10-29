@@ -99,3 +99,11 @@ A5-S failed both gates. One event-bearing part returned invalid and semantically
 `scripts/run_experiment_b1.py` uses a strict pattern-free provider schema with full experiment-local Pydantic and evidence validation. It permits two zero-retry calls and performs no repair or deduplication. `scripts/compare_experiment_b1.py` loads gold only after both responses and the compact aggregate are saved. Exact requests and responses remain under ignored `results/local/experiment_b1_v1/`; production extraction remains unchanged.
 
 B1 failed its frozen gates, but it isolated a useful improvement. Both compact calls completed without truncation, compared with one truncation under A5-R's verbose contract. One chunk failed exact-quote validation after the model altered corrupted quotation characters. The other passed validation but split one Aker transaction into separate signal records and added the counterparty as another event. See `results/experiment_b1_v1/report.md`.
+
+## Experiment B2
+
+`cases/experiment_b2_v1.json` keeps B1's exact chunks, Nemotron Super model, provider-default reasoning, 4,096-token limit and compact field scope. It changes only the first-pass evidence reference and event-identity instructions. Source paragraphs receive deterministic passage IDs, and model output cites those IDs instead of reproducing quotations. General transaction rules require one record per real-world event, all supported signals for that event on the same record, and no duplicate acquisition event for the counterparty.
+
+`scripts/run_experiment_b2.py` validates passage references and subject-company grounding locally, permits two zero-retry calls and performs no repair, deduplication or semantic merging. `scripts/compare_experiment_b2.py` loads gold only after exact responses and the aggregate are saved. Requests and provider responses remain under ignored `results/local/experiment_b2_v1/`; production code remains unchanged.
+
+B2 passed both frozen gates. Both calls completed, both outputs passed backend validation, all three gold events matched, both expected signal types were present, and no extra event or invalid passage ID appeared. Manual review found one surplus unrelated passage in an otherwise correctly supported Aker signal, so citation precision remains a holdout metric. See `results/experiment_b2_v1/report.md`.

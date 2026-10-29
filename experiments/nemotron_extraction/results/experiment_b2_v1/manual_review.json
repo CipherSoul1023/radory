@@ -1,0 +1,45 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "verdict": "passes_frozen_event_detection_gate_with_evidence_precision_caveat",
+  "chunk_reviews": [
+    {
+      "chunk_id": "chunk-001",
+      "finish_reason": "stop",
+      "reasoning_tokens": 919,
+      "backend_result": "succeeded",
+      "manual_findings": [
+        "The model returned exactly two distinct Stanlib M&A events.",
+        "The earlier January 2021 joint-control transaction cites body_chunk_001-p029, which directly supports the company and signal.",
+        "The subsequent additional-shareholding transaction cites body_chunk_001-p030, which directly supports the company and signal.",
+        "No quotation reproduction or character-normalization failure occurred because output references immutable passage IDs."
+      ]
+    },
+    {
+      "chunk_id": "chunk-002",
+      "finish_reason": "stop",
+      "reasoning_tokens": 988,
+      "backend_result": "succeeded",
+      "manual_findings": [
+        "The model returned one Aker Horizons event with both ma_consolidation and market_entry attached to the same transaction.",
+        "It did not create a duplicate Mainstream counterparty event.",
+        "Passages body_chunk_002-p005 and body_chunk_002-p006 directly support the acquisition and market-entry signals.",
+        "The ma_consolidation evidence list also contains body_chunk_002-p002, which describes the earlier Stanlib transaction and is surplus unrelated evidence for Aker; body_chunk_002-p004 is only the section heading."
+      ]
+    }
+  ],
+  "aggregate_review": {
+    "backend_valid_chunks": 2,
+    "truncations": 0,
+    "invalid_passage_references": 0,
+    "predicted_events": 3,
+    "gold_events": 3,
+    "matched_events": 3,
+    "missing_events": 0,
+    "extra_events": 0,
+    "signal_presence_true_positive": [
+      "ma_consolidation",
+      "market_entry"
+    ],
+    "conclusion": "B2 passes the frozen event-detection gate. The result supports indexed evidence and explicit event grouping for a compact first pass, but one surplus unrelated passage reference must be monitored on a fresh holdout before treating citation precision as reliable."
+  }
+}

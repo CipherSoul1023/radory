@@ -1,0 +1,86 @@
+{
+  "experiment_id": "experiment_b2_v1",
+  "arm": "indexed_compact_detection_default_reasoning_4096",
+  "case_id": "pilot-v1-008",
+  "variant": "raw_content",
+  "input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+  "prediction": {
+    "outcome": "assessed",
+    "events": [
+      {
+        "subject_company": {
+          "value": "Greenstreet 1 (Pty) Ltd (“Stanlib Fund II”) ",
+          "evidence_passage_ids": [
+            "body_chunk_001-p029"
+          ]
+        },
+        "signals": [
+          {
+            "signal_key": "ma_consolidation",
+            "evidence_passage_ids": [
+              "body_chunk_001-p029"
+            ]
+          }
+        ]
+      },
+      {
+        "subject_company": {
+          "value": "Stanlib Fund II",
+          "evidence_passage_ids": [
+            "body_chunk_001-p030"
+          ]
+        },
+        "signals": [
+          {
+            "signal_key": "ma_consolidation",
+            "evidence_passage_ids": [
+              "body_chunk_001-p030"
+            ]
+          }
+        ]
+      },
+      {
+        "subject_company": {
+          "value": "Aker Horizons AS",
+          "evidence_passage_ids": [
+            "body_chunk_002-p005",
+            "body_chunk_002-p006"
+          ]
+        },
+        "signals": [
+          {
+            "signal_key": "ma_consolidation",
+            "evidence_passage_ids": [
+              "body_chunk_002-p005",
+              "body_chunk_002-p004",
+              "body_chunk_002-p002"
+            ]
+          },
+          {
+            "signal_key": "market_entry",
+            "evidence_passage_ids": [
+              "body_chunk_002-p006"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "validation_status": "succeeded",
+  "error": null,
+  "validation_checks": {
+    "json_object": true,
+    "typed_schema": true,
+    "allowed_signal_keys": true,
+    "passage_references_valid": true,
+    "passage_reference_count": 10,
+    "invalid_passage_references": [],
+    "schema_errors": []
+  },
+  "aggregation": {
+    "validated_chunk_outputs_included": 2,
+    "chunk_count": 2,
+    "deduplication": "none",
+    "event_count": 3
+  }
+}

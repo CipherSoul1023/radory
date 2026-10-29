@@ -1,0 +1,107 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "b1_exact_quote_baseline": {
+    "technical": {
+      "chunk_calls": 2,
+      "parseable_json": 2,
+      "typed_schema": 2,
+      "backend_valid_chunks": 1,
+      "truncations": 0,
+      "reasoning_tokens": 4141,
+      "usage": {
+        "prompt_tokens": 5171,
+        "completion_tokens": 5004,
+        "total_tokens": 10175
+      }
+    },
+    "unmatched_evidence_quotes": 2,
+    "matched_events": 1,
+    "extra_events": 2
+  },
+  "b2_indexed_compact_detection": {
+    "technical": {
+      "chunk_calls": 2,
+      "parseable_json": 2,
+      "typed_schema": 2,
+      "backend_valid_chunks": 2,
+      "truncations": 0,
+      "reasoning_tokens": 1907,
+      "usage": {
+        "prompt_tokens": 6494,
+        "completion_tokens": 2220,
+        "total_tokens": 8714
+      }
+    },
+    "invalid_passage_references": 0,
+    "aggregate_validation_status": "succeeded",
+    "semantic": {
+      "expected_events": 3,
+      "predicted_events": 3,
+      "matched_events": 3,
+      "missing_events": 0,
+      "extra_events": 0,
+      "pairs": [
+        {
+          "gold_event_index": 0,
+          "prediction_event_index": 0,
+          "expected_company": "greenstreet 1 (pty) ltd (stanlib fund ii)",
+          "predicted_company": "greenstreet 1 (pty) ltd (“stanlib fund ii”)",
+          "expected_signals": [
+            "ma_consolidation"
+          ],
+          "predicted_signals": [
+            "ma_consolidation"
+          ],
+          "predicted_passage_ids": [
+            "body_chunk_001-p029"
+          ]
+        },
+        {
+          "gold_event_index": 1,
+          "prediction_event_index": 1,
+          "expected_company": "greenstreet 1 (pty) ltd (stanlib fund ii)",
+          "predicted_company": "stanlib fund ii",
+          "expected_signals": [
+            "ma_consolidation"
+          ],
+          "predicted_signals": [
+            "ma_consolidation"
+          ],
+          "predicted_passage_ids": [
+            "body_chunk_001-p030"
+          ]
+        },
+        {
+          "gold_event_index": 2,
+          "prediction_event_index": 2,
+          "expected_company": "aker horizons as",
+          "predicted_company": "aker horizons as",
+          "expected_signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "predicted_signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "predicted_passage_ids": [
+            "body_chunk_002-p002",
+            "body_chunk_002-p004",
+            "body_chunk_002-p005",
+            "body_chunk_002-p006"
+          ]
+        }
+      ],
+      "signal_presence": {
+        "true_positive": [
+          "ma_consolidation",
+          "market_entry"
+        ],
+        "extra_vs_gold": [],
+        "missing_vs_gold": []
+      }
+    },
+    "technical_gate": true,
+    "semantic_gate_before_manual_review": true
+  }
+}
