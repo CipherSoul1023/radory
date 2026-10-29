@@ -59,3 +59,11 @@ The completed probe passed. Nebius returned HTTP 200 for both requests; the cont
 `scripts/run_experiment_a4r2.py` defaults to offline preflight and requires `--live`. `scripts/compare_experiment_a4r2.py` loads gold only after all responses are saved and compares A4-R2 with A3, A4-R default and A4-R `/no_think`. Exact requests and responses remain under ignored `results/local/experiment_a4r2_v1/`. A4-R2 never starts a later experiment or modifies production code automatically.
 
 A4-R2 eliminated reasoning and truncation on all five cases, but failed the overall gate. All responses were parseable and typed, while only two passed backend validation; controls 001 and 017 regressed, case 004 contained unsupported literal facts, and case 008 returned a semantically incorrect zero-event answer. See `results/experiment_a4r2_v1/report.md`.
+
+## Experiment A4-E
+
+`cases/experiment_a4e_v1.json` freezes a narrow evidence-grounding prompt addendum on A4-R2's five cases. Reasoning remains disabled. Evidence, model, provider schema, production contract and validators, token limit, timeout and sampling defaults remain unchanged. The addendum teaches JSON nulls, verbatim literal fields, actual temporal expressions, restraint with truncated text, and evidence-based stage selection using unrelated synthetic examples.
+
+`scripts/run_experiment_a4e.py` defaults to offline preflight and requires `--live` for five zero-retry calls. `scripts/compare_experiment_a4e.py` measures mechanical grounding separately from semantic event and signal recall, loading gold only after all provider responses are saved. Exact requests and responses remain under ignored `results/local/experiment_a4e_v1/`. Production extraction behavior remains unchanged.
+
+A4-E improved backend acceptance from two to four of five cases without reasoning or truncation, but failed both frozen gates. Case 001 still emitted an unsupported string `"null"`, and only three of six gold events and signal presences were recovered. See `results/experiment_a4e_v1/report.md`.

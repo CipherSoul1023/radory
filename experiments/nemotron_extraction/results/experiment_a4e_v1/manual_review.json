@@ -1,0 +1,54 @@
+{
+  "arm": "grounding_addendum_thinking_off_4096",
+  "manual_control_semantic_regressions": 2,
+  "controls": [
+    {
+      "case_id": "pilot-v1-001",
+      "verdict": "grounding_failure_and_semantic_regression",
+      "notes": [
+        "The company and business_expansion signal were identified, but local_headcount_growth was missed.",
+        "The output classified the continuing expansion as completed instead of the gold underway stage.",
+        "Pretoria West was used as the market instead of the submarket and the literal string null was emitted as the submarket value.",
+        "Backend validation rejected the unsupported null literal, so the otherwise detected signal is unusable."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "verdict": "no_regression",
+      "notes": [
+        "The assessed zero-event answer matched gold and passed backend validation."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "verdict": "partially_improved_but_semantically_inexact",
+      "notes": [
+        "The company, rto_change signal and completed stage matched gold and passed backend validation.",
+        "The output incorrectly repeated South Africa as the market and submarket rather than leaving those unsupported geographic levels unknown.",
+        "The relative timing expression now was omitted.",
+        "This improved materially over A4-R2 but did not fully match the frozen gold answer."
+      ]
+    }
+  ],
+  "recovery_cases": [
+    {
+      "case_id": "pilot-v1-004",
+      "verdict": "backend_valid_but_semantically_inexact",
+      "notes": [
+        "The company and funding_expansion signal matched gold and the response passed backend validation.",
+        "The completed funding raise was classified as planned because the response combined it with the intended expansion.",
+        "South Africa was incorrectly repeated as the market and submarket even though the evidence supports it only as the country.",
+        "The current deterministic validator checks literal support but cannot validate geographic hierarchy or the semantic event anchor."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-008",
+      "verdict": "backend_valid_but_severe_semantic_false_negative",
+      "notes": [
+        "The response returned zero events and therefore passed schema and backend validation.",
+        "The frozen gold answer contains three supported events covering ma_consolidation and market_entry.",
+        "The grounding addendum did not improve the multi-event recall failure seen in A4-R2."
+      ]
+    }
+  ]
+}

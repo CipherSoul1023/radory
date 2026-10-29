@@ -1,0 +1,241 @@
+{
+  "enable_thinking_false_4096": {
+    "cases": 5,
+    "parseable_json": 5,
+    "typed_schema": 5,
+    "backend_valid": 2,
+    "truncations": 0,
+    "backend_valid_controls": 1,
+    "backend_valid_recovery_cases": 1,
+    "errors": {
+      "unsupported_literal_fact": 3
+    },
+    "usage": {
+      "prompt_tokens": 27911,
+      "completion_tokens": 1374,
+      "total_tokens": 29285,
+      "reasoning_tokens": 0
+    },
+    "per_case": {
+      "pilot-v1-001": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 398,
+        "validation_status": "failed",
+        "error": "unsupported_literal_fact"
+      },
+      "pilot-v1-004": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 465,
+        "validation_status": "failed",
+        "error": "unsupported_literal_fact"
+      },
+      "pilot-v1-008": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 14,
+        "validation_status": "succeeded",
+        "error": null
+      },
+      "pilot-v1-010": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 14,
+        "validation_status": "succeeded",
+        "error": null
+      },
+      "pilot-v1-017": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 483,
+        "validation_status": "failed",
+        "error": "unsupported_literal_fact"
+      }
+    },
+    "character_collapse_cases": 0,
+    "character_collapse_occurrences": 0,
+    "character_collapse_case_ids": [],
+    "gold_diagnostics": {
+      "cases": 5,
+      "accepted_by_backend": 2,
+      "interpretable_typed_outputs": 5,
+      "outcome_matches": 5,
+      "event_count_matches": 4,
+      "expected_events": 6,
+      "matched_events": 3,
+      "missing_events": 3,
+      "extra_events": 0,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 2,
+        "signals": 2,
+        "stage": 0,
+        "geography": 0,
+        "timing": 1
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 3,
+        "extra_vs_gold": 0,
+        "missing_vs_gold": 3,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "per_signal": {
+        "business_expansion": {
+          "true_positive": 1
+        },
+        "local_headcount_growth": {
+          "missing_vs_gold": 1
+        },
+        "funding_expansion": {
+          "true_positive": 1
+        },
+        "ma_consolidation": {
+          "missing_vs_gold": 1
+        },
+        "market_entry": {
+          "missing_vs_gold": 1
+        },
+        "rto_change": {
+          "true_positive": 1
+        }
+      },
+      "positive_cases": 4,
+      "positive_cases_detected_in_typed_output": 3,
+      "positive_cases_detected_in_parseable_raw_output": 3,
+      "positive_cases_usable_after_validation": 0,
+      "zero_event_cases": 1,
+      "zero_event_cases_returning_no_positive_events": 1,
+      "zero_event_cases_correct": 1,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 0,
+        "extra": 0,
+        "missing": 6
+      }
+    }
+  },
+  "grounding_addendum_thinking_off_4096": {
+    "cases": 5,
+    "parseable_json": 5,
+    "typed_schema": 5,
+    "backend_valid": 4,
+    "truncations": 0,
+    "backend_valid_controls": 2,
+    "backend_valid_recovery_cases": 2,
+    "errors": {
+      "unsupported_literal_fact": 1
+    },
+    "usage": {
+      "prompt_tokens": 29301,
+      "completion_tokens": 1834,
+      "total_tokens": 31135,
+      "reasoning_tokens": 0
+    },
+    "per_case": {
+      "pilot-v1-001": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 960,
+        "validation_status": "failed",
+        "error": "unsupported_literal_fact"
+      },
+      "pilot-v1-004": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 431,
+        "validation_status": "succeeded",
+        "error": null
+      },
+      "pilot-v1-008": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 14,
+        "validation_status": "succeeded",
+        "error": null
+      },
+      "pilot-v1-010": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 14,
+        "validation_status": "succeeded",
+        "error": null
+      },
+      "pilot-v1-017": {
+        "finish_reason": "stop",
+        "reasoning_tokens": 0,
+        "completion_tokens": 415,
+        "validation_status": "succeeded",
+        "error": null
+      }
+    },
+    "character_collapse_cases": 0,
+    "character_collapse_occurrences": 0,
+    "character_collapse_case_ids": [],
+    "gold_diagnostics": {
+      "cases": 5,
+      "accepted_by_backend": 4,
+      "interpretable_typed_outputs": 5,
+      "outcome_matches": 5,
+      "event_count_matches": 4,
+      "expected_events": 6,
+      "matched_events": 3,
+      "missing_events": 3,
+      "extra_events": 0,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 3,
+        "signals": 2,
+        "stage": 1,
+        "geography": 0,
+        "timing": 2
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 3,
+        "extra_vs_gold": 0,
+        "missing_vs_gold": 3,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "per_signal": {
+        "business_expansion": {
+          "true_positive": 1
+        },
+        "local_headcount_growth": {
+          "missing_vs_gold": 1
+        },
+        "funding_expansion": {
+          "true_positive": 1
+        },
+        "ma_consolidation": {
+          "missing_vs_gold": 1
+        },
+        "market_entry": {
+          "missing_vs_gold": 1
+        },
+        "rto_change": {
+          "true_positive": 1
+        }
+      },
+      "positive_cases": 4,
+      "positive_cases_detected_in_typed_output": 3,
+      "positive_cases_detected_in_parseable_raw_output": 3,
+      "positive_cases_usable_after_validation": 2,
+      "zero_event_cases": 1,
+      "zero_event_cases_returning_no_positive_events": 1,
+      "zero_event_cases_correct": 1,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 2,
+        "extra": 0,
+        "missing": 4
+      }
+    },
+    "cases_with_nonzero_reasoning_tokens": 0,
+    "grounding_gate": false,
+    "semantic_readiness_gate_before_manual_review": false
+  }
+}

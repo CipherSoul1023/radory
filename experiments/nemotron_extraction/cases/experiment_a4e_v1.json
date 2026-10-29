@@ -1,0 +1,87 @@
+{
+  "experiment_id": "experiment_a4e_v1",
+  "purpose": "Test a narrow evidence-grounding prompt addendum with reasoning disabled on A4-R2's frozen cases.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "a4r2_plan_sha256": "b41b0340047abc09f99ef86c079f94cc907885c4af06c157dfdc0b60aef14642",
+  "a4r2_predictions_sha256": "f8d90423439a9cd431c26fb19ddc76edfe9fbbdab836b47412394c5b0e5882b0",
+  "production_extractor_sha256": "37f9cfdab432c83d3eeb9af4f7247c125d7e6f9e41b1cebce16b85411bcd48a6",
+  "production_contract_sha256": "5b3806ecfd6c7477cf33f858dc8983348227a2fb309e20cacaea5bc45998e9fd",
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 5,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "grounding_addendum": {
+    "instructions": [
+      "For an unknown optional geographic field, emit JSON null. Never emit the strings null, unknown, unspecified, or N/A.",
+      "The value of subject_company, every related company, every non-null geographic field, and every timing expression must appear verbatim in at least one quotation attached to that same value. Otherwise use null, omit the location, or use an empty timing list as the schema requires.",
+      "A timing expression must be an actual date, month, year, quarter, range, or relative-time phrase. Event labels such as new funding or continued expansion are not timing expressions.",
+      "Do not expand an abbreviation or complete a truncated sentence using outside knowledge.",
+      "Use completed only when the cited evidence says the event happened or finished, planned for a future intended event, underway for an explicitly continuing event, and unclear when the evidence does not establish one of those stages."
+    ],
+    "examples": [
+      "Evidence: Acme plans to open in Cape Town next year. Supported shape: subject_company Acme; country null; market Cape Town; submarket null; timing expression next year; stage planned.",
+      "Evidence: Orbit raised funding to expand. Supported shape: subject_company Orbit; unknown geography is omitted; timing is []; new funding is not a timing expression; the completed event is the funding raise, while intended expansion is not completed."
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "pilot-v1-001",
+      "role": "successful_control",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-004",
+      "role": "a3_reasoning_truncation",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-008",
+      "role": "a3_reasoning_truncation",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "role": "successful_control",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "role": "successful_control",
+      "variant": "snippet"
+    }
+  ],
+  "acceptance": {
+    "case_count": 5,
+    "parseable_json": 5,
+    "typed_schema": 5,
+    "backend_valid": 5,
+    "truncations": 0,
+    "character_collapse_cases": 0,
+    "cases_with_nonzero_reasoning_tokens": 0,
+    "unsupported_literal_fact_errors": 0,
+    "unmatched_evidence_quote_errors": 0,
+    "expected_events": 6,
+    "matched_events": 6,
+    "signal_true_positives": 6,
+    "signal_extra": 0,
+    "signal_missing": 0,
+    "manual_control_semantic_regressions": 0
+  },
+  "frozen_request_rules": [
+    "Use the exact A4-R2 evidence, model, strict pattern-free provider schema, backend validators, token limit, timeout and provider sampling defaults.",
+    "Keep chat_template_kwargs enable_thinking false.",
+    "Change only the system message by inserting the frozen grounding addendum before the signal catalogue.",
+    "Do not repair, normalize, retry or overwrite model output.",
+    "Do not load gold answers until every provider response is saved."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start another experiment, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}
