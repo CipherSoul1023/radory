@@ -35,3 +35,11 @@ Run scripts from the repository root using `backend/.venv/Scripts/python.exe`. N
 `cases/experiment_a3_v1.json` references Experiment A's immutable plan and exact 16 real-evidence cases. A3 keeps the original prompt, evidence, model, backend contract, validation, timeout, provider defaults and 4,096-token budget. Its experiment-only strict provider schema removes only regex `pattern` keywords. The budget matches A1 because A1 had no truncations, A2 still truncated at 8,192, and this makes pattern removal the only A1/A3 request difference.
 
 `scripts/run_experiment_a3.py` defaults to offline preflight and requires `--live` for the bounded 16-call, zero-retry run. `scripts/compare_experiment_a3.py` applies the existing comparison logic to Historical/A1/A2/A3 and adds the frozen character-collapse gate. Exact A3 requests and responses remain under ignored `results/local/experiment_a3_v1/`. A3 never advances into Experiment B automatically.
+
+## Experiment A4-R
+
+`cases/experiment_a4r_v1.json` isolates A3's reasoning-only truncations using cases 004 and 008 plus controls 001, 010 and 017. Both five-case arms retain the strict pattern-free schema, exact evidence, semantic instructions, model, 4,096-token limit, timeout and provider defaults. R0 repeats the exact A3 request. R1 adds `/no_think` as the first line of the existing system message, the position documented for Nemotron 3 Super, without using undocumented Nebius request-level reasoning parameters.
+
+`scripts/run_experiment_a4r.py` requires an explicit arm and `--live`; the no-think arm cannot start before the default arm is complete. The ten-call experiment has no retries or overwrites. `scripts/compare_experiment_a4r.py` compares reported reasoning tokens, finish reasons, schema/backend validity, recovery of both failures, character collapse and the three controls. It does not start A4-S, A4-E or Experiment B.
+
+The completed result is recorded in `results/experiment_a4r_v1/report.md`. The no-think arm failed its frozen gate: reported reasoning fell by only 3.62%, case 008 still truncated, and control 001 regressed. An initial zero-network local harness failure is retained separately and documented in the result set; it did not consume provider calls.

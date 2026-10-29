@@ -1,0 +1,80 @@
+{
+  "experiment_id": "experiment_a4r_v1",
+  "purpose": "Isolate whether Nemotron 3 Super reasoning mode causes the A3 truncations.",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "provider": "Nebius",
+  "a3_plan_sha256": "a332a40efe01dd837905f3c06c19a421b1bb6e56a1ff01cd010f12d501c336dd",
+  "a3_predictions_sha256": "c0fec8bcb1fd3fffc25c12612881cae49e063531ca049dd82b8beec800140d4e",
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 10,
+  "arms": [
+    {
+      "name": "a4r_default_4096",
+      "directive": null,
+      "placement": null
+    },
+    {
+      "name": "a4r_no_think_4096",
+      "directive": "/no_think",
+      "placement": "first line of the existing system message"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "pilot-v1-001",
+      "role": "successful_control",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-004",
+      "role": "a3_reasoning_truncation",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-008",
+      "role": "a3_reasoning_truncation",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "role": "successful_control",
+      "variant": "raw_content"
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "role": "successful_control",
+      "variant": "snippet"
+    }
+  ],
+  "acceptance_for_no_think": {
+    "case_count": 5,
+    "parseable_json": 5,
+    "typed_schema": 5,
+    "backend_valid": 5,
+    "truncations": 0,
+    "backend_valid_controls": 3,
+    "backend_valid_recovery_cases": 2,
+    "character_collapse_cases": 0,
+    "minimum_reasoning_token_reduction_fraction": 0.75,
+    "manual_control_semantic_regressions": 0
+  },
+  "interpretation": [
+    "Finishing the two recovery cases is insufficient if controls regress semantically.",
+    "If reported reasoning tokens do not fall materially, do not claim Nebius honored the directive.",
+    "Do not infer production readiness from this five-case technical experiment."
+  ],
+  "stop_conditions": [
+    "Never overwrite or retry a saved arm.",
+    "Run the default arm before the no-think arm.",
+    "Abort after a provider HTTP or transport error.",
+    "Do not alter the 4096-token limit, strict pattern-free schema, sampling defaults or timeout.",
+    "Do not modify production code or start A4-S, A4-E or Experiment B."
+  ],
+  "directive_sources": [
+    "https://docs.nvidia.com/rag/latest/enable-nemotron-thinking.html",
+    "https://research.nvidia.com/labs/nemotron/files/Nemotron-Cascade.pdf"
+  ]
+}

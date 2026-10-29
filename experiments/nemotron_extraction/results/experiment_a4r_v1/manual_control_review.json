@@ -1,0 +1,34 @@
+{
+  "arm": "a4r_no_think_4096",
+  "reviewed_against": "frozen gold answers and the A3/R0 control outputs",
+  "manual_semantic_regressions": 1,
+  "controls": [
+    {
+      "case_id": "pilot-v1-001",
+      "verdict": "regressed",
+      "notes": [
+        "Company name and both expected signal keys remained complete.",
+        "The stage changed from underway to completed.",
+        "Pretoria West was placed in market instead of retaining Pretoria as market and Pretoria West as submarket.",
+        "A supporting quote did not match the supplied evidence exactly, so backend validation rejected the output."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-010",
+      "verdict": "no_regression",
+      "notes": [
+        "The model returned assessed with zero events, matching the frozen gold answer.",
+        "The response was typed-schema valid and backend accepted."
+      ]
+    },
+    {
+      "case_id": "pilot-v1-017",
+      "verdict": "no_regression_but_not_full_gold_parity",
+      "notes": [
+        "Company, rto_change signal, completed stage, and country were complete and correct.",
+        "The response omitted the gold answer's relative timing value now.",
+        "The response was typed-schema valid and backend accepted, improving on the malformed R0 output."
+      ]
+    }
+  ]
+}

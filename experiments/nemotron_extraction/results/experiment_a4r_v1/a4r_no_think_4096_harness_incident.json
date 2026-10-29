@@ -1,0 +1,21 @@
+{
+  "arm": "a4r_no_think_4096",
+  "classification": "local_harness_failure",
+  "external_provider_calls": 0,
+  "affected_cases": [
+    "pilot-v1-001",
+    "pilot-v1-004",
+    "pilot-v1-008",
+    "pilot-v1-010",
+    "pilot-v1-017"
+  ],
+  "cause": "The experiment wrapper expected provider-modified messages, but SemanticExtractor supplied its frozen unmodified messages. The wrapper raised ValueError before invoking the Nebius client.",
+  "evidence": {
+    "provider_responses_recorded": 0,
+    "http_errors_recorded": 0,
+    "usage_records_present": 0,
+    "archived_prediction_path": "a4r_no_think_4096_local_harness_failure.jsonl",
+    "archived_local_path": "results/local/experiment_a4r_v1/a4r_no_think_4096_local_harness_failure"
+  },
+  "resolution": "Use an experiment-only provider-boundary adapter that verifies the extractor messages, injects the frozen arm directive, and records the exact provider response. The five authorized R1 provider calls remain unused."
+}
