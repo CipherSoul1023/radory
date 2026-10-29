@@ -1,0 +1,46 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "verdict": "technical_and_semantic_failure",
+  "part_reviews": [
+    {
+      "part_id": "chunk-001-part-001",
+      "backend_result": "invalid_output_schema",
+      "finish_reason": "stop",
+      "reasoning_tokens": 2238,
+      "notes": [
+        "The model returned two events, but both included a prohibited location object whose country, market and submarket were all null.",
+        "Six evidence quotations did not match the supplied mojibake text exactly because the model changed corrupted quote characters.",
+        "The Greenstreet merger was detected, but its timing was attached to 2021-03-02 instead of the explicit January 2021 event timing.",
+        "The part listed Aker/Mainstream as parties without the later explanatory section; the model therefore classified the Aker event as completed and omitted market_entry, contradicting the complete-evidence gold event."
+      ]
+    },
+    {
+      "part_id": "chunk-001-part-002",
+      "backend_result": "incomplete_model_response",
+      "finish_reason": "length",
+      "reasoning_tokens": 2860,
+      "notes": [
+        "The response again exhausted the 4,096-token completion allowance before returning valid complete JSON.",
+        "This part contains the repeated first merger description and the subsequent Stanlib transaction, so finer character size did not reduce its event complexity enough."
+      ]
+    },
+    {
+      "part_id": "chunk-001-part-003",
+      "backend_result": "succeeded",
+      "finish_reason": "stop",
+      "reasoning_tokens": 115,
+      "notes": [
+        "The short company-description paragraph correctly returned insufficient_evidence with zero events."
+      ]
+    }
+  ],
+  "aggregate_review": {
+    "backend_result": "succeeded",
+    "new_accepted_events": 0,
+    "preserved_events": 1,
+    "aggregate_events": 1,
+    "gold_events": 3,
+    "matched_events": 1,
+    "conclusion": "Finer arbitrary paragraph chunks neither recovered the two missing events nor produced reliable standalone context."
+  }
+}

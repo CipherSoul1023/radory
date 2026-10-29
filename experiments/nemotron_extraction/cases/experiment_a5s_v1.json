@@ -1,0 +1,81 @@
+{
+  "experiment_id": "experiment_a5s_v1",
+  "purpose": "Test default reasoning on a finer deterministic split of A5-R's truncated first chunk while preserving its validated second-chunk event.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "source_case_id": "pilot-v1-008",
+  "a5r_plan_sha256": "338bfd18cc7b5190c3e472bd83c7cf8d0eac0c0598c4e401de91043600764d81",
+  "a5r_chunk_predictions_sha256": "f08dbd66100e4ccd97c7bc9f32e7f694bc506d0599a2b2e3dfa7dae554e4d977",
+  "a5r_aggregate_sha256": "a7d16f53cfcf93e9286c5eeb277790618902c9d82005f0cdf7514fe331904c1f",
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 3,
+  "reasoning_mode": "provider_default",
+  "prompt_variant": "grounding_addendum_v1",
+  "decomposition": {
+    "parent_chunk_id": "chunk-001",
+    "algorithm": "greedy_non_overlapping_paragraphs_v1",
+    "paragraph_separator": "\n\n",
+    "maximum_body_characters_per_part": 1200,
+    "repeat_title_in_each_part": true,
+    "expected_part_count": 3,
+    "expected_parts": [
+      {
+        "part_id": "chunk-001-part-001",
+        "body_characters": 1117,
+        "body_sha256": "cc0e6bcf1d66270ecd9609fe47203cf12f5c9b28de71e898b24f4052906eb39a"
+      },
+      {
+        "part_id": "chunk-001-part-002",
+        "body_characters": 1011,
+        "body_sha256": "7d3fc85ba275e46589ae1ed45096b1b2327222e68e1f3b94185fcd76d7879b5b"
+      },
+      {
+        "part_id": "chunk-001-part-003",
+        "body_characters": 220,
+        "body_sha256": "4588ce9452846419b072d444c86658c295c8768b7763b8ed1da7c6f32b664367"
+      }
+    ]
+  },
+  "preserved_result": {
+    "source_experiment": "experiment_a5r_v1",
+    "chunk_id": "chunk-002",
+    "required_validation_status": "succeeded",
+    "expected_event_count": 1
+  },
+  "aggregation": {
+    "include_only_backend_valid_new_part_events": true,
+    "include_frozen_validated_chunk_002_events": true,
+    "deduplication": "none",
+    "reason": "The experiment must expose repeated-event behavior rather than inventing a semantic merge rule."
+  },
+  "acceptance": {
+    "new_part_calls": 3,
+    "parseable_json": 3,
+    "typed_schema": 3,
+    "backend_valid_new_parts": 3,
+    "truncations": 0,
+    "aggregate_backend_valid": true,
+    "expected_events": 3,
+    "matched_events": 3,
+    "extra_events": 0,
+    "signal_true_positives": 2,
+    "signal_extra": 0,
+    "signal_missing": 0
+  },
+  "frozen_request_rules": [
+    "Use the exact text of A5-D/A5-R chunk-001 and split only on blank-line paragraph boundaries with the frozen greedy algorithm.",
+    "Preserve every non-empty paragraph exactly once and repeat only the unchanged title.",
+    "Keep A5-R's grounding prompt, default reasoning mode, model, strict pattern-free provider schema, backend validators, token limit, timeout and provider defaults.",
+    "Reuse A5-R's frozen backend-valid chunk-002 event in the aggregate without another provider call.",
+    "Do not repair, normalize, retry, deduplicate or semantically merge model outputs.",
+    "Do not load gold answers until all three new provider responses and the aggregate are saved."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start another experiment, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}

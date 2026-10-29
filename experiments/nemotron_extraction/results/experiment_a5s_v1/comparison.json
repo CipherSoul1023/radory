@@ -1,0 +1,548 @@
+{
+  "a5r_baseline": {
+    "case_id": "pilot-v1-008",
+    "scoring_set": "clear",
+    "input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+    "validation_status": "succeeded",
+    "validation_error": null,
+    "unvalidated_raw_outcome": "assessed",
+    "unvalidated_raw_events": [
+      {
+        "subject_company": {
+          "value": "Aker Horizons AS",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "related_companies": [
+          {
+            "company": {
+              "value": "Mainstream Renewable Power Ltd",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+                }
+              ]
+            },
+            "role": {
+              "value": "acquired entity",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "value": "Aker Horizons AS will acquire sole control of Mainstream Renewable Power Ltd",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "signals": [
+          {
+            "signal_key": "market_entry",
+            "evidence": [
+              {
+                "block_id": "body_chunk_002",
+                "quote": "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+              }
+            ]
+          },
+          {
+            "signal_key": "ma_consolidation",
+            "evidence": [
+              {
+                "block_id": "body_chunk_002",
+                "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+              }
+            ]
+          }
+        ],
+        "stage": {
+          "value": "planned",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "locations": [
+          {
+            "country": {
+              "value": "South Africa",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+                }
+              ]
+            },
+            "market": null,
+            "submarket": null,
+            "role": "event_location"
+          }
+        ],
+        "timing": [],
+        "missing_facts": [
+          "event_timing",
+          "local_headcount",
+          "workplace_plans"
+        ]
+      }
+    ],
+    "semantic_comparison_available": true,
+    "expected_outcome": "assessed",
+    "predicted_outcome": "assessed",
+    "outcome_match": true,
+    "expected_event_count": 3,
+    "predicted_event_count": 1,
+    "event_count_match": false,
+    "expected_events": [
+      {
+        "subject_company": "greenstreet 1 (pty) ltd (stanlib fund ii)",
+        "signals": [
+          "ma_consolidation"
+        ],
+        "stage": "completed",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [
+          [
+            "in january 2021",
+            "month"
+          ]
+        ],
+        "summary": "An earlier merger, approved in January 2021, gave Stanlib Fund II joint control of Solar Capital De Aar 3. The notice confirms the acquiring group already jointly controls the target through that previous merger.",
+        "quotes": [
+          "In January 2021, the Tribunal unconditionally approved the large merger whereby Greenstreet 1 (Pty) Ltd (“Stanlib Fund II”) sought to acquire a joint controlling interest in Solar Capital De Aar 3 (RF) (Pty) Ltd (“SCDA 3”).",
+          "Through the previous merger, the acquiring group jointly controls the target firm, SCDA 3, which is active within the renewable energy sector as an IPP contracted under the REIPPPP to supply solar PV to Eskom.",
+          "relevant markets in South Africa"
+        ]
+      },
+      {
+        "subject_company": "greenstreet 1 (pty) ltd (stanlib fund ii)",
+        "signals": [
+          "ma_consolidation"
+        ],
+        "stage": "planned",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [],
+        "summary": "The notice dated 2021-03-02 reports unconditional approval for a further acquisition of SCDA 3 shares that will give Stanlib Fund II sole control. Completion of this further transaction is not established.",
+        "quotes": [
+          "2021-03-02",
+          "Subsequent to that merger, the Tribunal has also unconditionally approved the transaction whereby Stanlib Fund II will acquire additional shareholding in SCDA 3. Post-transaction, Stanlib Fund II will hold a sole controlling interest in SCDA 3.",
+          "relevant markets in South Africa"
+        ]
+      },
+      {
+        "subject_company": "aker horizons as",
+        "signals": [
+          "ma_consolidation",
+          "market_entry"
+        ],
+        "stage": "planned",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [],
+        "summary": "The notice dated 2021-03-02 reports unconditional approval for Aker Horizons to acquire sole control of Mainstream Renewable Power. The transaction will establish Aker Horizons in South Africa; its parent’s existing presence is distinct.",
+        "quotes": [
+          "2021-03-02",
+          "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”).",
+          "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+        ]
+      }
+    ],
+    "predicted_events": [
+      {
+        "subject_company": "aker horizons as",
+        "signals": [
+          "ma_consolidation",
+          "market_entry"
+        ],
+        "stage": "planned",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [],
+        "summary": "Aker Horizons AS will acquire sole control of Mainstream Renewable Power Ltd",
+        "quotes": [
+          "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+        ]
+      }
+    ],
+    "matched_events": [
+      {
+        "gold_event_index": 2,
+        "prediction_event_index": 0,
+        "expected": {
+          "subject_company": "aker horizons as",
+          "signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "stage": "planned",
+          "geography": {
+            "country": [
+              "south africa"
+            ],
+            "market": [],
+            "submarket": []
+          },
+          "timing": []
+        },
+        "predicted": {
+          "subject_company": "aker horizons as",
+          "signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "stage": "planned",
+          "geography": {
+            "country": [
+              "south africa"
+            ],
+            "market": [],
+            "submarket": []
+          },
+          "timing": []
+        },
+        "field_matches": {
+          "subject_company": true,
+          "signals": true,
+          "stage": true,
+          "geography": true,
+          "timing": true
+        },
+        "differences": []
+      }
+    ],
+    "unmatched_gold_event_indices": [
+      0,
+      1
+    ],
+    "unmatched_prediction_event_indices": [],
+    "signal_presence": {
+      "true_positive": [
+        "ma_consolidation",
+        "market_entry"
+      ],
+      "extra_vs_gold": [],
+      "missing_vs_gold": []
+    },
+    "validation_checks": {
+      "json_object": true,
+      "typed_schema": true,
+      "allowed_signal_keys": true,
+      "valid_enums": true,
+      "quotes_match_input": true,
+      "quote_count": 8,
+      "unmatched_quotes": [],
+      "schema_errors": []
+    },
+    "difference_status": "literal_difference_requires_semantic_review"
+  },
+  "a5s_fine_split": {
+    "case_id": "pilot-v1-008",
+    "scoring_set": "clear",
+    "input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+    "validation_status": "succeeded",
+    "validation_error": null,
+    "unvalidated_raw_outcome": "assessed",
+    "unvalidated_raw_events": [
+      {
+        "subject_company": {
+          "value": "Aker Horizons AS",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "related_companies": [
+          {
+            "company": {
+              "value": "Mainstream Renewable Power Ltd",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+                }
+              ]
+            },
+            "role": {
+              "value": "acquired entity",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+                }
+              ]
+            }
+          }
+        ],
+        "summary": {
+          "value": "Aker Horizons AS will acquire sole control of Mainstream Renewable Power Ltd",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "signals": [
+          {
+            "signal_key": "market_entry",
+            "evidence": [
+              {
+                "block_id": "body_chunk_002",
+                "quote": "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+              }
+            ]
+          },
+          {
+            "signal_key": "ma_consolidation",
+            "evidence": [
+              {
+                "block_id": "body_chunk_002",
+                "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+              }
+            ]
+          }
+        ],
+        "stage": {
+          "value": "planned",
+          "evidence": [
+            {
+              "block_id": "body_chunk_002",
+              "quote": "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+            }
+          ]
+        },
+        "locations": [
+          {
+            "country": {
+              "value": "South Africa",
+              "evidence": [
+                {
+                  "block_id": "body_chunk_002",
+                  "quote": "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+                }
+              ]
+            },
+            "market": null,
+            "submarket": null,
+            "role": "event_location"
+          }
+        ],
+        "timing": [],
+        "missing_facts": [
+          "event_timing",
+          "local_headcount",
+          "workplace_plans"
+        ]
+      }
+    ],
+    "semantic_comparison_available": true,
+    "expected_outcome": "assessed",
+    "predicted_outcome": "assessed",
+    "outcome_match": true,
+    "expected_event_count": 3,
+    "predicted_event_count": 1,
+    "event_count_match": false,
+    "expected_events": [
+      {
+        "subject_company": "greenstreet 1 (pty) ltd (stanlib fund ii)",
+        "signals": [
+          "ma_consolidation"
+        ],
+        "stage": "completed",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [
+          [
+            "in january 2021",
+            "month"
+          ]
+        ],
+        "summary": "An earlier merger, approved in January 2021, gave Stanlib Fund II joint control of Solar Capital De Aar 3. The notice confirms the acquiring group already jointly controls the target through that previous merger.",
+        "quotes": [
+          "In January 2021, the Tribunal unconditionally approved the large merger whereby Greenstreet 1 (Pty) Ltd (“Stanlib Fund II”) sought to acquire a joint controlling interest in Solar Capital De Aar 3 (RF) (Pty) Ltd (“SCDA 3”).",
+          "Through the previous merger, the acquiring group jointly controls the target firm, SCDA 3, which is active within the renewable energy sector as an IPP contracted under the REIPPPP to supply solar PV to Eskom.",
+          "relevant markets in South Africa"
+        ]
+      },
+      {
+        "subject_company": "greenstreet 1 (pty) ltd (stanlib fund ii)",
+        "signals": [
+          "ma_consolidation"
+        ],
+        "stage": "planned",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [],
+        "summary": "The notice dated 2021-03-02 reports unconditional approval for a further acquisition of SCDA 3 shares that will give Stanlib Fund II sole control. Completion of this further transaction is not established.",
+        "quotes": [
+          "2021-03-02",
+          "Subsequent to that merger, the Tribunal has also unconditionally approved the transaction whereby Stanlib Fund II will acquire additional shareholding in SCDA 3. Post-transaction, Stanlib Fund II will hold a sole controlling interest in SCDA 3.",
+          "relevant markets in South Africa"
+        ]
+      },
+      {
+        "subject_company": "aker horizons as",
+        "signals": [
+          "ma_consolidation",
+          "market_entry"
+        ],
+        "stage": "planned",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [],
+        "summary": "The notice dated 2021-03-02 reports unconditional approval for Aker Horizons to acquire sole control of Mainstream Renewable Power. The transaction will establish Aker Horizons in South Africa; its parent’s existing presence is distinct.",
+        "quotes": [
+          "2021-03-02",
+          "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”).",
+          "Aker does not have a presence in South Africa and the transaction will establish Aker’s entry into the country."
+        ]
+      }
+    ],
+    "predicted_events": [
+      {
+        "subject_company": "aker horizons as",
+        "signals": [
+          "ma_consolidation",
+          "market_entry"
+        ],
+        "stage": "planned",
+        "geography": {
+          "country": [
+            "south africa"
+          ],
+          "market": [],
+          "submarket": []
+        },
+        "timing": [],
+        "summary": "Aker Horizons AS will acquire sole control of Mainstream Renewable Power Ltd",
+        "quotes": [
+          "Following the unconditional approval of this transaction by the Tribunal, Aker Horizons AS (“Aker”) will acquire sole control of Mainstream Renewable Power Ltd (“MRP”)."
+        ]
+      }
+    ],
+    "matched_events": [
+      {
+        "gold_event_index": 2,
+        "prediction_event_index": 0,
+        "expected": {
+          "subject_company": "aker horizons as",
+          "signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "stage": "planned",
+          "geography": {
+            "country": [
+              "south africa"
+            ],
+            "market": [],
+            "submarket": []
+          },
+          "timing": []
+        },
+        "predicted": {
+          "subject_company": "aker horizons as",
+          "signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "stage": "planned",
+          "geography": {
+            "country": [
+              "south africa"
+            ],
+            "market": [],
+            "submarket": []
+          },
+          "timing": []
+        },
+        "field_matches": {
+          "subject_company": true,
+          "signals": true,
+          "stage": true,
+          "geography": true,
+          "timing": true
+        },
+        "differences": []
+      }
+    ],
+    "unmatched_gold_event_indices": [
+      0,
+      1
+    ],
+    "unmatched_prediction_event_indices": [],
+    "signal_presence": {
+      "true_positive": [
+        "ma_consolidation",
+        "market_entry"
+      ],
+      "extra_vs_gold": [],
+      "missing_vs_gold": []
+    },
+    "validation_checks": {
+      "json_object": true,
+      "typed_schema": true,
+      "allowed_signal_keys": true,
+      "valid_enums": true,
+      "quotes_match_input": true,
+      "quote_count": 8,
+      "unmatched_quotes": [],
+      "schema_errors": []
+    },
+    "difference_status": "literal_difference_requires_semantic_review"
+  }
+}

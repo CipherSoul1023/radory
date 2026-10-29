@@ -83,3 +83,11 @@ A5-D passed its technical gate but failed its semantic gate. Both chunks returne
 `scripts/run_experiment_a5r.py` permits two zero-retry calls and refuses overwrites. `scripts/compare_experiment_a5r.py` compares technical completion and semantic recall against A5-D after both exact responses and the aggregate are saved. Provider requests and responses remain under ignored `results/local/experiment_a5r_v1/`; production code remains unchanged.
 
 A5-R failed its full gate but established that reasoning materially improves case-008 recall. One chunk produced an exact accepted Aker event with both expected signals; the other found the Greenstreet/Stanlib events but exhausted the 4,096-token allowance before completing valid JSON. See `results/experiment_a5r_v1/report.md`.
+
+## Experiment A5-S
+
+`cases/experiment_a5s_v1.json` freezes a finer split of A5-R's truncated first chunk. The same deterministic paragraph algorithm produces three non-overlapping parts of at most 1,200 characters and preserves every non-empty paragraph exactly once. A5-R's already validated chunk-002 Aker event is reused without another provider call.
+
+`scripts/run_experiment_a5s.py` keeps default reasoning, the A4-E grounding prompt, strict pattern-free schema, model, validators, 4,096-token limit, timeout and provider defaults. It permits three zero-retry calls and performs no semantic deduplication or repair. `scripts/compare_experiment_a5s.py` loads gold only after all new responses and the hybrid aggregate are saved. Exact new requests and responses remain under ignored `results/local/experiment_a5s_v1/`; production code remains unchanged.
+
+A5-S failed both gates. One event-bearing part returned invalid and semantically context-poor output, the other still truncated, and only the irrelevant short part passed. No new events were accepted beyond A5-R's preserved Aker event. See `results/experiment_a5s_v1/report.md`.

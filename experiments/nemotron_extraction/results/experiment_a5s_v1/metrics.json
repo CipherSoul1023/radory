@@ -1,0 +1,81 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "a5r_baseline": {
+    "predicted_event_count": 1,
+    "matched_events": 1,
+    "signal_presence": {
+      "true_positive": [
+        "ma_consolidation",
+        "market_entry"
+      ],
+      "extra_vs_gold": [],
+      "missing_vs_gold": []
+    }
+  },
+  "a5s_fine_split": {
+    "technical": {
+      "chunk_calls": 3,
+      "parseable_json": 2,
+      "typed_schema": 1,
+      "backend_valid_chunks": 1,
+      "truncations": 1,
+      "reasoning_tokens": 5213,
+      "usage": {
+        "prompt_tokens": 10160,
+        "completion_tokens": 7571,
+        "total_tokens": 17731
+      }
+    },
+    "aggregate_validation_status": "succeeded",
+    "semantic": {
+      "cases": 1,
+      "accepted_by_backend": 1,
+      "interpretable_typed_outputs": 1,
+      "outcome_matches": 1,
+      "event_count_matches": 0,
+      "expected_events": 3,
+      "matched_events": 1,
+      "missing_events": 2,
+      "extra_events": 0,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 1,
+        "signals": 1,
+        "stage": 1,
+        "geography": 1,
+        "timing": 1
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 2,
+        "extra_vs_gold": 0,
+        "missing_vs_gold": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "per_signal": {
+        "ma_consolidation": {
+          "true_positive": 1
+        },
+        "market_entry": {
+          "true_positive": 1
+        }
+      },
+      "positive_cases": 1,
+      "positive_cases_detected_in_typed_output": 1,
+      "positive_cases_detected_in_parseable_raw_output": 1,
+      "positive_cases_usable_after_validation": 1,
+      "zero_event_cases": 0,
+      "zero_event_cases_returning_no_positive_events": 0,
+      "zero_event_cases_correct": 0,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 2,
+        "extra": 0,
+        "missing": 0
+      }
+    },
+    "technical_gate": false,
+    "semantic_gate_before_manual_review": false
+  }
+}
