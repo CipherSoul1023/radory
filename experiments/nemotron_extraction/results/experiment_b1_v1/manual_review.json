@@ -1,0 +1,43 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "verdict": "technical_and_semantic_failure",
+  "chunk_reviews": [
+    {
+      "chunk_id": "chunk-001",
+      "finish_reason": "stop",
+      "reasoning_tokens": 1362,
+      "backend_result": "unmatched_evidence_quote",
+      "manual_findings": [
+        "The compact response completed and identified the two distinct Stanlib acquisition events.",
+        "The first transaction quotation altered the supplied corrupted quotation characters, so two uses of that quotation failed exact evidence matching.",
+        "The second transaction quotation matched exactly, but chunk-level validation rejected the complete response after the first quotation failed."
+      ]
+    },
+    {
+      "chunk_id": "chunk-002",
+      "finish_reason": "stop",
+      "reasoning_tokens": 2779,
+      "backend_result": "succeeded",
+      "manual_findings": [
+        "The response found both expected signal types: Aker market entry and the Aker/Mainstream acquisition.",
+        "It split Aker's single real-world transaction into separate market-entry and M&A event records instead of attaching both supported signals to one event.",
+        "It added a separate Mainstream M&A event for the same transaction even though the frozen gold treats Aker as the subject and Mainstream as the counterparty.",
+        "All six quotations in this chunk matched the prepared evidence exactly."
+      ]
+    }
+  ],
+  "aggregate_review": {
+    "backend_valid_chunks": 1,
+    "truncations": 0,
+    "accepted_events": 3,
+    "gold_events": 3,
+    "matched_events": 1,
+    "missing_events": 2,
+    "extra_events": 2,
+    "signal_presence_true_positive": [
+      "ma_consolidation",
+      "market_entry"
+    ],
+    "conclusion": "The compact contract prevented token-limit truncation, but exact-quote reliability and event grouping remain insufficient for a dependable first pass."
+  }
+}

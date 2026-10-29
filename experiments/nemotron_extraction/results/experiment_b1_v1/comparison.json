@@ -1,0 +1,30 @@
+{
+  "expected_events": 3,
+  "predicted_events": 3,
+  "matched_events": 1,
+  "missing_events": 2,
+  "extra_events": 2,
+  "pairs": [
+    {
+      "gold_event_index": 2,
+      "prediction_event_index": 0,
+      "expected_company": "aker horizons as",
+      "predicted_company": "aker horizons as",
+      "expected_signals": [
+        "ma_consolidation",
+        "market_entry"
+      ],
+      "predicted_signals": [
+        "market_entry"
+      ]
+    }
+  ],
+  "signal_presence": {
+    "true_positive": [
+      "ma_consolidation",
+      "market_entry"
+    ],
+    "extra_vs_gold": [],
+    "missing_vs_gold": []
+  }
+}

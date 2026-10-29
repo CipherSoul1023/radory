@@ -1,0 +1,56 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "a5r_verbose_baseline": {
+    "accepted_events": 1,
+    "validation_status": "succeeded"
+  },
+  "b1_compact_detection": {
+    "technical": {
+      "chunk_calls": 2,
+      "parseable_json": 2,
+      "typed_schema": 2,
+      "backend_valid_chunks": 1,
+      "truncations": 0,
+      "reasoning_tokens": 4141,
+      "usage": {
+        "prompt_tokens": 5171,
+        "completion_tokens": 5004,
+        "total_tokens": 10175
+      }
+    },
+    "unmatched_evidence_quotes": 2,
+    "aggregate_validation_status": "succeeded",
+    "semantic": {
+      "expected_events": 3,
+      "predicted_events": 3,
+      "matched_events": 1,
+      "missing_events": 2,
+      "extra_events": 2,
+      "pairs": [
+        {
+          "gold_event_index": 2,
+          "prediction_event_index": 0,
+          "expected_company": "aker horizons as",
+          "predicted_company": "aker horizons as",
+          "expected_signals": [
+            "ma_consolidation",
+            "market_entry"
+          ],
+          "predicted_signals": [
+            "market_entry"
+          ]
+        }
+      ],
+      "signal_presence": {
+        "true_positive": [
+          "ma_consolidation",
+          "market_entry"
+        ],
+        "extra_vs_gold": [],
+        "missing_vs_gold": []
+      }
+    },
+    "technical_gate": false,
+    "semantic_gate_before_manual_review": false
+  }
+}

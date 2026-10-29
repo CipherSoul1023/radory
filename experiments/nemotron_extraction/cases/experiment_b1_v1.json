@@ -1,0 +1,54 @@
+{
+  "experiment_id": "experiment_b1_v1",
+  "purpose": "Test whether Nemotron Super can complete compact event detection on A5-R's exact two chunks with default reasoning.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "source_case_id": "pilot-v1-008",
+  "a5d_plan_sha256": "135afee71e419a7ef5e2eaf18f2a8e8ab16d274725e7389ccfaef9a86296f055",
+  "a5r_plan_sha256": "338bfd18cc7b5190c3e472bd83c7cf8d0eac0c0598c4e401de91043600764d81",
+  "a5r_chunk_predictions_sha256": "f08dbd66100e4ccd97c7bc9f32e7f694bc506d0599a2b2e3dfa7dae554e4d977",
+  "signal_library_sha256": "eda6490b1ce27eba575a607a500425b5ed304d592522ba38cbfcfc59f174d9a1",
+  "compact_response_format_fingerprint": "a69e2ebc68e993f6fbe5a792ec0bb52e74516090376ecdeface2cb453d0f457b",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 2,
+  "reasoning_mode": "provider_default",
+  "contract": "compact_event_detection_v1",
+  "output_fields": [
+    "outcome",
+    "events[].subject_company.value",
+    "events[].subject_company.evidence",
+    "events[].signals[].signal_key",
+    "events[].signals[].evidence"
+  ],
+  "acceptance": {
+    "chunk_calls": 2,
+    "parseable_json": 2,
+    "typed_schema": 2,
+    "backend_valid_chunks": 2,
+    "truncations": 0,
+    "aggregate_backend_valid": true,
+    "expected_events": 3,
+    "matched_events": 3,
+    "extra_events": 0,
+    "signal_true_positives": 2,
+    "signal_extra": 0,
+    "signal_missing": 0,
+    "unmatched_evidence_quotes": 0
+  },
+  "frozen_request_rules": [
+    "Use A5-D/A5-R's exact two non-overlapping evidence chunks.",
+    "Use Nemotron Super with provider-default reasoning and the unchanged 4,096-token limit.",
+    "Replace the verbose semantic output contract with only outcome, subject company, candidate signals and exact supporting evidence.",
+    "Keep the complete 17-signal catalogue and the evidence-grounding requirements relevant to compact detection.",
+    "Use a strict provider JSON schema with regex pattern keywords removed while retaining full local Pydantic validation.",
+    "Do not repair, normalize, retry, deduplicate or semantically merge model outputs.",
+    "Do not load gold answers until both provider responses and the aggregate are saved."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start detailed pass-two extraction, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}

@@ -91,3 +91,11 @@ A5-R failed its full gate but established that reasoning materially improves cas
 `scripts/run_experiment_a5s.py` keeps default reasoning, the A4-E grounding prompt, strict pattern-free schema, model, validators, 4,096-token limit, timeout and provider defaults. It permits three zero-retry calls and performs no semantic deduplication or repair. `scripts/compare_experiment_a5s.py` loads gold only after all new responses and the hybrid aggregate are saved. Exact new requests and responses remain under ignored `results/local/experiment_a5s_v1/`; production code remains unchanged.
 
 A5-S failed both gates. One event-bearing part returned invalid and semantically context-poor output, the other still truncated, and only the irrelevant short part passed. No new events were accepted beyond A5-R's preserved Aker event. See `results/experiment_a5s_v1/report.md`.
+
+## Experiment B1
+
+`cases/experiment_b1_v1.json` freezes Option A's compact first-pass test on A5-R's exact two chunks using Nemotron Super, provider-default reasoning and the unchanged 4,096-token limit. The experimental contract returns only outcome, subject company, candidate signal keys and exact supporting evidence. It omits summaries, stages, geography, timing, related companies and missing facts.
+
+`scripts/run_experiment_b1.py` uses a strict pattern-free provider schema with full experiment-local Pydantic and evidence validation. It permits two zero-retry calls and performs no repair or deduplication. `scripts/compare_experiment_b1.py` loads gold only after both responses and the compact aggregate are saved. Exact requests and responses remain under ignored `results/local/experiment_b1_v1/`; production extraction remains unchanged.
+
+B1 failed its frozen gates, but it isolated a useful improvement. Both compact calls completed without truncation, compared with one truncation under A5-R's verbose contract. One chunk failed exact-quote validation after the model altered corrupted quotation characters. The other passed validation but split one Aker transaction into separate signal records and added the counterparty as another event. See `results/experiment_b1_v1/report.md`.
