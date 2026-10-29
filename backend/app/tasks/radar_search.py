@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import uuid
 
@@ -10,6 +11,7 @@ from app.search.engine import (
     record_dispatch_attempt,
     recover_expired_leases,
 )
+from app.search.extraction_engine import extract_search_job
 from app.workers.celery_app import celery_app
 
 logger = logging.getLogger(__name__)
@@ -20,6 +22,13 @@ def execute_search_query_task(search_query_id: str) -> None:
     query_id = uuid.UUID(search_query_id)
     with get_session() as db:
         execute_search_query(db, search_query_id=query_id)
+
+
+@celery_app.task(name="radory.radar.extract_search_job", ignore_result=True)
+def extract_search_job_task(search_job_id: str) -> None:
+    job_id = uuid.UUID(search_job_id)
+    with get_session() as db:
+        asyncio.run(extract_search_job(db, search_job_id=job_id))
 
 
 def dispatch_search_queries(*, job_id: uuid.UUID | None = None) -> int:

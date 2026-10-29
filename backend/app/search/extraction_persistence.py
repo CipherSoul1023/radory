@@ -79,6 +79,26 @@ def _successful_run(
     )
 
 
+def reuse_successful_extraction(
+    db: Session,
+    *,
+    evidence: PreparedEvidence,
+    cache_key: str,
+) -> PersistedExtraction | None:
+    """Attach new provenance to a cached success without another model call."""
+    if not evidence.sources:
+        raise ExtractionPersistenceError("Extraction evidence must retain at least one source")
+    if any(source.workspace_id != evidence.workspace_id for source in evidence.sources):
+        raise ExtractionPersistenceError("Extraction sources cross workspace boundaries")
+    existing = _successful_run(db, evidence, cache_key)
+    if existing is None:
+        return None
+    _attach_sources(existing, evidence)
+    db.commit()
+    db.refresh(existing)
+    return PersistedExtraction(run=existing, created=False)
+
+
 def _attach_sources(run: ExtractionRun, evidence: PreparedEvidence) -> None:
     existing = {source.search_result_id for source in run.sources}
     for source in evidence.sources:

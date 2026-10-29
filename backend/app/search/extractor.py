@@ -97,6 +97,33 @@ class ExtractionResult:
     model_calls: int = 0
 
 
+@dataclass(frozen=True)
+class ExtractionIdentity:
+    cache_key: str
+    specification_fingerprint: str
+
+
+def extraction_identity(
+    evidence: PreparedEvidence,
+    *,
+    model: str,
+    max_output_tokens: int,
+) -> ExtractionIdentity:
+    specification_hash = fingerprint(extraction_specification())
+    return ExtractionIdentity(
+        cache_key=fingerprint(
+            {
+                "workspace_id": str(evidence.workspace_id),
+                "input_fingerprint": evidence.input_fingerprint,
+                "specification": specification_hash,
+                "model": model,
+                "max_output_tokens": max_output_tokens,
+            }
+        ),
+        specification_fingerprint=specification_hash,
+    )
+
+
 class SemanticExtractor:
     def __init__(self, client: CompletionClient, *, model: str, max_output_tokens: int = 4096):
         if not model.strip():
@@ -108,21 +135,16 @@ class SemanticExtractor:
         self.max_output_tokens = max_output_tokens
 
     async def extract(self, evidence: PreparedEvidence) -> ExtractionResult:
-        specification = extraction_specification()
-        specification_hash = fingerprint(specification)
-        cache_key = fingerprint(
-            {
-                "workspace_id": str(evidence.workspace_id),
-                "input_fingerprint": evidence.input_fingerprint,
-                "specification": specification_hash,
-                "model": self.model,
-                "max_output_tokens": self.max_output_tokens,
-            }
+        identity = extraction_identity(
+            evidence,
+            model=self.model,
+            max_output_tokens=self.max_output_tokens,
         )
+        specification = extraction_specification()
         common = {
-            "cache_key": cache_key,
+            "cache_key": identity.cache_key,
             "model": self.model,
-            "specification_fingerprint": specification_hash,
+            "specification_fingerprint": identity.specification_fingerprint,
         }
 
         def failure(code: str, *, model_calls: int = 0) -> ExtractionResult:
