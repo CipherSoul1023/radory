@@ -1,0 +1,72 @@
+{
+  "experiment_id": "experiment_a5d_v1",
+  "purpose": "Test whether deterministic non-overlapping paragraph chunks recover case 008's missed multi-event evidence.",
+  "provider": "Nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "source_case_id": "pilot-v1-008",
+  "source_variant": "raw_content",
+  "source_input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+  "a4e_plan_sha256": "5ca0edccbe800104a8266ec0ad43f415f00a4b33dd2d048c2a820a3121483fd5",
+  "a4e_predictions_sha256": "c211996993d85c7ad6301c91df870b552a79e1f06adba700f61425585f16ed69",
+  "response_format_fingerprint": "aadca0fb98ac795061ac177221ee79146eaaf8a28483e0857f54bb6593d14f12",
+  "max_tokens": 4096,
+  "timeout_seconds": 60,
+  "retries": 0,
+  "max_live_calls": 2,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "prompt_variant": "grounding_addendum_v1",
+  "decomposition": {
+    "algorithm": "greedy_non_overlapping_paragraphs_v1",
+    "paragraph_separator": "\n\n",
+    "maximum_body_characters_per_chunk": 2400,
+    "repeat_title_in_each_chunk": true,
+    "expected_chunk_count": 2,
+    "expected_chunks": [
+      {
+        "chunk_id": "chunk-001",
+        "body_characters": 2352,
+        "body_sha256": "68012f4c1b377d706452a268549eaa6b408e19828d624ddd6d7584951043dcfb"
+      },
+      {
+        "chunk_id": "chunk-002",
+        "body_characters": 2141,
+        "body_sha256": "69e0125ab338997fa8d8f8f7283d652b27069445344632e280e07154d3e69415"
+      }
+    ]
+  },
+  "aggregation": {
+    "include_only_backend_valid_chunk_events": true,
+    "deduplication": "none",
+    "reason": "Chunks do not overlap; preserving every validated event avoids inventing a semantic merge rule."
+  },
+  "acceptance": {
+    "chunk_calls": 2,
+    "parseable_json": 2,
+    "typed_schema": 2,
+    "backend_valid_chunks": 2,
+    "truncations": 0,
+    "cases_with_nonzero_reasoning_tokens": 0,
+    "aggregate_backend_valid": true,
+    "expected_events": 3,
+    "matched_events": 3,
+    "signal_true_positives": 2,
+    "signal_extra": 0,
+    "signal_missing": 0
+  },
+  "frozen_request_rules": [
+    "Use the exact prepared evidence from pilot-v1-008.",
+    "Split only on blank-line paragraph boundaries with the frozen greedy algorithm and no overlap.",
+    "Repeat the unchanged title and change body block IDs only to preserve chunk provenance.",
+    "Keep A4-E's grounding addendum, model, strict pattern-free provider schema, backend validators, token limit, timeout and provider defaults.",
+    "Keep chat_template_kwargs enable_thinking false.",
+    "Do not repair, normalize, retry, deduplicate or semantically merge model outputs.",
+    "Do not load gold answers until both provider responses and the aggregate are saved."
+  ],
+  "stop_conditions": [
+    "Abort after a provider HTTP or transport error.",
+    "Do not start another experiment, persistence or investigation automatically.",
+    "Do not modify production code."
+  ]
+}

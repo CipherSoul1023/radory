@@ -1,0 +1,36 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "verdict": "semantic_failure",
+  "chunk_reviews": [
+    {
+      "chunk_id": "chunk-001",
+      "backend_result": "succeeded",
+      "predicted_events": 0,
+      "notes": [
+        "The chunk contains the January 2021 approved Greenstreet/SCDA 3 merger and the subsequently approved additional-shareholding transaction.",
+        "The model returned assessed with zero events, missing both supported M&A events."
+      ]
+    },
+    {
+      "chunk_id": "chunk-002",
+      "backend_result": "succeeded",
+      "predicted_events": 0,
+      "notes": [
+        "The chunk contains the approved Aker/Mainstream acquisition and explicitly says the transaction will establish Aker's entry into South Africa.",
+        "The model returned assessed with zero events, missing both ma_consolidation and market_entry."
+      ]
+    }
+  ],
+  "aggregate_review": {
+    "backend_result": "succeeded",
+    "predicted_events": 0,
+    "gold_events": 3,
+    "matched_events": 0,
+    "gold_signal_keys": [
+      "ma_consolidation",
+      "market_entry"
+    ],
+    "matched_signal_keys": [],
+    "conclusion": "Non-overlapping paragraph decomposition did not improve case 008 while reasoning remained disabled."
+  }
+}

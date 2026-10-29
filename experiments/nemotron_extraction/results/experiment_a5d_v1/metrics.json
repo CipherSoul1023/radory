@@ -1,0 +1,82 @@
+{
+  "source_case_id": "pilot-v1-008",
+  "a4e_baseline": {
+    "validation_status": "succeeded",
+    "predicted_event_count": 0,
+    "matched_events": 0,
+    "signal_presence": {
+      "true_positive": [],
+      "extra_vs_gold": [],
+      "missing_vs_gold": [
+        "ma_consolidation",
+        "market_entry"
+      ]
+    }
+  },
+  "a5d": {
+    "technical": {
+      "chunk_calls": 2,
+      "parseable_json": 2,
+      "typed_schema": 2,
+      "backend_valid_chunks": 2,
+      "truncations": 0,
+      "reasoning_tokens": 0,
+      "usage": {
+        "prompt_tokens": 7451,
+        "completion_tokens": 28,
+        "total_tokens": 7479
+      }
+    },
+    "aggregate_validation_status": "succeeded",
+    "semantic": {
+      "cases": 1,
+      "accepted_by_backend": 1,
+      "interpretable_typed_outputs": 1,
+      "outcome_matches": 1,
+      "event_count_matches": 0,
+      "expected_events": 3,
+      "matched_events": 0,
+      "missing_events": 3,
+      "extra_events": 0,
+      "literal_field_matches_over_expected_events": {
+        "subject_company": 0,
+        "signals": 0,
+        "stage": 0,
+        "geography": 0,
+        "timing": 0
+      },
+      "signal_presence": {
+        "unit": "(case_id, signal_key), independent of duplicate/grouped events",
+        "tp": 0,
+        "extra_vs_gold": 0,
+        "missing_vs_gold": 2,
+        "precision": null,
+        "recall": 0.0
+      },
+      "per_signal": {
+        "ma_consolidation": {
+          "missing_vs_gold": 1
+        },
+        "market_entry": {
+          "missing_vs_gold": 1
+        }
+      },
+      "positive_cases": 1,
+      "positive_cases_detected_in_typed_output": 0,
+      "positive_cases_detected_in_parseable_raw_output": 0,
+      "positive_cases_usable_after_validation": 0,
+      "zero_event_cases": 0,
+      "zero_event_cases_returning_no_positive_events": 0,
+      "zero_event_cases_correct": 0,
+      "insufficient_cases": 0,
+      "insufficient_cases_correct": 0,
+      "backend_accepted_signal_counts": {
+        "tp": 0,
+        "extra": 0,
+        "missing": 2
+      }
+    },
+    "technical_gate": true,
+    "semantic_gate_before_manual_review": false
+  }
+}

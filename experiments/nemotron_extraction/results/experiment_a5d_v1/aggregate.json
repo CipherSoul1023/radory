@@ -1,0 +1,29 @@
+{
+  "experiment_id": "experiment_a5d_v1",
+  "arm": "paragraph_decomposition_thinking_off_4096",
+  "case_id": "pilot-v1-008",
+  "variant": "raw_content",
+  "input_fingerprint": "1320b90b398911a0706dce6228c6d4046c7681d24f20dfea71a966cd095d3d91",
+  "prediction": {
+    "outcome": "assessed",
+    "events": []
+  },
+  "validation_status": "succeeded",
+  "error": null,
+  "validation_checks": {
+    "json_object": true,
+    "typed_schema": true,
+    "allowed_signal_keys": true,
+    "valid_enums": true,
+    "quotes_match_input": true,
+    "quote_count": 0,
+    "unmatched_quotes": [],
+    "schema_errors": []
+  },
+  "aggregation": {
+    "validated_chunk_outputs_included": 2,
+    "chunk_count": 2,
+    "deduplication": "none",
+    "event_count": 0
+  }
+}

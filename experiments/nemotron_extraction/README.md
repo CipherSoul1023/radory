@@ -67,3 +67,11 @@ A4-R2 eliminated reasoning and truncation on all five cases, but failed the over
 `scripts/run_experiment_a4e.py` defaults to offline preflight and requires `--live` for five zero-retry calls. `scripts/compare_experiment_a4e.py` measures mechanical grounding separately from semantic event and signal recall, loading gold only after all provider responses are saved. Exact requests and responses remain under ignored `results/local/experiment_a4e_v1/`. Production extraction behavior remains unchanged.
 
 A4-E improved backend acceptance from two to four of five cases without reasoning or truncation, but failed both frozen gates. Case 001 still emitted an unsupported string `"null"`, and only three of six gold events and signal presences were recovered. See `results/experiment_a4e_v1/report.md`.
+
+## Experiment A5-D
+
+`cases/experiment_a5d_v1.json` freezes a two-call evidence-decomposition test for pilot case 008, the multi-event false negative that remained empty in A4-R2 and A4-E. A deterministic greedy algorithm splits its raw content into two non-overlapping paragraph chunks of at most 2,400 characters. Every non-empty paragraph appears once, the title is repeated for context, and no passage is selected using the gold answer.
+
+`scripts/run_experiment_a5d.py` keeps A4-E's grounding prompt, thinking-off control, strict pattern-free schema, model, validators and token budget. It aggregates only backend-valid chunk events and performs no semantic merging or deduplication. `scripts/compare_experiment_a5d.py` loads gold only after both exact responses and the aggregate are saved. Exact requests and provider responses remain under ignored `results/local/experiment_a5d_v1/`; production code remains unchanged.
+
+A5-D passed its technical gate but failed its semantic gate. Both chunks returned valid zero-event answers, leaving all three gold events and both signal types missing. Shorter evidence alone therefore did not repair reasoning-off recall. See `results/experiment_a5d_v1/report.md`.
