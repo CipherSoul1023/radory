@@ -5,6 +5,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 json_type = JSON().with_variant(JSONB(), "postgresql")
+nullable_json_type = JSON(none_as_null=True).with_variant(JSONB(none_as_null=True), "postgresql")
 
 
 class TimestampMixin:
