@@ -1,0 +1,87 @@
+{
+  "experiment_id": "experiment_c2_v1",
+  "development_set_notice": "C1 results informed this prompt change; C2 is tuning evidence, not a holdout.",
+  "c1_baseline": {
+    "technical": {
+      "chunk_calls": 16,
+      "parseable_json": 16,
+      "typed_schema": 16,
+      "backend_valid_chunks": 16,
+      "truncations": 0,
+      "reasoning_tokens": 5371,
+      "usage": {
+        "prompt_tokens": 49140,
+        "completion_tokens": 5904,
+        "total_tokens": 55044
+      }
+    },
+    "clear_semantics": {
+      "case_count": 6,
+      "backend_valid_cases": 6,
+      "outcome_matches": 3,
+      "exact_event_count_cases": 5,
+      "expected_events": 3,
+      "predicted_events": 2,
+      "matched_events": 2,
+      "missing_events": 1,
+      "extra_events": 0,
+      "event_precision": 1.0,
+      "event_recall": 0.6667,
+      "signal_true_positives": 4,
+      "signal_extra": 1,
+      "signal_missing": 1,
+      "signal_precision": 0.8,
+      "signal_recall": 0.8,
+      "gold_negative_cases": 4,
+      "gold_negative_false_positive_cases": 0
+    }
+  },
+  "technical": {
+    "chunk_calls": 16,
+    "parseable_json": 16,
+    "typed_schema": 16,
+    "backend_valid_chunks": 15,
+    "truncations": 0,
+    "reasoning_tokens": 6661,
+    "usage": {
+      "prompt_tokens": 51891,
+      "completion_tokens": 7653,
+      "total_tokens": 59544
+    }
+  },
+  "invalid_passage_references": 0,
+  "backend_valid_case_aggregates": 8,
+  "clear_semantics": {
+    "case_count": 6,
+    "backend_valid_cases": 6,
+    "outcome_matches": 6,
+    "exact_event_count_cases": 5,
+    "expected_events": 3,
+    "predicted_events": 2,
+    "matched_events": 2,
+    "missing_events": 1,
+    "extra_events": 0,
+    "event_precision": 1.0,
+    "event_recall": 0.6667,
+    "signal_true_positives": 4,
+    "signal_extra": 1,
+    "signal_missing": 1,
+    "signal_precision": 0.8,
+    "signal_recall": 0.8,
+    "gold_negative_cases": 4,
+    "gold_negative_false_positive_cases": 0
+  },
+  "manual_review_case_count": 2,
+  "technical_gate": false,
+  "semantic_gate_before_manual_review": false,
+  "overall_gate_before_manual_review": false,
+  "change_from_c1": {
+    "outcome_matches": 3,
+    "matched_events": 0,
+    "event_precision": 0.0,
+    "event_recall": 0.0,
+    "signal_precision": 0.0,
+    "signal_recall": 0.0,
+    "gold_negative_false_positive_cases": 0
+  }
+}

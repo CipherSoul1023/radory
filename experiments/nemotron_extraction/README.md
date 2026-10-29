@@ -115,3 +115,11 @@ B2 passed both frozen gates. Both calls completed, both outputs passed backend v
 `scripts/run_experiment_c1.py` verifies every source input, chunk hash, B2 prerequisite and the Experiment A exclusion boundary before making calls. It concatenates backend-valid chunk events without semantic deduplication or repair and saves eight case aggregates before gold is available to `scripts/compare_experiment_c1.py`. Exact requests and responses remain under ignored `results/local/experiment_c1_v1/`; production extraction and persistence remain unchanged.
 
 C1 passed its full technical gate but failed its semantic gate. All 16 responses were parseable, typed and backend-valid with zero truncations or invalid passage IDs. Clear-case event precision was 100%, but recall was 66.7% because the model missed a separate Nestle/Froneri transaction in a passage where it found the layoffs. Three understandable zero-event pages were also misclassified as insufficient evidence. See `results/experiment_c1_v1/report.md`.
+
+## Experiment C2
+
+`cases/experiment_c2_v1.json` reuses C1's eight cases as a development set. It changes only the B2 system prompt by adding a general passage-by-passage event inventory, secondary-event re-scan and outcome-calibration rules. Evidence, chunks, Super model, provider-default reasoning, strict pattern-free schema, 4,096-token limit, validators and zero-retry behavior remain frozen.
+
+`scripts/run_experiment_c2.py` permits 16 calls and keeps gold unavailable until every exact response and aggregate is saved. `scripts/compare_experiment_c2.py` reports C2 against the C1 baseline and explicitly identifies the data as tuning evidence rather than a fresh holdout. Exact requests and responses remain under ignored `results/local/experiment_c2_v1/`; production code remains unchanged.
+
+C2 failed its frozen gate. Outcome agreement improved from 3/6 to 6/6 clear cases, but event recall remained 66.7% because the Nestle/Froneri sale was still missed. One manual-review chunk also failed literal-company grounding, and exhaustive scanning amplified recruiter/job-listing false positives. See `results/experiment_c2_v1/report.md`.
