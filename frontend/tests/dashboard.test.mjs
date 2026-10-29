@@ -8,6 +8,10 @@ import {
   isWorkspaceAdmin,
 } from '../src/services/dashboard.ts'
 import { workspaceDecision } from '../src/services/workspacePolicy.ts'
+import {
+  isRadarJobActive,
+  radarProgressMessage,
+} from '../src/services/radar.ts'
 
 test('brokerage initials are derived from the real workspace name', () => {
   assert.equal(getBrokerageInitials('ABC Commercial'), 'AC')
@@ -52,16 +56,54 @@ test('an invited workspace member reaches the app dashboard without onboarding',
   assert.equal(isWorkspaceAdmin(invitedMembership.role), false)
 })
 
-test('dashboard uses workspace context and keeps Build your radar local-only', async () => {
+test('dashboard activates and polls the persisted radar pipeline', async () => {
   const dashboard = await readFile(
     new URL('../src/pages/WorkspaceDashboardPage.tsx', import.meta.url),
     'utf8',
   )
   assert.match(dashboard, /useAppWorkspace/)
   assert.match(dashboard, /Build your radar/)
-  assert.match(dashboard, /research pipeline is connected/)
+  assert.match(dashboard, /\/api\/radar\/jobs/)
+  assert.match(dashboard, /refetchInterval/)
+  assert.match(dashboard, /View opportunities/)
   assert.doesNotMatch(dashboard, /James|John Doe|JD/)
-  assert.doesNotMatch(dashboard, /tavily|fetch\(|requestIdentity|useQuery/i)
+  assert.doesNotMatch(dashboard, /tavily|nemotron|fetch\(|requestIdentity/i)
+})
+
+test('radar progress follows database-backed discovery and pipeline state', () => {
+  const job = {
+    id: 'job-1',
+    status: 'running',
+    pipeline_status: 'pending',
+    pipeline_error_code: null,
+    pipeline_error_message: null,
+    total_queries: 26,
+    pending_queries: 20,
+    running_queries: 1,
+    succeeded_queries: 5,
+    failed_queries: 0,
+    completed_opportunities: 0,
+    failed_opportunities: 0,
+    created: true,
+  }
+
+  assert.equal(isRadarJobActive(job), true)
+  assert.equal(
+    radarProgressMessage(job),
+    'Searching for signals… 5 of 26 searches complete.',
+  )
+
+  const completed = {
+    ...job,
+    status: 'completed',
+    pipeline_status: 'completed',
+    completed_opportunities: 3,
+  }
+  assert.equal(isRadarJobActive(completed), false)
+  assert.equal(
+    radarProgressMessage(completed),
+    'Your radar is ready with 3 opportunities.',
+  )
 })
 
 test('shared app shell CSS includes tablet, mobile, and reduced-motion layouts', async () => {

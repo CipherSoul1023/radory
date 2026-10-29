@@ -22,13 +22,21 @@ class SearchJob(TimestampMixin, Base):
             "status in ('pending', 'running', 'completed', 'partial_failed', 'failed')",
             name="ck_search_jobs_status",
         ),
+        CheckConstraint(
+            "pipeline_status in ('pending', 'running', 'completed', 'partial_failed', 'failed')",
+            name="ck_search_jobs_pipeline_status",
+        ),
         Index("ix_search_jobs_workspace_created", "workspace_id", "created_at"),
         Index(
             "uq_search_jobs_active_workspace",
             "workspace_id",
             unique=True,
-            postgresql_where=text("status in ('pending', 'running')"),
-            sqlite_where=text("status in ('pending', 'running')"),
+            postgresql_where=text(
+                "status in ('pending', 'running') or pipeline_status in ('pending', 'running')"
+            ),
+            sqlite_where=text(
+                "status in ('pending', 'running') or pipeline_status in ('pending', 'running')"
+            ),
         ),
     )
 
@@ -43,6 +51,15 @@ class SearchJob(TimestampMixin, Base):
         ForeignKey("brokerage_profiles.id", ondelete="SET NULL"), nullable=True, index=True
     )
     status: Mapped[str] = mapped_column(String(32), default="pending", nullable=False)
+    pipeline_status: Mapped[str] = mapped_column(String(32), default="pending", nullable=False)
+    pipeline_error_code: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    pipeline_error_message: Mapped[str | None] = mapped_column(String(1000), nullable=True)
+    pipeline_started_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    pipeline_completed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     country: Mapped[str] = mapped_column(String(100), nullable=False)
     market: Mapped[str] = mapped_column(String(120), nullable=False)
     configured_submarkets: Mapped[list[str]] = mapped_column(

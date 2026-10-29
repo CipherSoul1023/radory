@@ -9,6 +9,7 @@ def test_radar_tasks_are_registered_and_ignore_results():
     assert "radory.radar.execute_search_query" in celery_app.tasks
     assert "radory.radar.reconcile_search_queries" in celery_app.tasks
     assert "radory.radar.extract_search_job" in celery_app.tasks
+    assert "radory.radar.process_pipeline" in celery_app.tasks
     assert execute_search_query_task.ignore_result is True
     assert extract_search_job_task.ignore_result is True
 

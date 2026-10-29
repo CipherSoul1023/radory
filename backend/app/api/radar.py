@@ -43,6 +43,7 @@ from app.search.opportunity_engine import (
     build_radar_opportunity,
     list_radar_opportunities,
 )
+from app.search.pipeline import opportunity_status_counts
 from app.search.tavily_client import RadarTavilyClient
 from app.services.workspace_context import ResolvedWorkspaceContext
 from app.tasks.radar_search import dispatch_search_queries
@@ -174,12 +175,16 @@ def get_signal_observations(
 
 def _job_response(db: Session, job, *, created: bool | None = None):
     counts = query_status_counts(db, job.id)
+    opportunity_counts = opportunity_status_counts(db, job.id)
     values = {
         "id": job.id,
         "workspace_id": job.workspace_id,
         "initiated_by_user_id": job.initiated_by_user_id,
         "brokerage_profile_id": job.brokerage_profile_id,
         "status": job.status,
+        "pipeline_status": job.pipeline_status,
+        "pipeline_error_code": job.pipeline_error_code,
+        "pipeline_error_message": job.pipeline_error_message,
         "country": job.country,
         "market": job.market,
         "configured_submarkets": job.configured_submarkets,
@@ -189,11 +194,15 @@ def _job_response(db: Session, job, *, created: bool | None = None):
         "created_at": job.created_at,
         "started_at": job.started_at,
         "completed_at": job.completed_at,
+        "pipeline_started_at": job.pipeline_started_at,
+        "pipeline_completed_at": job.pipeline_completed_at,
         "total_queries": sum(counts.values()),
         "pending_queries": counts["pending"],
         "running_queries": counts["running"],
         "succeeded_queries": counts["succeeded"],
         "failed_queries": counts["failed"],
+        "completed_opportunities": opportunity_counts["completed"],
+        "failed_opportunities": opportunity_counts["failed"],
         "queries": [SearchQuerySummary.model_validate(query) for query in job.queries],
     }
     if created is None:

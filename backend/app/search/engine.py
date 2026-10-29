@@ -57,7 +57,10 @@ def active_search_job(db: Session, workspace_id: uuid.UUID) -> SearchJob | None:
         select(SearchJob)
         .where(
             SearchJob.workspace_id == workspace_id,
-            SearchJob.status.in_(("pending", "running")),
+            or_(
+                SearchJob.status.in_(("pending", "running")),
+                SearchJob.pipeline_status.in_(("pending", "running")),
+            ),
         )
         .order_by(SearchJob.created_at)
     )
@@ -104,6 +107,7 @@ def create_search_job(
         initiated_by_user_id=initiated_by_user_id,
         brokerage_profile_id=profile.id,
         status="pending",
+        pipeline_status="pending",
         country=context.country,
         market=context.market,
         configured_submarkets=list(context.submarkets),
@@ -313,6 +317,11 @@ def retry_failed_query(
     query.last_error_message = None
     job = query.job
     job.status = "running"
+    job.pipeline_status = "pending"
+    job.pipeline_error_code = None
+    job.pipeline_error_message = None
+    job.pipeline_started_at = None
+    job.pipeline_completed_at = None
     job.started_at = job.started_at or current_time
     job.completed_at = None
     try:

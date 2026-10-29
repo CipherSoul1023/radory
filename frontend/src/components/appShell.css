@@ -394,6 +394,12 @@
   filter: brightness(1.06);
 }
 
+.workspace-dashboard-build:disabled {
+  cursor: wait;
+  filter: saturate(0.72);
+  opacity: 0.82;
+}
+
 .workspace-dashboard-build:focus-visible,
 .workspace-dashboard-nav a:focus-visible {
   outline: 2px solid var(--dashboard-accent);
@@ -427,6 +433,17 @@
   color: #dff9f2;
   text-align: center;
   font-size: 14px;
+}
+
+.workspace-dashboard-notice span {
+  display: block;
+}
+
+.workspace-dashboard-notice a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #55e9c8;
+  font-weight: 800;
 }
 
 .workspace-dashboard-grid {

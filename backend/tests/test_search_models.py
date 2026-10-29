@@ -35,6 +35,7 @@ def test_terminal_job_allows_a_later_active_job(search_db: Session, search_works
         initiated_by_user_id=search_workspace["user"].id,
         brokerage_profile_id=profile.id,
         status="completed",
+        pipeline_status="completed",
         country=profile.country,
         market=profile.primary_market,
         configured_submarkets=profile.submarkets,

@@ -26,6 +26,9 @@ class SearchJobResponse(BaseModel):
     initiated_by_user_id: UUID | None
     brokerage_profile_id: UUID | None
     status: Literal["pending", "running", "completed", "partial_failed", "failed"]
+    pipeline_status: Literal["pending", "running", "completed", "partial_failed", "failed"]
+    pipeline_error_code: str | None
+    pipeline_error_message: str | None
     country: str
     market: str
     configured_submarkets: list[str]
@@ -35,11 +38,15 @@ class SearchJobResponse(BaseModel):
     created_at: datetime
     started_at: datetime | None
     completed_at: datetime | None
+    pipeline_started_at: datetime | None
+    pipeline_completed_at: datetime | None
     total_queries: int
     pending_queries: int
     running_queries: int
     succeeded_queries: int
     failed_queries: int
+    completed_opportunities: int
+    failed_opportunities: int
     queries: list[SearchQuerySummary]
 
 

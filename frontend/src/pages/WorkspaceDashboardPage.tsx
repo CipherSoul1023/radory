@@ -7,7 +7,9 @@ import {
   Radar,
   Star,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
+import { useAuthenticatedRequest } from '../services/api'
 import { useAppWorkspace } from '../services/appWorkspace'
 import {
   EMPTY_DASHBOARD_CARDS,
@@ -15,6 +17,11 @@ import {
   isWorkspaceAdmin,
   type DashboardCard,
 } from '../services/dashboard'
+import {
+  isRadarJobActive,
+  radarProgressMessage,
+  type RadarJob,
+} from '../services/radar'
 
 const cardIcons = {
   opportunities: Flag,
@@ -44,9 +51,33 @@ function EmptyDashboardCard({ card }: { card: DashboardCard }) {
 
 export function WorkspaceDashboardPage() {
   const { workspaceName, role } = useAppWorkspace()
-  const [notice, setNotice] = useState('')
+  const request = useAuthenticatedRequest()
   const admin = isWorkspaceAdmin(role)
   const memberMessage = getMemberRadarMessage(workspaceName)
+  const buildRadar = useMutation({
+    mutationFn: () =>
+      request<RadarJob>('/api/radar/jobs', {
+        method: 'POST',
+      }),
+  })
+  const jobId = buildRadar.data?.id
+  const radarJob = useQuery({
+    queryKey: ['radar-job', jobId],
+    queryFn: () => request<RadarJob>(`/api/radar/jobs/${jobId}`),
+    enabled: Boolean(jobId),
+    initialData: buildRadar.data,
+    refetchInterval: (query) =>
+      isRadarJobActive(query.state.data) ? 2_000 : false,
+  })
+  const job = radarJob.data ?? buildRadar.data
+  const active = buildRadar.isPending || isRadarJobActive(job)
+  const notice = buildRadar.isError
+    ? buildRadar.error.message
+    : radarJob.isError
+      ? radarJob.error.message
+      : job
+        ? radarProgressMessage(job)
+        : ''
 
   return (
     <section className="workspace-dashboard-shell">
@@ -75,14 +106,11 @@ export function WorkspaceDashboardPage() {
           <button
             className="workspace-dashboard-build"
             type="button"
-            onClick={() =>
-              setNotice(
-                'Radar activation will be enabled when the research pipeline is connected.',
-              )
-            }
+            disabled={active}
+            onClick={() => buildRadar.mutate()}
           >
             <Radar aria-hidden="true" size={22} />
-            <span>Build your radar</span>
+            <span>{active ? 'Building your radar…' : 'Build your radar'}</span>
             <ArrowRight aria-hidden="true" size={20} />
           </button>
         ) : (
@@ -93,9 +121,14 @@ export function WorkspaceDashboardPage() {
         )}
 
         {notice && (
-          <p className="workspace-dashboard-notice" role="status">
-            {notice}
-          </p>
+          <div className="workspace-dashboard-notice" role="status">
+            <span>{notice}</span>
+            {job &&
+              (job.pipeline_status === 'completed' ||
+                job.pipeline_status === 'partial_failed') && (
+                <Link to="/app/opportunities">View opportunities</Link>
+              )}
+          </div>
         )}
       </div>
 

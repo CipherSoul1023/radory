@@ -33,6 +33,7 @@ def prepared_evidence(db: Session, context: dict, *, rank: int = 1):
         initiated_by_user_id=context["user"].id,
         brokerage_profile_id=profile.id,
         status="completed",
+        pipeline_status="completed",
         country=profile.country,
         market=profile.primary_market,
         configured_submarkets=profile.submarkets,
