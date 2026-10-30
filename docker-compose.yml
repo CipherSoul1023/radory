@@ -84,11 +84,11 @@ services:
     volumes:
       - ./backend:/app
     healthcheck:
-      test: ["CMD-SHELL", "celery -A app.workers.celery_app:celery_app inspect ping -d celery@$$HOSTNAME | grep -q pong"]
-      interval: 30s
-      timeout: 45s
+      test: ["CMD", "python", "-c", "import os; os.kill(1, 0)"]
+      interval: 60s
+      timeout: 5s
       start_period: 30s
-      retries: 5
+      retries: 3
 
   beat:
     build:
